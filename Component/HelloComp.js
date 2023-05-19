@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import {
     Text, Image,
-    View, TouchableWithoutFeedback, Animated, Button, TouchableOpacity
+    View, 
 } from 'react-native';
 import styles from '../Styles/HelloComp.styles';
 
