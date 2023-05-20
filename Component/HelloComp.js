@@ -12,7 +12,6 @@ const HelloComp = (navigation) => {
             <Image source={require('../assets/images/global-network.png')}
                     style={styles.logoImage} />
             <Text style={styles.nameApp}>MUNNECT</Text>
-            <Text style={styles.nameApp}>Update</Text>
         </View>
     );
 } 
