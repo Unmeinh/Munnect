@@ -50,7 +50,8 @@ const ForgetPassScreen = (props) => {
             </View>
 
             <Text style={st.nameLogo}>Lấy lại mật khẩu</Text>
-            <Text style={st.note}>Vui lòng nhập chính xác tên tài khoản và email của bạn để lấy lại mật khẩu</Text>
+            <Text style={st.note}>Vui lòng nhập chính xác</Text>
+            <Text style={st.note}>tên tài khoản và email của bạn để tiếp tục</Text>
 
 
             <View style={st.viewInput}>
@@ -117,8 +118,15 @@ const st = StyleSheet.create({
 
     },
     txtInput: {
-        borderWidth: 2,
-        borderColor: '#ddf0eb',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+        
+        elevation: 10,
         backgroundColor: '#FFFFFF',
         fontSize: 18,
         margin: 15,
@@ -131,8 +139,15 @@ const st = StyleSheet.create({
         backgroundColor: '#FFDC00',
         width: '80%',
         borderRadius: 5,
-        borderWidth: 3,
-        borderColor: '#e4e86f',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+        
+        elevation: 10,
         marginTop: 50
     },
     txtGetPass: {

@@ -1,5 +1,11 @@
 import { StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, Image, View, Button, TouchableHighlight, Alert } from "react-native";
-import { useState } from "react";
+import { useState, useCallback } from "react";
+
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+SplashScreen.preventAutoHideAsync();
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = (props) => {
     const [email, setemail] = useState('');
@@ -28,17 +34,37 @@ const LoginScreen = (props) => {
             .then((res) => {
                 return res.json();
             })
-            .then((arr_user) => {
+            .then( async(arr_user) => {
                 console.log(arr_user);
 
 
-                arr_user.data.forEach((row) => {
+                arr_user.data.forEach(async (row) => {
 
 
-                    if ( row.email ==  email ) {
-                        if ( row.matKhau == matKhau  ) {
+                    if (row.email == email) {
+                        if (row.matKhau == matKhau) {
                             seterr(null);
-                            props.navigation.navigate('HomeScreen');
+
+                            try {
+                                await AsyncStorage.setItem('id',row._id);
+                                await AsyncStorage.setItem('taiKhoan',row.taiKhoan);
+                                await AsyncStorage.setItem('hoTen',row.hoTen);
+                                await AsyncStorage.setItem('email',row.email);
+                                await AsyncStorage.setItem('gioiTinh',row.gioiTinh);
+                                await AsyncStorage.setItem('sdt',row.sdt);
+                                await AsyncStorage.setItem('queQuan',row.queQuan);
+                                await AsyncStorage.setItem('ngaySinh',row.ngaySinh);
+                                await AsyncStorage.setItem('anhDaiDien',row.anhDaiDien);
+                                await AsyncStorage.setItem('anhBia',row.anhBia);
+                                // await AsyncStorage.setItem('arr_TheoDoi',row.arr_TheoDoi);
+                                // await AsyncStorage.setItem('arr_NguoiTheoDoi',row.arr_NguoiTheoDoi);
+                                // await AsyncStorage.setItem('arr_HoiNhom',row.arr_HoiNhom);
+                                
+                                props.navigation.navigate('HomeScreen');
+                            } catch (error) {
+                                console.log(error);
+                                console.log("Chưa lưu dc obj");
+                            }
                         }
                         else {
                             // Alert.alert('Lỗi đăng nhập', "Sai pass rồi");
@@ -47,7 +73,7 @@ const LoginScreen = (props) => {
                         }
 
                     }
-                    
+
 
                 });
             })
@@ -55,8 +81,23 @@ const LoginScreen = (props) => {
                 console.log(err);
             })
     }
+    //font chữ
+    const [fontsLoaded] = useFonts({
+        'Aclonica': require('../assets/fonts/Aclonica.ttf'),
+    });
+
+    const onLayoutRootView = useCallback(async () => {
+        if (fontsLoaded) {
+            await SplashScreen.hideAsync();
+        }
+    }, [fontsLoaded]);
+
+    if (!fontsLoaded) {
+        return null;
+    }
+
     return (
-        <View style={st.container}>
+        <View style={st.container} onLayout={onLayoutRootView}>
 
             <View style={st.container2}>
                 <Text></Text>
@@ -103,17 +144,17 @@ const LoginScreen = (props) => {
                                         : <View />}
                                 </View>
                             </TouchableOpacity>
-                            <Text style={st.textRemem}>Lưu mật khẩu ?</Text>
+                            <Text style={st.textRemem}>Lưu mật khẩu</Text>
                         </View>
                     </View>
                     <TouchableHighlight underlayColor={'#daeff5'} activeOpacity={0.5} onPress={() => { props.navigation.navigate('ForgetPassScreen') }}>
-                        <Text style={st.textForget}>Quên mật khẩu</Text>
+                        <Text style={st.textForget}>Quên mật khẩu ?</Text>
                     </TouchableHighlight>
 
                 </View>
             </View>
 
-            <Text style={{color:'red',fontSize:17,alignSelf:'flex-start',marginLeft:50,marginTop:20}}>{err}</Text>
+            <Text style={{ color: 'red', fontSize: 17, alignSelf: 'flex-start', marginLeft: 50, marginTop: 20 }}>{err}</Text>
 
             <TouchableHighlight style={st.btnLogin} activeOpacity={0.6} underlayColor={'#cedbd9'} onPress={Login}>
                 <Text style={st.txtLogin}>Đăng nhập</Text>
@@ -140,29 +181,36 @@ const st = StyleSheet.create({
     container2: {
         backgroundColor: '#00ff80',
         height: 1500,
-        width: 750,
+        width: 760,
         borderRadius: 350,
         position: 'absolute',
-        top: 200,
+        top: 240,
         left: 0
     },
     nameLogo: {
         fontSize: 40,
-        fontWeight: 'bold',
-        margin: 30
-        // fontFamily:''
+        margin: 30,
+        fontFamily: 'Aclonica'
     },
     txtIntro: {
-        fontSize: 26
+        fontSize: 32,
+        width: '75%'
     },
     viewInput: {
-        width: '85%',
-        marginTop: 170
+        width: '90%',
+        marginTop: 130
 
     },
     txtInput: {
-        borderWidth: 2,
-        borderColor: '#ddf0eb',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+
+        elevation: 10,
         backgroundColor: '#FFFFFF',
         fontSize: 18,
         margin: 15,
@@ -203,7 +251,7 @@ const st = StyleSheet.create({
     },
     textRemem: {
         color: '#6B5E5E',
-        fontSize: 15,
+        fontSize: 16,
         fontWeight: '400',
         fontStyle: 'normal',
         marginLeft: 10,
@@ -211,17 +259,25 @@ const st = StyleSheet.create({
 
     textForget: {
         color: '#0386D0',
-        fontSize: 15,
+        fontSize: 16,
         fontWeight: '400',
         fontStyle: 'normal',
+        textDecorationLine: 'underline'
     },
     btnLogin: {
         backgroundColor: '#FFDC00',
         width: '80%',
         borderRadius: 5,
-        borderWidth: 3,
-        borderColor: '#e4e86f',
-        marginTop: 50
+        marginTop: 50,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+
+        elevation: 10,
     },
     txtLogin: {
         padding: 10,
@@ -234,9 +290,16 @@ const st = StyleSheet.create({
         backgroundColor: 'white',
         width: '80%',
         borderRadius: 5,
-        borderWidth: 3,
-        borderColor: '#e4e86f',
-        marginTop: 40
+        marginTop: 40,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+
+        elevation: 10,
     },
     txtRegist: {
         padding: 10,

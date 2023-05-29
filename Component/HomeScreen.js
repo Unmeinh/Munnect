@@ -1,41 +1,138 @@
-import { Image, StatusBar, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Image, StatusBar, StyleSheet, Text, TouchableHighlight, View } from "react-native";
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/FontAwesome'
 import { NavigationContainer } from "@react-navigation/native";
-import RegistScreen from "./RegistScreen";
+
+import { useState, useCallback } from "react";
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+SplashScreen.preventAutoHideAsync();
+
+import PostScreen from "./PostScreen";
+import AccountScreen from "./AccountScreen";
+import NotifyScreen from "./NotifyScreen";
+import SettingScreen from "./SettingScreen";
+
 import ForgetPassScreen from "./ForgetPassScreen";
 const Tab = createBottomTabNavigator();
 const HomeScreen = (props) => {
+
+    const [fontsLoaded] = useFonts({
+        'Aclonica': require('../assets/fonts/Aclonica.ttf'),
+    });
+
+    const onLayoutRootView = useCallback(async () => {
+        if (fontsLoaded) {
+            await SplashScreen.hideAsync();
+        }
+    }, [fontsLoaded]);
+
+    if (!fontsLoaded) {
+        return null;
+    }
+
     return (
-        // <View style={st.container}>
-        //     <View style={st.topHome}>
-        //         <Text style={st.txtLogo}>MUNNECT</Text>
+        <View style={st.container}>
+            <View style={st.topHome} onLayout={onLayoutRootView}>
+                <Text style={st.txtLogo}>MUNNECT</Text>
 
-        //         <Image source={require('../assets/iconSearch.png')} />
+                <TouchableHighlight underlayColor={'#b0ebc1'} onPress={()=>{}} activeOpacity={0.5}>
+                    <Image source={require('../assets/iconSearch.png')} />
+                </TouchableHighlight>
 
 
-        //     </View>
-        //     <NavigationContainer independent={true}>
-                
-        //     </NavigationContainer>
+            </View>
+            <View
+                style={{
+                    width: Dimensions.get('window').width,
+                    height: 5,
+                    backgroundColor: '#fff',
+                }}
+            />
+            <NavigationContainer independent={true}>
+                <Tab.Navigator initialRouteName='PostScreen' screenOptions={{
+                    tabBarActiveTintColor: '#00ff80',
+                    headerShown: false,
+                    tabBarShowLabel: false,
+                    tabBarStyle: {
+                        position: 'absolute',
+                        backgroundColor: 'white',
+                        top: 0,
+                        height: 60,
+                        shadowColor: 'transparent',
+                        borderWidth: 1,
+                        borderBottomColor: '#D9D9D9',
+                        borderTopColor: '#ffff',
+                    },
 
-        // </View>
-        <Tab.Navigator initialRouteName='SplashScreen' screenOptions={{ tabBarActiveTintColor: 'black', headerShown: false }}>
-                    <Tab.Screen name="Home" component={RegistScreen} options={{
+                }}>
+                    <Tab.Screen name="PostScreen" component={PostScreen} options={{
+                        tabBarLabel: 'Trang Chủ',
 
-                        tabBarIcon: ({ color, size }) => <Icon size={size} color={color} name="home" />
+                        tabBarLabelStyle: { fontSize: 15 },
+                        tabBarIcon: ({ focused }) => (
+                            <Image
+                                style={{
+                                    width: 30,
+                                    height: 30,
+                                    tintColor: focused ? '#00ff80' : '',
+                                }}
+                                source={require('../assets/home.png')}
+                            />
+                        ),
                     }} />
-                    
-                    <Tab.Screen name="Settings" component={ForgetPassScreen} options={{
 
-                        tabBarIcon: ({ color, size }) => <Icon size={size} color={color} name='cog' />
+                    <Tab.Screen name="AccountScreen" component={AccountScreen} options={{
+                        tabBarLabel: 'Tài khoản',
+
+                        tabBarLabelStyle: { fontSize: 15 },
+                        tabBarIcon: ({ focused }) => (
+                            <Image
+                                style={{
+                                    width: 30,
+                                    height: 30,
+                                    tintColor: focused ? '#00ff80' : '',
+                                }}
+                                source={require('../assets/account.png')}
+                            />
+                        ),
                     }} />
-                    {/* <Tab.Screen name="Settings" component={Settings} options={{
 
-                        tabBarIcon: ({ color, size }) => <Icon size={size} color={color} name='align-justify' />
-                    }} /> */}
+                    <Tab.Screen name="NotifyScreen" component={NotifyScreen} options={{
+                        tabBarLabel: 'Thông báo',
+
+                        tabBarLabelStyle: { fontSize: 15 },
+                        tabBarIcon: ({ focused }) => (
+                            <Image
+                                style={{
+                                    width: 30,
+                                    height: 30,
+                                    tintColor: focused ? '#00ff80' : '',
+                                }}
+                                source={require('../assets/notify.png')}
+                            />
+                        ),
+                    }} />
+                    <Tab.Screen name="SettingScreen" component={SettingScreen} options={{
+                        tabBarLabel: 'Cài đặt',
+
+                        tabBarLabelStyle: { fontSize: 15 },
+                        tabBarIcon: ({ focused }) => (
+                            <Image
+                                style={{
+                                    width: 30,
+                                    height: 30,
+                                    tintColor: focused ? '#00ff80' : '',
+                                }}
+                                source={require('../assets/align.png')}
+                            />
+                        ),
+                    }} />
                 </Tab.Navigator>
+            </NavigationContainer>
+
+        </View>
+
     )
 
 }
@@ -45,20 +142,22 @@ const st = StyleSheet.create({
     container: {
         flex: 1,
         marginTop: StatusBar.currentHeight,
-        alignItems: 'center',
+
         backgroundColor: 'white',
 
     },
     topHome: {
+        margin: 20,
+        marginBottom:0,
         flexDirection: 'row',
         alignItems: 'center',
-
+        justifyContent:'space-between'
     },
     txtLogo: {
         color: '#00ff80',
         fontSize: 35,
-        fontWeight: 'bold',
+        fontFamily: 'Aclonica',
         width: 200,
-        marginRight: 150
+        
     }
 })

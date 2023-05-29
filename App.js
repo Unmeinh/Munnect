@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SplashScreen from './Component/SplashScreen';
+import SplashMunnectScreen from './Component/SplashMunnectScreen';
 import LoginScreen from './Component/LoginScreen';
 import RegistScreen from './Component/RegistScreen';
 import HomeScreen from './Component/HomeScreen';
@@ -14,7 +14,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <StackNav.Navigator initialRouteName='SplashScreen' screenOptions={{headerShown:false}}>
-        <StackNav.Screen name='SplashScreen' component={SplashScreen} />
+        <StackNav.Screen name='SplashMunnectScreen' component={SplashMunnectScreen} />
         <StackNav.Screen name='LoginScreen' component={LoginScreen} />
         <StackNav.Screen name='RegistScreen' component={RegistScreen} />
         <StackNav.Screen name='HomeScreen' component={HomeScreen} />
