@@ -9,7 +9,7 @@ const HelloComp = (navigation) => {
     
     return (
         <View style={styles.backGround}>
-            <Image source={require('../assets/images/global-network.png')}
+            <Image source={require('../assets/images/images/global-network.png')}
                     style={styles.logoImage} />
             <Text style={styles.nameApp}>MUNNECT APP</Text>
         </View>

@@ -4,7 +4,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from "@react-navigation/native";
 
 import { useState, useCallback } from "react";
-import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 SplashScreen.preventAutoHideAsync();
 
@@ -17,27 +16,13 @@ import ForgetPassScreen from "./ForgetPassScreen";
 const Tab = createBottomTabNavigator();
 const HomeScreen = (props) => {
 
-    const [fontsLoaded] = useFonts({
-        'Aclonica': require('../assets/fonts/Aclonica.ttf'),
-    });
-
-    const onLayoutRootView = useCallback(async () => {
-        if (fontsLoaded) {
-            await SplashScreen.hideAsync();
-        }
-    }, [fontsLoaded]);
-
-    if (!fontsLoaded) {
-        return null;
-    }
-
     return (
         <View style={st.container}>
-            <View style={st.topHome} onLayout={onLayoutRootView}>
+            <View style={st.topHome} >
                 <Text style={st.txtLogo}>MUNNECT</Text>
 
-                <TouchableHighlight underlayColor={'#b0ebc1'} onPress={()=>{}} activeOpacity={0.5}>
-                    <Image source={require('../assets/iconSearch.png')} />
+                <TouchableHighlight underlayColor={'#b0ebc1'} onPress={() => { }} activeOpacity={0.5}>
+                    <Image source={require('../assets/images/iconSearch.png')} />
                 </TouchableHighlight>
 
 
@@ -77,7 +62,7 @@ const HomeScreen = (props) => {
                                     height: 30,
                                     tintColor: focused ? '#00ff80' : '',
                                 }}
-                                source={require('../assets/home.png')}
+                                source={require('../assets/images/home.png')}
                             />
                         ),
                     }} />
@@ -93,7 +78,7 @@ const HomeScreen = (props) => {
                                     height: 30,
                                     tintColor: focused ? '#00ff80' : '',
                                 }}
-                                source={require('../assets/account.png')}
+                                source={require('../assets/images/account.png')}
                             />
                         ),
                     }} />
@@ -109,7 +94,7 @@ const HomeScreen = (props) => {
                                     height: 30,
                                     tintColor: focused ? '#00ff80' : '',
                                 }}
-                                source={require('../assets/notify.png')}
+                                source={require('../assets/images/notify.png')}
                             />
                         ),
                     }} />
@@ -124,7 +109,7 @@ const HomeScreen = (props) => {
                                     height: 30,
                                     tintColor: focused ? '#00ff80' : '',
                                 }}
-                                source={require('../assets/align.png')}
+                                source={require('../assets/images/align.png')}
                             />
                         ),
                     }} />
@@ -148,16 +133,16 @@ const st = StyleSheet.create({
     },
     topHome: {
         margin: 20,
-        marginBottom:0,
+        marginBottom: 0,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent:'space-between'
+        justifyContent: 'space-between'
     },
     txtLogo: {
         color: '#00ff80',
         fontSize: 35,
         fontFamily: 'Aclonica',
         width: 200,
-        
+
     }
 })
