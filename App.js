@@ -1,38 +1,26 @@
-import React, { useState, useCallback } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import HelloComp from './Component/HelloComp';
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
 
-SplashScreen.preventAutoHideAsync();
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SplashMunnectScreen from './Component/SplashMunnectScreen';
+import LoginScreen from './Component/LoginScreen';
+import RegistScreen from './Component/RegistScreen';
+import HomeScreen from './Component/HomeScreen';
+import ForgetPassScreen from './Component/ForgetPassScreen';
 
-export default function App() {
-  const [fontsLoaded] = useFonts({
-      'Aclonica': require('./assets/fonts/Aclonica.ttf'),
-  });
+const StackNav = createNativeStackNavigator();
 
-  const onLayoutRootView = useCallback(async () => {
-      if (fontsLoaded) {
-          await SplashScreen.hideAsync();
-      }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-      return null;
-  }
-
+const App = () => {
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
-      <HelloComp/>
-    </View>
-  );
+    <NavigationContainer>
+      <StackNav.Navigator initialRouteName='SplashScreen' screenOptions={{headerShown:false}}>
+        <StackNav.Screen name='SplashMunnectScreen' component={SplashMunnectScreen} />
+        <StackNav.Screen name='LoginScreen' component={LoginScreen} />
+        <StackNav.Screen name='RegistScreen' component={RegistScreen} />
+        <StackNav.Screen name='HomeScreen' component={HomeScreen} />
+        <StackNav.Screen name='ForgetPassScreen' component={ForgetPassScreen} />
+      </StackNav.Navigator>
+    </NavigationContainer>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
