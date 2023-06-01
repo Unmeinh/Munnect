@@ -14,7 +14,7 @@ const PostScreen = () => {
                     <View style={{flexDirection:'row', alignItems:"center"}}>
                        
                         <TouchableHighlight underlayColor={'#b0ebc1'} onPress={() => { }} activeOpacity={0.5}>
-                            <Image source={require('../assets/home.png')}/>
+                            <Image source={require('../assets/images/home.png')}/>
                         </TouchableHighlight>
                         <TouchableHighlight underlayColor={'#b0ebc1'} onPress={() => { }} activeOpacity={0.5}>
                             <Text style={{marginLeft:15,fontSize:16}}>Bạn đang nghĩ gì ?</Text>
@@ -22,7 +22,7 @@ const PostScreen = () => {
                     </View>
 
                     <TouchableHighlight underlayColor={'#b0ebc1'} onPress={() => { }} activeOpacity={0.5}>
-                        <Image source={require('../assets/addImage.png')} />
+                        <Image source={require('../assets/images/addImage.png')} />
                     </TouchableHighlight>
                 </View>
 

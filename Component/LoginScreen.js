@@ -16,88 +16,78 @@ const LoginScreen = (props) => {
     const onPress = () => {
         setSelection(!isSelected);
     };
-    const Login = () => {
-        if (email.length == 0) {
-            seterr('Bạn chưa nhập email!');
-            return;
-        }
-        else {
-            seterr('')
-        }
-        if (matKhau.length == 0) {
-            seterr('Bạn chưa nhập mật khẩu!');
-            return;
-        }
+    // const Login = () => {
+    //     if (email.length == 0) {
+    //         seterr('Bạn chưa nhập email!');
+    //         return;
+    //     }
+    //     else {
+    //         seterr('')
+    //     }
+    //     if (matKhau.length == 0) {
+    //         seterr('Bạn chưa nhập mật khẩu!');
+    //         return;
+    //     }
 
-        let url_api_user = 'http://192.168.1.82:3000/api';
-        fetch(url_api_user)
-            .then((res) => {
-                return res.json();
-            })
-            .then( async(arr_user) => {
-                console.log(arr_user);
-
-
-                arr_user.data.forEach(async (row) => {
+    //     let url_api_user = 'http://192.168.1.82:3000/api';
+    //     fetch(url_api_user)
+    //         .then((res) => {
+    //             return res.json();
+    //         })
+    //         .then( async(arr_user) => {
+    //             console.log(arr_user);
 
 
-                    if (row.email == email) {
-                        if (row.matKhau == matKhau) {
-                            seterr(null);
+    //             arr_user.data.forEach(async (row) => {
 
-                            try {
-                                await AsyncStorage.setItem('id',row._id);
-                                await AsyncStorage.setItem('taiKhoan',row.taiKhoan);
-                                await AsyncStorage.setItem('hoTen',row.hoTen);
-                                await AsyncStorage.setItem('email',row.email);
-                                await AsyncStorage.setItem('gioiTinh',row.gioiTinh);
-                                await AsyncStorage.setItem('sdt',row.sdt);
-                                await AsyncStorage.setItem('queQuan',row.queQuan);
-                                await AsyncStorage.setItem('ngaySinh',row.ngaySinh);
-                                await AsyncStorage.setItem('anhDaiDien',row.anhDaiDien);
-                                await AsyncStorage.setItem('anhBia',row.anhBia);
-                                // await AsyncStorage.setItem('arr_TheoDoi',row.arr_TheoDoi);
-                                // await AsyncStorage.setItem('arr_NguoiTheoDoi',row.arr_NguoiTheoDoi);
-                                // await AsyncStorage.setItem('arr_HoiNhom',row.arr_HoiNhom);
+
+    //                 if (row.email == email) {
+    //                     if (row.matKhau == matKhau) {
+    //                         seterr(null);
+
+    //                         try {
+    //                             await AsyncStorage.setItem('id',row._id);
+    //                             await AsyncStorage.setItem('taiKhoan',row.taiKhoan);
+    //                             await AsyncStorage.setItem('hoTen',row.hoTen);
+    //                             await AsyncStorage.setItem('email',row.email);
+    //                             await AsyncStorage.setItem('gioiTinh',row.gioiTinh);
+    //                             await AsyncStorage.setItem('sdt',row.sdt);
+    //                             await AsyncStorage.setItem('queQuan',row.queQuan);
+    //                             await AsyncStorage.setItem('ngaySinh',row.ngaySinh);
+    //                             await AsyncStorage.setItem('anhDaiDien',row.anhDaiDien);
+    //                             await AsyncStorage.setItem('anhBia',row.anhBia);
+    //                             // await AsyncStorage.setItem('arr_TheoDoi',row.arr_TheoDoi);
+    //                             // await AsyncStorage.setItem('arr_NguoiTheoDoi',row.arr_NguoiTheoDoi);
+    //                             // await AsyncStorage.setItem('arr_HoiNhom',row.arr_HoiNhom);
                                 
-                                props.navigation.navigate('HomeScreen');
-                            } catch (error) {
-                                console.log(error);
-                                console.log("Chưa lưu dc obj");
-                            }
-                        }
-                        else {
-                            // Alert.alert('Lỗi đăng nhập', "Sai pass rồi");
-                            seterr('Sai mật khẩu rồi!');
-                            return;
-                        }
+    //                             props.navigation.navigate('HomeScreen');
+    //                         } catch (error) {
+    //                             console.log(error);
+    //                             console.log("Chưa lưu dc obj");
+    //                         }
+    //                     }
+    //                     else {
+    //                         // Alert.alert('Lỗi đăng nhập', "Sai pass rồi");
+    //                         seterr('Sai mật khẩu rồi!');
+    //                         return;
+    //                     }
 
-                    }
+    //                 }
 
 
-                });
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }
-    //font chữ
-    const [fontsLoaded] = useFonts({
-        'Aclonica': require('../assets/fonts/Aclonica.ttf'),
-    });
+    //             });
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         })
+    // }
 
-    const onLayoutRootView = useCallback(async () => {
-        if (fontsLoaded) {
-            await SplashScreen.hideAsync();
-        }
-    }, [fontsLoaded]);
-
-    if (!fontsLoaded) {
-        return null;
+    const Login = () => {
+        props.navigation.navigate('HomeScreen');
     }
 
     return (
-        <View style={st.container} onLayout={onLayoutRootView}>
+        <View style={st.container} >
 
             <View style={st.container2}>
                 <Text></Text>
@@ -118,11 +108,11 @@ const LoginScreen = (props) => {
                         {isHide
                             ? <Image
                                 style={st.iconhide}
-                                source={require('../assets/view.png')}
+                                source={require('../assets/images/view.png')}
                             />
                             : <Image
                                 style={st.iconhide}
-                                source={require('../assets/private.png')}
+                                source={require('../assets/images/private.png')}
                             />}
                     </TouchableHighlight>
                 </View>
@@ -140,7 +130,7 @@ const LoginScreen = (props) => {
                             <TouchableOpacity onPress={onPress}>
                                 <View style={st.viewCheckBox}>
                                     {isSelected
-                                        ? <Image source={require('../assets/checkRM.png')} />
+                                        ? <Image source={require('../assets/images/checkBox.png')} />
                                         : <View />}
                                 </View>
                             </TouchableOpacity>
