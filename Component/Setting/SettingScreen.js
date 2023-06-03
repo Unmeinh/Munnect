@@ -2,16 +2,16 @@ import {
     Text, View
 } from "react-native"
 import React, { useState, useCallback } from "react";
-import styles from '../Styles/HomeScreen.styles';
+import styles from '../../Styles/Setting/SettingScreen.styles';
 
-const NotifyScreen = () => {
+const SettingScreen = () => {
     return (
         <View style={{ marginTop: 60 }}>
             <Text>
-                Màn thong báo
+                Màn cài đặt
             </Text>
         </View>
     )
 }
 
-export default NotifyScreen;
+export default SettingScreen;

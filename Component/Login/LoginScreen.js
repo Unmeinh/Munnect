@@ -1,9 +1,11 @@
-import { StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, Image, View, Button, TouchableHighlight, Alert } from "react-native";
-import { useState, useCallback } from "react";
-
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-SplashScreen.preventAutoHideAsync();
+import {
+    StatusBar, StyleSheet,
+    Text, TextInput,
+    TouchableOpacity, Image, View,
+    Button, TouchableHighlight, Alert
+} from "react-native";
+import React, { useState, useCallback } from "react";
+import styles from '../../Styles/Login/LoginScreen.styles';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -59,7 +61,7 @@ const LoginScreen = (props) => {
     //                             // await AsyncStorage.setItem('arr_TheoDoi',row.arr_TheoDoi);
     //                             // await AsyncStorage.setItem('arr_NguoiTheoDoi',row.arr_NguoiTheoDoi);
     //                             // await AsyncStorage.setItem('arr_HoiNhom',row.arr_HoiNhom);
-                                
+
     //                             props.navigation.navigate('HomeScreen');
     //                         } catch (error) {
     //                             console.log(error);
@@ -87,19 +89,19 @@ const LoginScreen = (props) => {
     }
 
     return (
-        <View style={st.container} >
+        <View style={styles.container} >
 
-            <View style={st.container2}>
+            <View style={styles.container2}>
                 <Text></Text>
             </View>
 
-            <Text style={st.nameLogo}>MUNNECT</Text>
-            <Text style={st.txtIntro}>Vui lòng đăng nhập để tiếp tục</Text>
-            <View style={st.viewInput}>
-                <TextInput style={st.txtInput} placeholder="Email" onChangeText={(txt) => { setemail(txt) }} />
+            <Text style={styles.nameLogo}>MUNNECT</Text>
+            <Text style={styles.txtIntro}>Vui lòng đăng nhập để tiếp tục</Text>
+            <View style={styles.viewInput}>
+                <TextInput style={styles.txtInput} placeholder="Email" onChangeText={(txt) => { setemail(txt) }} />
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <TextInput style={st.txtInput} placeholder="Mật Khẩu" secureTextEntry={isHide} onChangeText={(txt) => { setmatKhau(txt) }} />
+                    <TextInput style={styles.txtInput} placeholder="Mật Khẩu" secureTextEntry={isHide} onChangeText={(txt) => { setmatKhau(txt) }} />
                     <TouchableHighlight activeOpacity={0.5} underlayColor={'#c2f0ce'} style={{ height: 40, position: 'absolute', right: 30, top: 15 }}
                         onPress={() => {
                             setisHide(!isHide);
@@ -107,19 +109,19 @@ const LoginScreen = (props) => {
                     >
                         {isHide
                             ? <Image
-                                style={st.iconhide}
-                                source={require('../assets/images/view.png')}
+                                style={styles.iconhide}
+                                source={require('../../assets/images/view.png')}
                             />
                             : <Image
-                                style={st.iconhide}
-                                source={require('../assets/images/private.png')}
+                                style={styles.iconhide}
+                                source={require('../../assets/images/private.png')}
                             />}
                     </TouchableHighlight>
                 </View>
 
 
-                <View style={st.viewRemember}>
-                    <View style={st.viewRow}>
+                <View style={styles.viewRemember}>
+                    <View style={styles.viewRow}>
                         <View
                             style={{
                                 flexDirection: 'row',
@@ -128,17 +130,17 @@ const LoginScreen = (props) => {
                             }}
                         >
                             <TouchableOpacity onPress={onPress}>
-                                <View style={st.viewCheckBox}>
+                                <View style={styles.viewCheckBox}>
                                     {isSelected
-                                        ? <Image source={require('../assets/images/checkBox.png')} />
+                                        ? <Image source={require('../../assets/images/checkBox.png')} />
                                         : <View />}
                                 </View>
                             </TouchableOpacity>
-                            <Text style={st.textRemem}>Lưu mật khẩu</Text>
+                            <Text style={styles.textRemem}>Lưu mật khẩu</Text>
                         </View>
                     </View>
                     <TouchableHighlight underlayColor={'#daeff5'} activeOpacity={0.5} onPress={() => { props.navigation.navigate('ForgetPassScreen') }}>
-                        <Text style={st.textForget}>Quên mật khẩu ?</Text>
+                        <Text style={styles.textForget}>Quên mật khẩu ?</Text>
                     </TouchableHighlight>
 
                 </View>
@@ -146,11 +148,11 @@ const LoginScreen = (props) => {
 
             <Text style={{ color: 'red', fontSize: 17, alignSelf: 'flex-start', marginLeft: 50, marginTop: 20 }}>{err}</Text>
 
-            <TouchableHighlight style={st.btnLogin} activeOpacity={0.6} underlayColor={'#cedbd9'} onPress={Login}>
-                <Text style={st.txtLogin}>Đăng nhập</Text>
+            <TouchableHighlight style={styles.btnLogin} activeOpacity={0.6} underlayColor={'#cedbd9'} onPress={Login}>
+                <Text style={styles.txtLogin}>Đăng nhập</Text>
             </TouchableHighlight>
-            <TouchableHighlight style={st.btnRegist} activeOpacity={0.6} underlayColor={'#cedbd9'} onPress={() => { props.navigation.navigate('RegistScreen') }}>
-                <Text style={st.txtRegist}>Tạo tài khoản mới</Text>
+            <TouchableHighlight style={styles.btnRegist} activeOpacity={0.6} underlayColor={'#cedbd9'} onPress={() => { props.navigation.navigate('RegistScreen') }}>
+                <Text style={styles.txtRegist}>Tạo tài khoản mới</Text>
             </TouchableHighlight>
 
 
@@ -158,145 +160,5 @@ const LoginScreen = (props) => {
 
     )
 }
+
 export default LoginScreen;
-
-const st = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#FFFFFF',
-        marginTop: StatusBar.currentHeight,
-        alignItems: 'center',
-
-    },
-    container2: {
-        backgroundColor: '#00ff80',
-        height: 1500,
-        width: 760,
-        borderRadius: 350,
-        position: 'absolute',
-        top: 240,
-        left: 0
-    },
-    nameLogo: {
-        fontSize: 40,
-        margin: 30,
-        fontFamily: 'Aclonica'
-    },
-    txtIntro: {
-        fontSize: 32,
-        width: '75%'
-    },
-    viewInput: {
-        width: '90%',
-        marginTop: 130
-
-    },
-    txtInput: {
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 5,
-        },
-        shadowOpacity: 0.34,
-        shadowRadius: 6.27,
-
-        elevation: 10,
-        backgroundColor: '#FFFFFF',
-        fontSize: 18,
-        margin: 15,
-        borderRadius: 4,
-        padding: 13,
-        width: '90%',
-        paddingRight: 40
-    },
-    iconhide: {
-        width: 30,
-        height: 24,
-        resizeMode: 'stretch',
-        alignItems: 'center',
-        marginTop: 15,
-
-    },
-    viewRemember: {
-        flexDirection: 'row',
-        paddingLeft: 20,
-        paddingRight: 40,
-
-    },
-    viewRow: {
-        flexDirection: 'row',
-        flex: 1,
-        justifyContent: 'space-between',
-    },
-    viewCheckBox: {
-        width: 22,
-        height: 22,
-        borderWidth: 1,
-        borderColor: '#D5C5C5',
-        borderStyle: 'solid',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 2,
-        backgroundColor: 'white'
-    },
-    textRemem: {
-        color: '#6B5E5E',
-        fontSize: 16,
-        fontWeight: '400',
-        fontStyle: 'normal',
-        marginLeft: 10,
-    },
-
-    textForget: {
-        color: '#0386D0',
-        fontSize: 16,
-        fontWeight: '400',
-        fontStyle: 'normal',
-        textDecorationLine: 'underline'
-    },
-    btnLogin: {
-        backgroundColor: '#FFDC00',
-        width: '80%',
-        borderRadius: 5,
-        marginTop: 50,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 5,
-        },
-        shadowOpacity: 0.34,
-        shadowRadius: 6.27,
-
-        elevation: 10,
-    },
-    txtLogin: {
-        padding: 10,
-        textAlign: 'center',
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#262625'
-    },
-    btnRegist: {
-        backgroundColor: 'white',
-        width: '80%',
-        borderRadius: 5,
-        marginTop: 40,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 5,
-        },
-        shadowOpacity: 0.34,
-        shadowRadius: 6.27,
-
-        elevation: 10,
-    },
-    txtRegist: {
-        padding: 10,
-        textAlign: 'center',
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#00ff80'
-    },
-
-})

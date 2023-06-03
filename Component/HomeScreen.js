@@ -1,25 +1,27 @@
-import { Dimensions, Image, StatusBar, StyleSheet, Text, TouchableHighlight, View } from "react-native";
+import {
+    Dimensions, Image,
+    StatusBar, StyleSheet,
+    Text, TouchableHighlight, View
+} from "react-native";
+import React, { useState, useCallback } from "react";
+import styles from '../Styles/HomeScreen.styles';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from "@react-navigation/native";
 
-import { useState, useCallback } from "react";
-import * as SplashScreen from 'expo-splash-screen';
-SplashScreen.preventAutoHideAsync();
-
-import PostScreen from "./PostScreen";
+import PostScreen from "./Posts/PostScreen";
 import AccountScreen from "./AccountScreen";
 import NotifyScreen from "./NotifyScreen";
-import SettingScreen from "./SettingScreen";
+import SettingScreen from "./Setting/SettingScreen";
+import NewPost from "./Posts/NewPost";
 
-import ForgetPassScreen from "./ForgetPassScreen";
 const Tab = createBottomTabNavigator();
 const HomeScreen = (props) => {
 
     return (
-        <View style={st.container}>
-            <View style={st.topHome} >
-                <Text style={st.txtLogo}>MUNNECT</Text>
+        <View style={styles.container}>
+            <View style={styles.topHome} >
+                <Text style={styles.txtLogo}>MUNNECT</Text>
 
                 <TouchableHighlight underlayColor={'#b0ebc1'} onPress={() => { }} activeOpacity={0.5}>
                     <Image source={require('../assets/images/iconSearch.png')} />
@@ -121,28 +123,5 @@ const HomeScreen = (props) => {
     )
 
 }
+
 export default HomeScreen;
-
-const st = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: StatusBar.currentHeight,
-
-        backgroundColor: 'white',
-
-    },
-    topHome: {
-        margin: 20,
-        marginBottom: 0,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between'
-    },
-    txtLogo: {
-        color: '#00ff80',
-        fontSize: 35,
-        fontFamily: 'Aclonica',
-        width: 200,
-
-    }
-})
