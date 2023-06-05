@@ -7,16 +7,21 @@ let StatusHeight = StatusBar.currentHeight;
 export default StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: StatusBar.currentHeight,
+        backgroundColor: 'white',
+    },
+
+    viewHeader: {
         backgroundColor: 'white',
     },
 
     topHome: {
         margin: 20,
-        marginBottom: 0,
+        marginBottom: 10,
+        paddingTop: 15,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        height: 55
     },
 
     txtLogo: {
@@ -24,5 +29,20 @@ export default StyleSheet.create({
         fontSize: 35,
         fontFamily: 'Aclonica',
         width: 200,
+    },
+
+    viewNavi: {
+        backgroundColor: 'white',
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        height: 50,
+        borderBottomColor: '#D9D9D9',
+        borderBottomWidth: 1,
+    },
+
+    viewTab: {
+        minHeight: WindowHeight,
+        flex: 1
     }
 });

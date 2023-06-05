@@ -3,8 +3,7 @@ import {
     View, ScrollView,
     TouchableOpacity,
     TextInput,
-    Dimensions,
-    ToastAndroid
+    Dimensions, ToastAndroid
 } from 'react-native';
 import React, { useState, useCallback } from "react";
 import styles from '../../Styles/Posts/NewPost.styles';
@@ -17,7 +16,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import AutoHeightImage from 'react-native-auto-height-image';
 
 const NewPost = ({ route, navigation }) => {
-    const [ipImageUrl, setipImageUrl] = useState("");
+    const [ipImageUrl, setipImageUrl] = useState(route.params.picked);
     const [inputContent, setinputContent] = useState("");
     const [inputFont, setinputFont] = useState("");
     const [isShowModal, setisShowModal] = useState(false);
