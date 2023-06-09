@@ -16,6 +16,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import AutoHeightImage from 'react-native-auto-height-image';
 
 const NewPost = ({ route, navigation }) => {
+    const [infoLogin, setinfoLogin] = useState(route.params.infoLogin);
     const [ipImageUrl, setipImageUrl] = useState(route.params.picked);
     const [inputContent, setinputContent] = useState("");
     const [inputFont, setinputFont] = useState("");
@@ -34,7 +35,7 @@ const NewPost = ({ route, navigation }) => {
 
     const UploadPost = () => {
         let newPost = {
-            id_nguoiDung: route.params.id_nguoiDung,
+            id_nguoiDung: infoLogin._id,
             noiDung: inputContent,
             phongChu: inputFont,
             anhBaiViet: ipImageUrl,
@@ -119,10 +120,10 @@ const NewPost = ({ route, navigation }) => {
             <View style={{ padding: 15, marginTop: 15 }}>
                 <View style={styles.viewRowCenterBetween}>
                     <View style={styles.viewRowCenter}>
-                        <Image source={{ uri: 'https://pbs.twimg.com/media/FoO2GXLakAAugOZ?format=jpg&name=4096x4096' }}
+                        <Image source={{ uri: String(infoLogin.anhDaiDien) }}
                             style={styles.imageAvatar} />
                         <View>
-                            <Text style={styles.textName}>Linh Wayne</Text>
+                            <Text style={styles.textName}>{infoLogin.hoTen}</Text>
                             <View style={{ flexDirection: 'row' }}>
                                 <EvilIcons name='clock' size={25} color={'rgba(0, 0, 0, 0.50)'} />
                                 <Text style={{ color: 'rgba(0, 0, 0, 0.75)' }}>Ngay bây giờ</Text>

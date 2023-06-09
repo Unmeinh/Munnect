@@ -15,7 +15,7 @@ const DynamicHeader = (route) => {
             </View>
 
             <View style={styles.viewNavi} >
-                <TouchableOpacity onPress={() => {route.settabNum(0);}}>
+                <TouchableOpacity onPress={() => {route.settabNum([0, true]);}}>
                     <Image style={{
                         width: 30,
                         height: 30,
@@ -23,7 +23,7 @@ const DynamicHeader = (route) => {
                     }}
                         source={require('../assets/images/home.png')} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {route.settabNum(1);}}>
+                <TouchableOpacity onPress={() => {route.settabNum([1, true]);}}>
                     <Image style={{
                         width: 30,
                         height: 30,
@@ -31,7 +31,7 @@ const DynamicHeader = (route) => {
                     }}
                         source={require('../assets/images/account.png')} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {route.settabNum(2);}}>
+                <TouchableOpacity onPress={() => {route.settabNum([2, true]);}}>
                     <Image style={{
                         width: 27,
                         height: 30,
@@ -39,7 +39,7 @@ const DynamicHeader = (route) => {
                     }}
                         source={require('../assets/images/notify.png')} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {route.settabNum(3);}}>
+                <TouchableOpacity onPress={() => {route.settabNum([3, false]);}}>
                     <Image style={{
                         width: 27,
                         height: 27,

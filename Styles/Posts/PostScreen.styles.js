@@ -10,7 +10,7 @@ export default StyleSheet.create({
         backgroundColor: 'white',
     },
 
-    viewTop: {
+    viewNewPost: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -45,9 +45,15 @@ export default StyleSheet.create({
 
     textName: {
         marginLeft: 10,
+        marginRight: 10,
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 1
+    },
+
+    buttonMore: {
+        position: 'absolute',
+        right: 0
     },
 
     viewBelowPost: {

@@ -4,8 +4,7 @@ import SplashMunnectScreen from './Component/SplashMunnectScreen';
 import LoginScreen from './Component/Login/LoginScreen';
 import RegistScreen from './Component/Login/RegisterScreen';
 import ForgetPassScreen from './Component/Login/ForgetPassScreen';
-import HomeScreen from './Component/HomeScreen';
-import NewPost from './Component/Posts/NewPost';
+import HomeNavi from './Component/HomeNavi';
 
 const StackNav = createNativeStackNavigator();
 
@@ -17,17 +16,8 @@ const App = () => {
         <StackNav.Screen name='SplashMunnectScreen' component={SplashMunnectScreen} options={{ headerShown: false }}/>
         <StackNav.Screen name='LoginScreen' component={LoginScreen} options={{ headerShown: false }}/>
         <StackNav.Screen name='RegistScreen' component={RegistScreen} options={{ headerShown: false }}/>
-        <StackNav.Screen name='HomeScreen' component={HomeScreen} options={{ headerShown: false }}/>
+        <StackNav.Screen name='HomeNavi' component={HomeNavi} options={{ headerShown: false }}/>
         <StackNav.Screen name='ForgetPassScreen' component={ForgetPassScreen} options={{ headerShown: false }}/>
-        <StackNav.Screen name='NewPost' component={NewPost} options={{
-          title: 'Bài viết mới',
-          headerStyle: {
-          },
-          headerTitleStyle: {
-            fontWeight: '400',
-            fontSize: 30
-          },
-        }} />
       </StackNav.Navigator>
     </NavigationContainer>
   )
