@@ -2,7 +2,7 @@ import { Text, View } from "react-native"
 
 const NotifyScreen = ()=>{
     return(
-        <View style={{marginTop:60}}>
+        <View>
             <Text>
                 Màn thong báo
             </Text>

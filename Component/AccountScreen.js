@@ -1,11 +1,13 @@
-import { Text, View } from "react-native"
+import { Button, Text, View } from "react-native"
 
-const AccountScreen = ()=>{
-    return(
-        <View style={{marginTop:60}}>
+const AccountScreen = (props) => {
+    return (
+        <View>
             <Text>
                 Màn tài khoản
             </Text>
+            <Button title='bài mới' onPress={() => { props.navigation.navigate('NewPost'); }}/>
+            <Button title='home' onPress={() => { props.navigation.navigate('PostScreen'); }}/>
         </View>
     )
 }
