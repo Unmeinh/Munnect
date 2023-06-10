@@ -1,148 +1,85 @@
-import { Dimensions, Image, StatusBar, StyleSheet, Text, TouchableHighlight, View } from "react-native";
+import {
+    Image, View,
+    Text, TouchableOpacity,
+    ScrollView, Dimensions, StatusBar
+} from "react-native";
+import React, { useState, useRef } from "react";
+import styles from '../Styles/HomeScreen.styles';
 
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from "@react-navigation/native";
-
-import { useState, useCallback } from "react";
-import * as SplashScreen from 'expo-splash-screen';
-SplashScreen.preventAutoHideAsync();
-
-import PostScreen from "./PostScreen";
-import AccountScreen from "./AccountScreen";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import PostScreen from "./Posts/PostScreen";
+import MyAccount from "./Account/MyAccount";
 import NotifyScreen from "./NotifyScreen";
-import SettingScreen from "./SettingScreen";
+import SettingScreen from "./Setting/SettingScreen";
+import DynamicHeader from "./DynamicHeader";
+import { RefreshControl } from "react-native-gesture-handler";
+import { CollapsibleHeaderScrollView } from 'react-native-collapsible-header-views';
 
-import ForgetPassScreen from "./ForgetPassScreen";
-const Tab = createBottomTabNavigator();
-const HomeScreen = (props) => {
+const HomeScreen = ({ navigation }) => {
+    const [tabNum, settabNum] = useState(0);
+    const [isReloading, setisReloading] = useState(false);
+    const [isSelecting, setisSelecting] = useState(true);
+    const [infoLogin, setinfoLogin] = useState({});
+
+    function callBackSetTab([num, change]) {
+        settabNum(num);
+        setisSelecting(change);
+    }
+
+    const ReloadData = React.useCallback(() => {
+        setisReloading(true);
+        GetInfoLogin();
+        setTimeout(() => {
+            setisReloading(false);
+        }, 2000);
+    }, []);
+
+    const GetInfoLogin = async () => {
+        try {
+            const response = await fetch(
+                'https://backend-mob104.herokuapp.com/listBaiViet',
+            );
+            const json = await response.json();
+            setinfoLogin(json.data.listBaiViet[1].idNguoiDung);
+            console.log(infoLogin);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            GetInfoLogin();
+        });
+
+        return unsubscribe;
+    }, [navigation]);
+
+    var arr_Screen = [
+        <PostScreen infoLogin={infoLogin} nav={navigation} selected={isSelecting} settabNum={callBackSetTab} refreshing={isReloading} />,
+        <MyAccount infoLogin={infoLogin} nav={navigation} selected={isSelecting} settabNum={callBackSetTab} refreshing={isReloading} />,
+        <NotifyScreen />,
+        <SettingScreen />]
 
     return (
-        <View style={st.container}>
-            <View style={st.topHome} >
-                <Text style={st.txtLogo}>MUNNECT</Text>
+        <View style={styles.container}>
+            <CollapsibleHeaderScrollView
+                CollapsibleHeaderComponent={<DynamicHeader settabNum={callBackSetTab} tabNum={tabNum} nav={navigation}/>}
+                headerHeight={135}
+                statusBarHeight={Platform.OS === 'ios' ? 20 : 0}
+                refreshControl={
+                    <RefreshControl refreshing={isReloading} onRefresh={ReloadData} progressViewOffset={200} />
+                }>
 
-                <TouchableHighlight underlayColor={'#b0ebc1'} onPress={() => { }} activeOpacity={0.5}>
-                    <Image source={require('../assets/images/iconSearch.png')} />
-                </TouchableHighlight>
+                <View style={styles.viewTab}>
+                    {
+                        arr_Screen[tabNum]
+                    }
+                </View>
 
-
-            </View>
-            <View
-                style={{
-                    width: Dimensions.get('window').width,
-                    height: 5,
-                    backgroundColor: '#fff',
-                }}
-            />
-            <NavigationContainer independent={true}>
-                <Tab.Navigator initialRouteName='PostScreen' screenOptions={{
-                    tabBarActiveTintColor: '#00ff80',
-                    headerShown: false,
-                    tabBarShowLabel: false,
-                    tabBarStyle: {
-                        position: 'absolute',
-                        backgroundColor: 'white',
-                        top: 0,
-                        height: 60,
-                        shadowColor: 'transparent',
-                        borderWidth: 1,
-                        borderBottomColor: '#D9D9D9',
-                        borderTopColor: '#ffff',
-                    },
-
-                }}>
-                    <Tab.Screen name="PostScreen" component={PostScreen} options={{
-                        tabBarLabel: 'Trang Chủ',
-
-                        tabBarLabelStyle: { fontSize: 15 },
-                        tabBarIcon: ({ focused }) => (
-                            <Image
-                                style={{
-                                    width: 30,
-                                    height: 30,
-                                    tintColor: focused ? '#00ff80' : '',
-                                }}
-                                source={require('../assets/images/home.png')}
-                            />
-                        ),
-                    }} />
-
-                    <Tab.Screen name="AccountScreen" component={AccountScreen} options={{
-                        tabBarLabel: 'Tài khoản',
-
-                        tabBarLabelStyle: { fontSize: 15 },
-                        tabBarIcon: ({ focused }) => (
-                            <Image
-                                style={{
-                                    width: 30,
-                                    height: 30,
-                                    tintColor: focused ? '#00ff80' : '',
-                                }}
-                                source={require('../assets/images/account.png')}
-                            />
-                        ),
-                    }} />
-
-                    <Tab.Screen name="NotifyScreen" component={NotifyScreen} options={{
-                        tabBarLabel: 'Thông báo',
-
-                        tabBarLabelStyle: { fontSize: 15 },
-                        tabBarIcon: ({ focused }) => (
-                            <Image
-                                style={{
-                                    width: 30,
-                                    height: 30,
-                                    tintColor: focused ? '#00ff80' : '',
-                                }}
-                                source={require('../assets/images/notify.png')}
-                            />
-                        ),
-                    }} />
-                    <Tab.Screen name="SettingScreen" component={SettingScreen} options={{
-                        tabBarLabel: 'Cài đặt',
-
-                        tabBarLabelStyle: { fontSize: 15 },
-                        tabBarIcon: ({ focused }) => (
-                            <Image
-                                style={{
-                                    width: 30,
-                                    height: 30,
-                                    tintColor: focused ? '#00ff80' : '',
-                                }}
-                                source={require('../assets/images/align.png')}
-                            />
-                        ),
-                    }} />
-                </Tab.Navigator>
-            </NavigationContainer>
-
+            </CollapsibleHeaderScrollView>
         </View>
-
     )
-
 }
+
 export default HomeScreen;
-
-const st = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: StatusBar.currentHeight,
-
-        backgroundColor: 'white',
-
-    },
-    topHome: {
-        margin: 20,
-        marginBottom: 0,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between'
-    },
-    txtLogo: {
-        color: '#00ff80',
-        fontSize: 35,
-        fontFamily: 'Aclonica',
-        width: 200,
-
-    }
-})
