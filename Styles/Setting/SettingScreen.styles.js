@@ -7,29 +7,28 @@ let StatusHeight = StatusBar.currentHeight;
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'yellow',
-        
-       
+        height: WindowHeight - 75,
+        justifyContent: 'space-between'
     },
     viewAccount: {
-        flexDirection: "row", 
-        justifyContent: "space-between", 
-        alignItems: 'center', 
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: 'center',
         margin: 10
     },
-    viewItemSetting:{
-        flexDirection: 'row', 
-        alignItems: "center", 
+    viewItemSetting: {
+        flexDirection: 'row',
+        alignItems: "center",
         margin: 15
     },
-    txtItemSetting:{
-        marginLeft: 30, 
+    txtItemSetting: {
+        marginLeft: 30,
         fontSize: 19
     },
-    viewBottom:{
+    viewBottom: {
         // position:'absolute',
         // bottom:0,
-        
+
         width: '100%'
     }
 });
