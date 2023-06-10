@@ -7,7 +7,9 @@ let StatusHeight = StatusBar.currentHeight;
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'white'
+        backgroundColor: 'yellow',
+        
+       
     },
     viewAccount: {
         flexDirection: "row", 
@@ -25,8 +27,9 @@ export default StyleSheet.create({
         fontSize: 19
     },
     viewBottom:{
-        position: 'absolute', 
-        bottom: 0, 
+        // position:'absolute',
+        // bottom:0,
+        
         width: '100%'
     }
 });

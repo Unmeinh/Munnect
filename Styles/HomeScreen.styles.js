@@ -41,7 +41,7 @@ export default StyleSheet.create({
     },
 
     viewTab: {
-        minHeight: WindowHeight,
+       
         flex: 1
     }
 });

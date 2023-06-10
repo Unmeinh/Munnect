@@ -16,6 +16,14 @@ const LoginScreen = (props) => {
     const onPress = () => {
         setSelection(!isSelected);
     };
+    React.useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', () => {
+            setemail('');
+            setmatKhau('')
+        });
+    
+        return unsubscribe;
+      }, [props.navigation]);
 
     const Login = () => {
         if (email.length == 0) {
@@ -29,7 +37,6 @@ const LoginScreen = (props) => {
             seterr('Bạn chưa nhập mật khẩu!');
             return;
         }
-
         let url_api_user = 'http://192.168.11.102:3000/users/login?email='+email;
         fetch(url_api_user)
             .then((res) => {
@@ -49,7 +56,7 @@ const LoginScreen = (props) => {
                     try {
                         const jsonValueObj = JSON.stringify(obj)
                         await AsyncStorage.setItem('jsonValueObj', jsonValueObj);
-
+                      
                         props.navigation.navigate('HomeScreen');
 
 
@@ -84,10 +91,10 @@ const LoginScreen = (props) => {
             <Text style={styles.nameLogo}>MUNNECT</Text>
             <Text style={styles.txtIntro}>Vui lòng đăng nhập để tiếp tục</Text>
             <View style={styles.viewInput}>
-                <TextInput style={styles.txtInput} placeholder="Email" onChangeText={(txt) => { setemail(txt) }} />
+                <TextInput style={styles.txtInput} placeholder="Email" onChangeText={(txt) => { setemail(txt) }} value={email}/>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <TextInput style={styles.txtInput} placeholder="Mật Khẩu" secureTextEntry={isHide} onChangeText={(txt) => { setmatKhau(txt) }} />
+                    <TextInput style={styles.txtInput} placeholder="Mật Khẩu" secureTextEntry={isHide} onChangeText={(txt) => { setmatKhau(txt) }} value={matKhau}/>
                     <TouchableHighlight activeOpacity={0.5} underlayColor={'#c2f0ce'} style={{ height: 40, position: 'absolute', right: 30, top: 15 }}
                         onPress={() => {
                             setisHide(!isHide);

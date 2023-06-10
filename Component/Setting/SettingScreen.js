@@ -72,14 +72,14 @@ const SettingScreen = (props) => {
                 </View>
             </TouchableHighlight>
 
-            <View style={{ height: 1, backgroundColor: '#c9c4c3' }} />
+            {/* <View style={{ height: 1, backgroundColor: '#c9c4c3' }} />
 
             <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => { }}>
                 <View style={styles.viewItemSetting}>
                     <Image source={require('../../assets/images/group.png')} />
                     <Text style={styles.txtItemSetting}>Hội nhóm</Text>
                 </View>
-            </TouchableHighlight>
+            </TouchableHighlight> */}
 
             <View style={{ height: 1, backgroundColor: '#c9c4c3' }} />
 
@@ -95,7 +95,7 @@ const SettingScreen = (props) => {
             <View style={styles.viewBottom}>
                 <View style={{ height: 1, backgroundColor: '#c9c4c3', alignItems: 'center' }} />
 
-                <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => { }}>
+                <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => {props.nav.navigate('UpdateAccountScreen') }}>
                     <View style={styles.viewItemSetting}>
                         <Image source={require('../../assets/images/manageAccount.png')} />
                         <Text style={styles.txtItemSetting}>Quản lý tài khoản</Text>

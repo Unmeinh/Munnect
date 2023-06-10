@@ -4,7 +4,7 @@ import styles from '../Styles/HomeScreen.styles'
 import React, { useState, useRef } from "react";
 
 import PostScreen from "./Posts/PostScreen";
-import AccountScreen from "./AccountScreen";
+import AccountScreen from "./Account/AccountScreen";
 import NotifyScreen from "./NotifyScreen";
 import SettingScreen from "./Setting/SettingScreen";
 import DynamicHeader from './DynamicHeader';
@@ -22,7 +22,8 @@ const HomeScreen = (props) => {
         <PostScreen nav={props.navigation} tabNum={tabNum} settabNum={callBackSetTab} />,
         <AccountScreen />,
         <NotifyScreen />,
-        <SettingScreen nav={props.navigation} tabNum={tabNum} settabNum={callBackSetTab} />]
+        <SettingScreen nav={props.navigation} tabNum={tabNum} settabNum={callBackSetTab} />,
+    ]
 
     return (
         <View style={styles.container}>

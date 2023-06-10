@@ -45,7 +45,7 @@ const PostScreen = (props) => {
         if (arr_post.length > 0) {
 
         } else {
-            console.log("get");
+            console.log("get DATA");
             GetDataUser();
             GetListPost();
         }
@@ -102,11 +102,17 @@ const PostScreen = (props) => {
             <View>
                 <View style={{ margin: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <View style={{ flexDirection: 'row' }}>
-                        <Image source={{
-                            uri: row.item.idNguoiDung.anhDaiDien
-                        }} style={{ width: 50, height: 50, borderRadius: 50 }} />
+                        <TouchableOpacity onPress={() => { }}>
+                            <Image source={{
+                                uri: row.item.idNguoiDung.anhDaiDien
+                            }} style={{ width: 50, height: 50, borderRadius: 50 }} />
+                        </TouchableOpacity>
+
                         <View style={{ marginLeft: 10 }}>
-                            <Text style={{ fontWeight: 'bold' }}>{row.item.idNguoiDung.hoTen}</Text>
+                            <TouchableOpacity onPress={() => { }}>
+                                <Text style={{ fontWeight: 'bold' }}>{row.item.idNguoiDung.hoTen}</Text>
+                            </TouchableOpacity>
+
                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <Image source={require('../../assets/images/clock.png')} />
                                 <Text style={{ marginLeft: 6 }}>{row.item.thoiGian}</Text>
@@ -162,7 +168,7 @@ const PostScreen = (props) => {
                     </View>
 
                     <View style={styles.viewRowCenterBetween}>
-                        <TouchableHighlight underlayColor={'#e1e6e4'} activeOpacity={0.6} onPress={() => { props.navigation.navigate('DetailPostScreen', { row: row.item }); }}>
+                        <TouchableHighlight underlayColor={'#e1e6e4'} activeOpacity={0.6} onPress={() => { props.nav.navigate('DetailPostScreen', { row: row.item }); }}>
                             <Image source={require('../../assets/images/comment.png')} />
                         </TouchableHighlight>
                         <Text style={styles.textInteract}>{arr_binhLuan.length}</Text>

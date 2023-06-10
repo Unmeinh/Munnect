@@ -9,26 +9,46 @@ import HomeScreen from './Component/HomeScreen';
 import ForgetPassScreen from './Component/Login/ForgetPassScreen';
 import NewPost from './Component/Posts/NewPost';
 import DetailPostScreen from './Component/Posts/DetailPostScreen';
-import AccountScreen from "./Component/AccountScreen";
+import AccountScreen from "./Component/Account/AccountScreen";
+import UpdateAccountScreen from "./Component/Account/UpdateAccountScreen";
+import UpdateItemScreen from "./Component/Account/UpdateItemScreen";
 
 const StackNav = createNativeStackNavigator();
 
 const App = () => {
-  
+
   return (
     <NavigationContainer>
-      <StackNav.Navigator initialRouteName='SplashScreen' screenOptions={{ headerShown: false }}>
-        <StackNav.Screen name='SplashMunnectScreen' component={SplashMunnectScreen} />
-        <StackNav.Screen name='LoginScreen' component={LoginScreen} />
-        <StackNav.Screen name='RegistScreen' component={RegistScreen} />
-        <StackNav.Screen name='HomeScreen' component={HomeScreen} />
-        <StackNav.Screen name='ForgetPassScreen' component={ForgetPassScreen} />
+      <StackNav.Navigator initialRouteName='SplashScreen'>
+        <StackNav.Screen name='SplashMunnectScreen' component={SplashMunnectScreen} options={{headerShown:false}}/>
+        <StackNav.Screen name='LoginScreen' component={LoginScreen}  options={{headerShown:false}}/>
+        <StackNav.Screen name='RegistScreen' component={RegistScreen}  options={{headerShown:false}}/>
+        <StackNav.Screen name='HomeScreen' component={HomeScreen}  options={{headerShown:false}}/>
+        <StackNav.Screen name='ForgetPassScreen' component={ForgetPassScreen} options={{headerShown:false}} />
         <StackNav.Screen name='NewPost' component={NewPost} options={{
-          headerShown: true,
+          
           title: 'Thêm bài viết mới'
         }} />
-         <StackNav.Screen name='DetailPostScreen' component={DetailPostScreen}/>
-         <StackNav.Screen name='AccountScreen' component={AccountScreen}/>
+        <StackNav.Screen name='DetailPostScreen' component={DetailPostScreen}  options={{headerShown:false}}/>
+        <StackNav.Screen name='AccountScreen' component={AccountScreen}  options={{headerShown:false}}/>
+        <StackNav.Screen name='UpdateAccountScreen' component={UpdateAccountScreen} options={{
+         
+          title: 'Thay đổi thông tin hồ sơ',
+          headerTitleStyle: {
+            fontSize: 26
+          }
+        }} />
+        <StackNav.Screen name='UpdateItemScreen' component={UpdateItemScreen} options={ 
+          (props) => 
+            ({
+             
+              title: 'Cập nhật '+ props.route.params.title +' tài khoản',
+              headerTitleStyle: {
+                fontSize: 26
+              }
+            })
+        } />
+
       </StackNav.Navigator>
     </NavigationContainer>
   )

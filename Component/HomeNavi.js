@@ -9,6 +9,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from "./HomeScreen";
 import NewPost from "./NewPost";
 import DetailPostScreen from './Posts/DetailPostScreen';
+import UpdateAccountScreen from "./Account/UpdateAccountScreen";
+import UpdateItemScreen from "./Account/UpdateItemScreen";
 
 const StackNav = createNativeStackNavigator();
 
@@ -28,6 +30,8 @@ const HomeNavi = ({ navigation }) => {
                     
                 }} />
                 <StackNav.Screen name='DetailPostScreen' component={DetailPostScreen} options={{ headerShown: false }} />
+                <StackNav.Screen name="UpdateAccountScreen" component={UpdateAccountScreen} />
+                <StackNav.Screen name='UpdateItemScreen' component={UpdateItemScreen}/>
             </StackNav.Navigator>
         </NavigationContainer>
 
