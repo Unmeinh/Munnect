@@ -30,7 +30,7 @@ export default StyleSheet.create({
         color: 'rgba(0, 0, 0, 0.6)'
     },
 
-    viewNoPost: {
+    viewOther: {
         flex: 1,
         alignItems: 'center',
         marginTop: 25

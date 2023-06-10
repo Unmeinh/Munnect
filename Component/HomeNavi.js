@@ -7,6 +7,8 @@ import HomeScreen from "./HomeScreen";
 import NewPost from './Posts/NewPost';
 import ViewAccount from "./Account/ViewAccount";
 import PreviewAccount from './Account/PreviewAccount';
+import ListAccount from "./Account/ListAccount";
+import SearchScreen from "./Setting/SearchScreen";
 
 const StackNav = createNativeStackNavigator();
 
@@ -42,6 +44,18 @@ const HomeNavi = ({ navigation }) => {
                         </TouchableOpacity>
                     ),
                 })} />
+            <StackNav.Screen name='ListAccount' component={ListAccount}
+                options={({ route }) =>
+                ({
+                    title: route.params.title,
+                    headerStyle: {},
+                    headerTitleStyle: {
+                        fontWeight: '400',
+                        fontSize: 27
+                    },
+                })} />
+            <StackNav.Screen name='SearchScreen' component={SearchScreen}
+                options={{ headerShown: false }} />
         </StackNav.Navigator>
     )
 }

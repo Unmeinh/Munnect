@@ -5,7 +5,7 @@ import {
     TouchableOpacity,
 } from "react-native"
 import React, { useState, useLayoutEffect } from "react";
-import styles from '../../Styles/AccScreen.styles';
+import styles from '../../Styles/Account/AccScreen.styles';
 
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
@@ -195,7 +195,7 @@ const PreviewAccount = ({ route, navigation }) => {
                         </View>
 
                         <View style={{ backgroundColor: '#D9D9D9', height: 7 }} />
-                        <View style={styles.viewNoPost}>
+                        <View style={styles.viewOther}>
                             <AutoHeightImage source={require('../../assets/images/blogs.png')}
                                 width={(Dimensions.get("window").width * 75) / 100} />
                             <Text style={styles.textHint}>Đang tải bài viết..</Text>

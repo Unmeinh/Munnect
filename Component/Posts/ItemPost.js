@@ -40,14 +40,15 @@ const ItemPost = (row) => {
         <View>
             <View style={{ margin: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <View style={{ flexDirection: 'row', width: Dimensions.get('window').width * 85 / 100 }}>
-                    <Image source={{
-                        uri: nguoiDung.anhDaiDien
-                    }} style={{ width: 50, height: 50, borderRadius: 50 }} />
+                    <TouchableOpacity onPress={OpenViewAccount}>
+                        <Image source={{ uri: nguoiDung.anhDaiDien }}
+                            style={{ width: 50, height: 50, borderRadius: 50 }} />
+                    </TouchableOpacity>
                     <View style={{ marginLeft: 7 }}>
                         <TouchableHighlight underlayColor={'#e1e6e4'} activeOpacity={0.6}
                             onPress={OpenViewAccount}>
                             <Text style={styles.textName} numberOfLines={2}>
-                                {nguoiDung.hoTen} 
+                                {nguoiDung.hoTen}
                             </Text>
                         </TouchableHighlight>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -65,9 +66,8 @@ const ItemPost = (row) => {
             <Text style={{ margin: 10, fontSize: 20 }}>{baiViet.noiDung}</Text>
 
             <TouchableOpacity activeOpacity={0.6}>
-                <AutoHeightImage source={{
-                    uri: baiViet.anhBaiViet
-                }} width={Dimensions.get('window').width} />
+                <AutoHeightImage source={{ uri: baiViet.anhBaiViet }}
+                    width={Dimensions.get('window').width} />
             </TouchableOpacity>
 
             <View style={styles.viewBelowPost}>

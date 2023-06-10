@@ -6,7 +6,8 @@ import {
     TouchableHighlight
 } from "react-native"
 import React, { useState, useCallback } from "react";
-import styles from '../../Styles/AccScreen.styles';
+import styles from '../../Styles/Account/AccScreen.styles';
+import Moment from 'moment';
 
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
@@ -19,10 +20,19 @@ const MyAccount = (route) => {
     const [arr_post, setarr_post] = useState({});
     const [isSelected, setisSelected] = useState(true);
     const [infoLogin, setinfoLogin] = useState(route.infoLogin);
+    Moment.locale('en');
 
     function OpenNewPost() {
         if (infoLogin != {}) {
             route.nav.navigate('NewPost', { infoLogin: infoLogin, picked: "" });
+        }
+    }
+
+    function OpenListAcc(type) {
+        if (type == 'following') {
+            route.nav.navigate('ListAccount', { title: 'Đang theo dõi', infoAcc: infoLogin });
+        } else {
+            route.nav.navigate('ListAccount', { title: 'Người theo dõi', infoAcc: infoLogin });
         }
     }
 
@@ -92,10 +102,10 @@ const MyAccount = (route) => {
                         route.nav.navigate('NewPost', { infoLogin: infoLogin, picked: uriBase64 });
                     }
                     if (type == 'imageWallpaper') {
-                        route.nav.navigate('PreviewAccount', { title: 'Xem trước ảnh', infoLogin: infoLogin, picked: uriBase64, typePicked: 'wallpaper'});
+                        route.nav.navigate('PreviewAccount', { title: 'Xem trước ảnh', infoLogin: infoLogin, picked: uriBase64, typePicked: 'wallpaper' });
                     }
                     if (type == 'imageAvatar') {
-                        route.nav.navigate('PreviewAccount', { title: 'Xem trước ảnh', infoLogin: infoLogin, picked: uriBase64, typePicked: 'avatar'});
+                        route.nav.navigate('PreviewAccount', { title: 'Xem trước ảnh', infoLogin: infoLogin, picked: uriBase64, typePicked: 'avatar' });
                     }
                 }
             );
@@ -151,18 +161,18 @@ const MyAccount = (route) => {
                         </View>
                         <View style={styles.viewInfoItem}>
                             <Image source={require('../../assets/images/birthday-cake.png')} style={styles.imageInfoItem} />
-                            <Text style={styles.infoText}>{String(infoLogin.sinhNhat)}</Text>
+                            <Text style={styles.infoText}>{Moment(infoLogin.ngaySinh).format('MMM DD/YYYY')}</Text>
                         </View>
                     </View>
                     <View>
-                        <View style={styles.viewInfoItem}>
+                        <TouchableOpacity style={styles.viewInfoItem} onPress={() => OpenListAcc('following')}>
                             <Text style={{ fontSize: 16, fontWeight: '500' }}>{infoLogin.arr_TheoDoi.length}</Text>
                             <Text style={styles.infoText}>Đang theo dõi</Text>
-                        </View>
-                        <View style={styles.viewInfoItem}>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.viewInfoItem} onPress={() => OpenListAcc('follower')}>
                             <Text style={{ fontSize: 16, fontWeight: '500' }}>{infoLogin.arr_NguoiTheoDoi.length}</Text>
                             <Text style={styles.infoText}>Người theo dõi</Text>
-                        </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View style={styles.viewIntro}>
@@ -198,7 +208,7 @@ const MyAccount = (route) => {
                 {
                     (isSelected == true)
                         ?
-                        <View style={styles.viewNoPost}>
+                        <View style={styles.viewOther}>
                             <AutoHeightImage source={require('../../assets/images/blogs.png')}
                                 width={(Dimensions.get("window").width * 75) / 100} />
                             <Text style={styles.textHint}>Đang tải bài viết..</Text>
@@ -209,10 +219,10 @@ const MyAccount = (route) => {
                                 (arr_post.length > 0)
                                     ?
                                     arr_post.map((post, index, arr) => {
-                                        return <ItemPost post={post} key={index} />
+                                        return <ItemPost post={post} key={index} nav={route.nav}/>
                                     })
                                     :
-                                    <View style={styles.viewNoPost}>
+                                    <View style={styles.viewOther}>
                                         <AutoHeightImage source={require('../../assets/images/no_post.png')}
                                             width={(Dimensions.get("window").width * 75) / 100} />
                                         <Text style={styles.textHint}>Không có bài viết nào..</Text>

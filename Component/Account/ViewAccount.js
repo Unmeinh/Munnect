@@ -3,14 +3,14 @@ import {
     Dimensions,
     Image, ScrollView,
     TouchableOpacity,
-    Animated
+    Animated,
+    Button
 } from "react-native"
 import React, { useState, useEffect, useRef } from "react";
-import styles from '../../Styles/AccScreen.styles';
+import styles from '../../Styles/Account/AccScreen.styles';
+import Moment from 'moment';
 
 import ItemPost from "../Posts/ItemPost";
-import * as ImagePicker from 'expo-image-picker';
-import * as FileSystem from 'expo-file-system';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AutoHeightImage from "react-native-auto-height-image";
@@ -21,10 +21,20 @@ const ViewAccount = ({ route, navigation }) => {
     const [infoAcc, setinfoAcc] = useState(route.params.infoAcc);
     const [isReloading, setisReloading] = useState(false);
     const [isSelected, setisSelected] = useState(true);
+    const [isFollowing, setisFollowing] = useState(true);
     const [offset, setoffset] = useState(0);
     const scrollRef = useRef(null);
     const startValue = useRef(new Animated.Value(0)).current;
     const duration = 150;
+    Moment.locale('en');
+
+    function OpenListAcc(type) {
+        if (type == 'following') {
+            navigation.navigate('ListAccount', { title: 'Đang theo dõi', infoAcc: infoAcc });
+        } else {
+            navigation.navigate('ListAccount', { title: 'Người theo dõi', infoAcc: infoAcc });
+        }
+    }
 
     const ReloadData = React.useCallback(() => {
         setisReloading(true);
@@ -117,9 +127,20 @@ const ViewAccount = ({ route, navigation }) => {
 
                     {/* View thông tin */}
                     <View>
-                        <Text style={styles.textName} numberOfLines={2}>
+                        <Text style={styles.textNameVA} numberOfLines={2}>
                             {String(infoAcc.hoTen)}
                         </Text>
+                        {
+                            (isFollowing == false)
+                                ?
+                                <TouchableOpacity style={styles.buttonFollowing} onPress={() => setisFollowing(true)}>
+                                    <Text style={{ fontSize: 16, color: '#0C7F45', fontWeight: '500' }}>Theo dõi</Text>
+                                </TouchableOpacity>
+                                :
+                                <TouchableOpacity style={styles.buttonFollow} onPress={() => setisFollowing(false)}>
+                                    <Text style={{ fontSize: 16, fontWeight: '500' }}>Đã theo dõi</Text>
+                                </TouchableOpacity>
+                        }
                         <View style={styles.viewInfo}>
                             <View>
                                 <View style={styles.viewInfoItem}>
@@ -128,18 +149,18 @@ const ViewAccount = ({ route, navigation }) => {
                                 </View>
                                 <View style={styles.viewInfoItem}>
                                     <Image source={require('../../assets/images/birthday-cake.png')} style={styles.imageInfoItem} />
-                                    <Text style={styles.infoText}>{String(infoAcc.sinhNhat)}</Text>
+                                    <Text style={styles.infoText}>{Moment(infoAcc.ngaySinh).format('MMM DD/YYYY')}</Text>
                                 </View>
                             </View>
                             <View>
-                                <View style={styles.viewInfoItem}>
+                                <TouchableOpacity style={styles.viewInfoItem} onPress={() => OpenListAcc('following')}>
                                     <Text style={{ fontSize: 16, fontWeight: '500' }}>{infoAcc.arr_TheoDoi.length}</Text>
                                     <Text style={styles.infoText}>Đang theo dõi</Text>
-                                </View>
-                                <View style={styles.viewInfoItem}>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.viewInfoItem} onPress={() => OpenListAcc('follower')}>
                                     <Text style={{ fontSize: 16, fontWeight: '500' }}>{infoAcc.arr_NguoiTheoDoi.length}</Text>
                                     <Text style={styles.infoText}>Người theo dõi</Text>
-                                </View>
+                                </TouchableOpacity>
                             </View>
                         </View>
                         <View style={styles.viewIntro}>
@@ -162,7 +183,7 @@ const ViewAccount = ({ route, navigation }) => {
                         {
                             (isSelected == true)
                                 ?
-                                <View style={styles.viewNoPost}>
+                                <View style={styles.viewOther}>
                                     <AutoHeightImage source={require('../../assets/images/blogs.png')}
                                         width={(Dimensions.get("window").width * 75) / 100} />
                                     <Text style={styles.textHint}>Đang tải bài viết..</Text>
@@ -173,10 +194,10 @@ const ViewAccount = ({ route, navigation }) => {
                                         (arr_post.length > 0)
                                             ?
                                             arr_post.map((post, index, arr) => {
-                                                return <ItemPost post={post} key={index} />
+                                                return <ItemPost post={post} key={index} nav={navigation} />
                                             })
                                             :
-                                            <View style={styles.viewNoPost}>
+                                            <View style={styles.viewOther}>
                                                 <AutoHeightImage source={require('../../assets/images/no_post.png')}
                                                     width={(Dimensions.get("window").width * 75) / 100} />
                                                 <Text style={styles.textHint}>Không có bài viết nào..</Text>

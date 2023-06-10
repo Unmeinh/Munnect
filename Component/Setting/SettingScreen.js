@@ -6,7 +6,7 @@ import styles from '../../Styles/Setting/SettingScreen.styles';
 
 const SettingScreen = () => {
     return (
-        <View style={{ marginTop: 60 }}>
+        <View style={{ flex: 1, backgroundColor: 'blue' }}>
             <Text>
                 Màn cài đặt
             </Text>

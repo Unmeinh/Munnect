@@ -64,7 +64,7 @@ const HomeScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <CollapsibleHeaderScrollView
-                CollapsibleHeaderComponent={<DynamicHeader settabNum={callBackSetTab} tabNum={tabNum} />}
+                CollapsibleHeaderComponent={<DynamicHeader settabNum={callBackSetTab} tabNum={tabNum} nav={navigation}/>}
                 headerHeight={135}
                 statusBarHeight={Platform.OS === 'ios' ? 20 : 0}
                 refreshControl={

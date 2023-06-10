@@ -61,14 +61,47 @@ export default StyleSheet.create({
 
     textName: {
         paddingTop: 10,
-        paddingLeft: 20,
+        paddingLeft: 17,
         paddingRight: 20,
         fontSize: 22,
         fontWeight: 'bold',
     },
 
-    viewInfo: {
+    textNameVA: {
         paddingTop: 10,
+        paddingLeft: 17,
+        paddingRight: 20,
+        fontSize: 22,
+        fontWeight: 'bold',
+        width: '75%',
+    },
+
+    buttonFollow: {
+        backgroundColor: '#00FF80',
+        position: 'absolute',
+        right: 11, top: 12,
+        padding: 7,
+        paddingLeft: 10, 
+        paddingRight: 10,
+        borderRadius: 10,
+        borderColor: '#000',
+        borderWidth: 1
+    },
+
+    buttonFollowing: {
+        backgroundColor: '#fff',
+        position: 'absolute',
+        right: 11, top: 12,
+        padding: 7,
+        paddingLeft: 10, 
+        paddingRight: 10,
+        borderRadius: 10,
+        borderColor: '#000',
+        borderWidth: 1
+    },
+
+    viewInfo: {
+        paddingTop: 15,
         paddingLeft: 30,
         paddingRight: 30,
         flexDirection: 'row',
@@ -134,7 +167,7 @@ export default StyleSheet.create({
         color: 'rgba(0, 0, 0, 0.6)'
     },
 
-    viewNoPost: {
+    viewOther: {
         flex: 1,
         alignItems: 'center',
         marginTop: 25

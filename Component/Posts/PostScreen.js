@@ -111,7 +111,7 @@ const PostScreen = (route) => {
             {
                 (isSelected == true)
                     ?
-                    <View style={styles.viewNoPost}>
+                    <View style={styles.viewOther}>
                         <AutoHeightImage source={require('../../assets/images/blogs.png')}
                             width={(Dimensions.get("window").width * 75) / 100} />
                         <Text style={styles.textHint}>Đang tải bài viết..</Text>
@@ -125,7 +125,7 @@ const PostScreen = (route) => {
                                     return <ItemPost post={post} key={index} nav={route.nav}/>
                                 })
                                 :
-                                <View style={styles.viewNoPost}>
+                                <View style={styles.viewOther}>
                                     <AutoHeightImage source={require('../../assets/images/no_post.png')}
                                         width={(Dimensions.get("window").width * 75) / 100} />
                                     <Text style={styles.textHint}>Không có bài viết nào..</Text>
