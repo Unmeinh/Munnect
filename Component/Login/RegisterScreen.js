@@ -10,7 +10,7 @@ const RegistScreen = (props) => {
     const [email, setemail] = useState('');
     const [taiKhoan, settaiKhoan] = useState('');
     const [matKhau, setmatKhau] = useState('');
-    const [ngaySinh, setngaySinh] = useState('');
+    const [sinhNhat, setsinhNhat] = useState('');
     const onPress = () => {
         setSelection(!isSelected);
     };

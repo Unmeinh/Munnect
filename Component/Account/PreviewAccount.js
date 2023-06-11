@@ -6,6 +6,7 @@ import {
 } from "react-native"
 import React, { useState, useLayoutEffect } from "react";
 import styles from '../../Styles/Account/AccScreen.styles';
+import Moment from 'moment';
 
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
@@ -17,15 +18,16 @@ const PreviewAccount = ({ route, navigation }) => {
     const [infoLogin, setinfoLogin] = useState(route.params.infoLogin);
     const [pickedAvatar, setpickedAvatar] = useState("");
     const [pickedWallpaper, setpickedWallpaper] = useState("");
+    Moment.locale('en');
 
     const GetInfoLogin = async () => {
         try {
             const response = await fetch(
-                'https://backend-mob104.herokuapp.com/listBaiViet',
+                'http://192.168.191.19:3000/NguoiDung/DanhSach',
             );
             const json = await response.json();
-            setinfoLogin(json.data.listBaiViet[1].idNguoiDung);
-            console.log(infoLogin);
+            setinfoLogin(json.data.listNguoiDung[0]);
+            console.log(json.data.listNguoiDung[0]);
         } catch (error) {
             console.error(error);
         }
@@ -138,7 +140,7 @@ const PreviewAccount = ({ route, navigation }) => {
                     {/* View thông tin */}
                     <View>
                         <Text style={styles.textName} numberOfLines={2}>
-                            {String(infoLogin.hoTen)}
+                            {String(infoLogin.tenTaiKhoan)}
                         </Text>
                         <View style={styles.viewInfo}>
                             <View>
@@ -148,7 +150,7 @@ const PreviewAccount = ({ route, navigation }) => {
                                 </View>
                                 <View style={styles.viewInfoItem}>
                                     <Image source={require('../../assets/images/birthday-cake.png')} style={styles.imageInfoItem} />
-                                    <Text style={styles.infoText}>{String(infoLogin.sinhNhat)}</Text>
+                                    <Text style={styles.infoText}>{Moment(infoLogin.sinhNhat).format('MMM DD/YYYY')}</Text>
                                 </View>
                             </View>
                             <View>

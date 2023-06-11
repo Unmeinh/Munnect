@@ -39,11 +39,11 @@ const MyAccount = (route) => {
     const GetInfoLogin = async () => {
         try {
             const response = await fetch(
-                'https://backend-mob104.herokuapp.com/listBaiViet',
+                'http://192.168.191.19:3000/NguoiDung/DanhSach',
             );
             const json = await response.json();
-            setinfoLogin(json.data.listBaiViet[1].idNguoiDung);
-            console.log(infoLogin);
+            setinfoLogin(json.data.listNguoiDung[0]);
+            console.log(json.data.listNguoiDung[0]);
         } catch (error) {
             console.error(error);
         }
@@ -53,7 +53,7 @@ const MyAccount = (route) => {
         console.log(infoLogin._id);
         try {
             const response = await fetch(
-                'https://backend-mob104.herokuapp.com/listBaiViet?idNguoiDung=' + infoLogin._id,
+                'http://192.168.191.19:3000/BaiViet/DanhSach?idNguoiDung=' + infoLogin._id,
             );
             const json = await response.json();
             setarr_post(json.data.listBaiViet);
@@ -151,7 +151,7 @@ const MyAccount = (route) => {
             {/* View thông tin */}
             <View>
                 <Text style={styles.textName} numberOfLines={2}>
-                    {String(infoLogin.hoTen)}
+                    {String(infoLogin.tenTaiKhoan)}
                 </Text>
                 <View style={styles.viewInfo}>
                     <View>
@@ -161,7 +161,7 @@ const MyAccount = (route) => {
                         </View>
                         <View style={styles.viewInfoItem}>
                             <Image source={require('../../assets/images/birthday-cake.png')} style={styles.imageInfoItem} />
-                            <Text style={styles.infoText}>{Moment(infoLogin.ngaySinh).format('MMM DD/YYYY')}</Text>
+                            <Text style={styles.infoText}>{Moment(infoLogin.sinhNhat).format('MMM DD/YYYY')}</Text>
                         </View>
                     </View>
                     <View>
@@ -219,7 +219,7 @@ const MyAccount = (route) => {
                                 (arr_post.length > 0)
                                     ?
                                     arr_post.map((post, index, arr) => {
-                                        return <ItemPost post={post} key={index} nav={route.nav}/>
+                                        return <ItemPost post={post} key={index} nav={route.nav} />
                                     })
                                     :
                                     <View style={styles.viewOther}>

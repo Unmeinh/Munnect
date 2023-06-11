@@ -12,6 +12,22 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const SearchScreen = ({ navigation }) => {
     const [inputSearch, setinputSearch] = useState("");
+    const [isFocus, setisFocus] = useState(false);
+
+    function onInputText(input) {
+        if (inputSearch.length > 0 && input == "") {
+            setisFocus(true);
+        }
+        if (inputSearch.length == "" && input.length > 0) {
+            setisFocus(true);
+        }
+        if (input == "-.-. .-.. . .- .-.") {
+            setisFocus(false);
+            setinputSearch("");
+        } else {
+            setinputSearch(input);
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -25,14 +41,14 @@ const SearchScreen = ({ navigation }) => {
                         ?
                         <View style={styles.viewInput}>
                             <MaterialIcons name="search" size={25} color={'rgba(0, 0, 0, 0.5)'} />
-                            <TextInput placeholder="Tìm kiếm" value={inputSearch} onChangeText={(input) => setinputSearch(input)}
-                                style={[styles.textInput, { width: '100%' }]} />
+                            <TextInput placeholder="Tìm kiếm" value={inputSearch} onChangeText={(input) => onInputText(input)}
+                                style={[styles.textInput, { width: '100%' }]} autoFocus={isFocus} />
                         </View>
                         :
                         <View style={[styles.viewInput, { justifyContent: 'space-around' }]}>
-                            <TextInput placeholder="Tìm kiếm" value={inputSearch} onChangeText={(input) => setinputSearch(input)}
-                                style={[styles.textInput, { width: '90%' }]} />
-                            <MaterialIcons name="clear" size={25} onPress={() => setinputSearch("")} />
+                            <TextInput placeholder="Tìm kiếm" value={inputSearch} onChangeText={(input) => onInputText(input)}
+                                style={[styles.textInput, { width: '90%' }]} autoFocus={isFocus} />
+                            <MaterialIcons name="clear" size={25} onPress={() => onInputText("-.-. .-.. . .- .-.")} />
                         </View>
                 }
             </View>
