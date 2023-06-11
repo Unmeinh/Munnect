@@ -49,6 +49,13 @@ export default StyleSheet.create({
         marginTop: 35
     },
 
+    //Tab view
+
+    containerTab: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+
     indicatorTab: {
         backgroundColor: '#24B96F',
         width: WindowWidth * 30 / 100,

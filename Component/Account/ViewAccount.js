@@ -4,7 +4,6 @@ import {
     Image, ScrollView,
     TouchableOpacity,
     Animated,
-    Button
 } from "react-native"
 import React, { useState, useEffect, useRef } from "react";
 import styles from '../../Styles/Account/AccScreen.styles';
@@ -49,7 +48,7 @@ const ViewAccount = ({ route, navigation }) => {
         console.log(infoAcc._id);
         try {
             const response = await fetch(
-                'https://backend-mob104.herokuapp.com/listBaiViet?idNguoiDung=' + infoAcc._id,
+                'http://192.168.191.19:3000/BaiViet/DanhSach?idNguoiDung=' + infoAcc._id,
             );
             const json = await response.json();
             setarr_post(json.data.listBaiViet);
@@ -128,7 +127,7 @@ const ViewAccount = ({ route, navigation }) => {
                     {/* View thông tin */}
                     <View>
                         <Text style={styles.textNameVA} numberOfLines={2}>
-                            {String(infoAcc.hoTen)}
+                            {String(infoAcc.tenTaiKhoan)}
                         </Text>
                         {
                             (isFollowing == false)
@@ -149,7 +148,7 @@ const ViewAccount = ({ route, navigation }) => {
                                 </View>
                                 <View style={styles.viewInfoItem}>
                                     <Image source={require('../../assets/images/birthday-cake.png')} style={styles.imageInfoItem} />
-                                    <Text style={styles.infoText}>{Moment(infoAcc.ngaySinh).format('MMM DD/YYYY')}</Text>
+                                    <Text style={styles.infoText}>{Moment(infoAcc.sinhNhat).format('MMM DD/YYYY')}</Text>
                                 </View>
                             </View>
                             <View>

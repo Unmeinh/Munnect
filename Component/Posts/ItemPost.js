@@ -18,17 +18,16 @@ const ItemPost = (row) => {
     var myTuongTac = "";
     var arr_dongTinh = [];
     var arr_phanDoi = [];
-    var arr_tuongTac = baiViet.arr_tuongTac;
     Moment.locale('en');
-    // var arr_dongTinh = baiViet.arr_dongTinh;
-    // var arr_phanDoi = baiViet.arr_phanDoi;
+    var arr_dongTinh = baiViet.arr_dongTinh;
+    var arr_phanDoi = baiViet.arr_phanDoi;
     var arr_binhLuan = baiViet.arr_binhLuan;
 
-    arr_tuongTac.map((tt, index, arr) => {
-        if (tt.idNguoiDung._id == nguoiDung._id) {
-            myTuongTac = tt.trangThai;
-        }
-    })
+    // arr_tuongTac.map((tt, index, arr) => {
+    //     if (tt.idNguoiDung._id == nguoiDung._id) {
+    //         myTuongTac = tt.trangThai;
+    //     }
+    // })
 
     const DetailPost = () => { console.log(row); };
 
@@ -48,7 +47,7 @@ const ItemPost = (row) => {
                         <TouchableHighlight underlayColor={'#e1e6e4'} activeOpacity={0.6}
                             onPress={OpenViewAccount}>
                             <Text style={styles.textName} numberOfLines={2}>
-                                {nguoiDung.hoTen}
+                                {nguoiDung.tenTaiKhoan}
                             </Text>
                         </TouchableHighlight>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -63,7 +62,7 @@ const ItemPost = (row) => {
                 </TouchableOpacity>
             </View>
 
-            <Text style={{ margin: 10, fontSize: 20 }}>{baiViet.noiDung}</Text>
+            <Text style={{ margin: 10, fontSize: 20, fontFamily: String(baiViet.phongChu) }}>{baiViet.noiDung}</Text>
 
             <TouchableOpacity activeOpacity={0.6}>
                 <AutoHeightImage source={{ uri: baiViet.anhBaiViet }}

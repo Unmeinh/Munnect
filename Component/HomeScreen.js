@@ -37,11 +37,11 @@ const HomeScreen = ({ navigation }) => {
     const GetInfoLogin = async () => {
         try {
             const response = await fetch(
-                'https://backend-mob104.herokuapp.com/listBaiViet',
+                'http://192.168.191.19:3000/NguoiDung/DanhSach',
             );
             const json = await response.json();
-            setinfoLogin(json.data.listBaiViet[1].idNguoiDung);
-            console.log(infoLogin);
+            setinfoLogin(json.data.listNguoiDung[0]);
+            console.log(json.data.listNguoiDung[0]);
         } catch (error) {
             console.error(error);
         }

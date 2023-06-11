@@ -123,7 +123,7 @@ const NewPost = ({ route, navigation }) => {
                         <Image source={{ uri: String(infoLogin.anhDaiDien) }}
                             style={styles.imageAvatar} />
                         <View>
-                            <Text style={styles.textName}>{infoLogin.hoTen}</Text>
+                            <Text style={styles.textName}>{infoLogin.tenTaiKhoan}</Text>
                             <View style={{ flexDirection: 'row' }}>
                                 <EvilIcons name='clock' size={25} color={'rgba(0, 0, 0, 0.50)'} />
                                 <Text style={{ color: 'rgba(0, 0, 0, 0.75)' }}>Ngay bây giờ</Text>
