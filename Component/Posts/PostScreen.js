@@ -6,6 +6,7 @@ import {
 } from "react-native";
 import React, { useState, useCallback } from "react";
 import styles from '../../Styles/Posts/PostScreen.styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
@@ -29,12 +30,10 @@ const PostScreen = (route) => {
 
     const GetInfoLogin = async () => {
         try {
-            const response = await fetch(
-                'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach',
-            );
-            const json = await response.json();
-            setinfoLogin(json.data.listNguoiDung[0]);
-            console.log(json.data.listNguoiDung[0]);
+            const dataLoginInfo = await AsyncStorage.getItem("infoLogin");
+            if (dataLoginInfo !== null) {
+                setinfoLogin(JSON.parse(dataLoginInfo));
+            }
         } catch (error) {
             console.error(error);
         }
@@ -93,6 +92,15 @@ const PostScreen = (route) => {
             GetListPost();
         }
     }, [route.refreshing]);
+
+    React.useEffect(() => {
+        const unsub = route.nav.addListener('focus', () => {
+            GetInfoLogin();
+            GetListPost();
+        });
+
+        return unsub;
+    }, [route.nav]);
 
     return (
         <SafeAreaView style={styles.container}>

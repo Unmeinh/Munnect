@@ -49,7 +49,6 @@ const NewPost = ({ route, navigation }) => {
         formData.append('idNguoiDung', infoLogin._id);
         formData.append('noiDung', inputContent);
         formData.append('phongChu', inputFont);
-        formData.append('anhBaiViet', dataImage);
         formData.append('thoiGian', new Date().toDateString());
         formData.append('viTriBaiViet', "personal");
         formData.append('arr_binhLuan', {});
@@ -57,6 +56,10 @@ const NewPost = ({ route, navigation }) => {
         formData.append('arr_phanDoi', {});
         formData.append('soLuongChiaSe', 0);
         formData.append('soLuongBaoCao', 0);
+
+        if (dataImage != {} && ipImageUrl != "") {
+            formData.append('anhBaiViet', dataImage);
+        }
 
         fetch(url_api, {
             method: 'POST',
@@ -68,7 +71,7 @@ const NewPost = ({ route, navigation }) => {
             body: formData
         })
             .then((res) => {
-                console.log(res); 
+                console.log(res);
                 if (res.status == 201) {
                     ToastAndroid.show('Đăng bài viết mới thành công!', ToastAndroid.SHORT);
                     navigation.goBack();
@@ -109,6 +112,7 @@ const NewPost = ({ route, navigation }) => {
 
     const RemoveImage = () => {
         setipImageUrl("");
+        setdataImage({});
     }
 
     const ShowFontModal = () => {
