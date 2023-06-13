@@ -39,8 +39,7 @@ const LoginScreen = ({navigation}) => {
                     const json = await res.json();
                     if (json.success == true) {
                         ToastAndroid.show('Đăng nhập thành công!', ToastAndroid.SHORT);
-                        const loginObj = JSON.stringify(json.objData)
-                        await AsyncStorage.setItem('infoLogin', loginObj);
+                        await AsyncStorage.setItem('idLogin', json.objData._id);
                         await AsyncStorage.setItem('isLogin', 'true');
                         navigation.navigate('HomeNavi');
                         setinputEmail('');

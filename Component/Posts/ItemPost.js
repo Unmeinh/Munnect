@@ -15,7 +15,8 @@ import Feather from 'react-native-vector-icons/Feather';
 const ItemPost = (row) => {
     var baiViet = row.post;
     var nguoiDung = baiViet.idNguoiDung;
-    var myTuongTac = "";
+    const [myTuongTac, setmyTuongTac] = useState('none');
+    const [isGetInteract, setisGetInteract] = useState(true);
     var arr_dongTinh = [];
     var arr_phanDoi = [];
     Moment.locale('en');
@@ -23,16 +24,54 @@ const ItemPost = (row) => {
     var arr_phanDoi = baiViet.arr_phanDoi;
     var arr_binhLuan = baiViet.arr_binhLuan;
 
-    // arr_tuongTac.map((tt, index, arr) => {
-    //     if (tt.idNguoiDung._id == nguoiDung._id) {
-    //         myTuongTac = tt.trangThai;
-    //     }
-    // })
+    const GetInteract = async () => {
+        try {
+            const response = await fetch(
+                // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
+                'http://192.168.191.7:3000/BaiViet/TuongTac?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id,
+            );
+            const json = await response.json();
+            setmyTuongTac(json.data.tuongTac);
+            console.log(json.data.tuongTac);
+        } catch (error) {
+            console.log("Get");
+            console.error(error);
+        }
+    }
+
+    const SetInteract = async (type) => {
+        try {
+            const response = await fetch(
+                // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
+                'http://192.168.191.7:3000/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
+            );
+            row.refreshList();
+            const json = await response.json();
+            setmyTuongTac(json.data.tuongTac);
+            console.log(json.data.tuongTac);
+        } catch (error) {
+            console.log("Set");
+            console.error(error);
+        }
+    }
 
 
     function OpenViewAccount() {
-        row.nav.navigate('ViewAccount', { infoAcc: nguoiDung, });
+        if (row.info != undefined) {
+            if (nguoiDung._id != row.info._id) {
+                row.nav.navigate('ViewAccount', { infoAcc: nguoiDung, });
+            } else {
+                row.openAcc();
+            }
+        }
     }
+
+    React.useEffect(() => {
+        if (isGetInteract == true) {
+            console.log("Get");
+            GetInteract();
+        }
+    }, [isGetInteract]);
 
     return (
         <View>
@@ -82,12 +121,12 @@ const ItemPost = (row) => {
                     {
                         (myTuongTac == "Liked")
                             ?
-                            <TouchableOpacity activeOpacity={0.6}>
+                            <TouchableOpacity activeOpacity={0.6} onPress={() => SetInteract('none')}>
                                 <Image source={require('../../assets/images/positive_color.png')}
                                     style={styles.buttonInteract} />
                             </TouchableOpacity>
                             :
-                            <TouchableOpacity activeOpacity={0.6}>
+                            <TouchableOpacity activeOpacity={0.6} onPress={() => SetInteract('Liked')}>
                                 <Image source={require('../../assets/images/positive.png')}
                                     style={styles.buttonInteract} />
                             </TouchableOpacity>
@@ -96,12 +135,12 @@ const ItemPost = (row) => {
                     {
                         (myTuongTac == "Disliked")
                             ?
-                            <TouchableOpacity activeOpacity={0.6}>
+                            <TouchableOpacity activeOpacity={0.6} onPress={() => SetInteract('none')}>
                                 <Image source={require('../../assets/images/negative_color.png')}
                                     style={styles.buttonInteract} />
                             </TouchableOpacity>
                             :
-                            <TouchableOpacity activeOpacity={0.6}>
+                            <TouchableOpacity activeOpacity={0.6} onPress={() => SetInteract('Disliked')}>
                                 <Image source={require('../../assets/images/negative.png')}
                                     style={styles.buttonInteract} />
                             </TouchableOpacity>
