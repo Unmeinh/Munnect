@@ -1,38 +1,25 @@
-import React, { useState, useCallback } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import HelloComp from './Component/HelloComp';
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SplashMunnectScreen from './Component/SplashMunnectScreen';
+import LoginScreen from './Component/Login/LoginScreen';
+import RegistScreen from './Component/Login/RegisterScreen';
+import ForgetPassScreen from './Component/Login/ForgetPassScreen';
+import HomeNavi from './Component/HomeNavi';
 
-SplashScreen.preventAutoHideAsync();
+const StackNav = createNativeStackNavigator();
 
-export default function App() {
-  const [fontsLoaded] = useFonts({
-      'Aclonica': require('./assets/fonts/Aclonica.ttf'),
-  });
-
-  const onLayoutRootView = useCallback(async () => {
-      if (fontsLoaded) {
-          await SplashScreen.hideAsync();
-      }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-      return null;
-  }
+const App = () => {
 
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
-      <HelloComp/>
-    </View>
-  );
+    <NavigationContainer>
+      <StackNav.Navigator initialRouteName='SplashScreen'>
+        <StackNav.Screen name='SplashMunnectScreen' component={SplashMunnectScreen} options={{ headerShown: false }}/>
+        <StackNav.Screen name='LoginScreen' component={LoginScreen} options={{ headerShown: false }}/>
+        <StackNav.Screen name='RegistScreen' component={RegistScreen} options={{ headerShown: false }}/>
+        <StackNav.Screen name='HomeNavi' component={HomeNavi} options={{ headerShown: false }}/>
+        <StackNav.Screen name='ForgetPassScreen' component={ForgetPassScreen} options={{ headerShown: false }}/>
+      </StackNav.Navigator>
+    </NavigationContainer>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
