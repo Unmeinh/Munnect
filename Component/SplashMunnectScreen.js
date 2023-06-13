@@ -7,12 +7,23 @@ import styles from '../Styles/SplashScreen.styles';
 
 import * as SplashScreen from 'expo-splash-screen';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 SplashScreen.preventAutoHideAsync();
 
-const SplashMunnectScreen = (props) => {
+const SplashMunnectScreen = ({navigation}) => {
     React.useEffect(() => {
-        setTimeout(() => {
-            props.navigation.navigate('LoginScreen');
+        setTimeout(async () => {
+            try {
+                const isLogin = await AsyncStorage.getItem("isLogin");
+                if (isLogin !== null && isLogin == 'true') {
+                    navigation.navigate('HomeNavi');
+                } else {
+                    navigation.navigate('LoginScreen');
+                }
+            } catch (error) {
+                console.error(error);
+            }
         }, 2000);
     }, []);
 
