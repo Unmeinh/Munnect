@@ -22,10 +22,11 @@ const SearchResult = (route) => {
         { key: 'acc', title: 'Cá nhân' },
     ]);
 
-    const GetListAccount = async () => {
+    const GetListAccount = async (input) => {
         try {
             const response = await fetch(
-                'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach',
+                // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputSearch=' + inputSearch,
+                'http://192.168.191.7:3000/NguoiDung/DanhSach?inputSearch=' + input,
             );
             //API tìm kiếm người dùng theo regex
             const json = await response.json();
@@ -37,10 +38,11 @@ const SearchResult = (route) => {
         }
     }
 
-    const GetListPost = async () => {
+    const GetListPost = async (input) => {
         try {
             const response = await fetch(
-                'https://backend-munnect.herokuapp.com/BaiViet/DanhSach',
+                // 'https://backend-munnect.herokuapp.com/BaiViet/DanhSach?inputSearch=' + inputSearch,
+                'http://192.168.191.7:3000/BaiViet/DanhSach?inputSearch=' + input,
             );
             //API tìm kiếm bài viết theo regex
             const json = await response.json();
@@ -91,7 +93,7 @@ const SearchResult = (route) => {
             <View style={styles.containerTab} >
                 {
                     (isSearching == true)
-                        ? 
+                        ?
                         <View style={styles.viewOther}>
                             <AutoHeightImage source={require('../../assets/images/robot-finding-data.png')}
                                 width={(Dimensions.get("window").width * 75) / 100} />
@@ -106,7 +108,7 @@ const SearchResult = (route) => {
                                         arr_acc.map((nguoiDung, index, arr) => {
                                             return <ItemAccount nguoiDung={nguoiDung} key={index} nav={route.nav} />
                                         })
-                                        : 
+                                        :
                                         <View style={styles.viewOther}>
                                             <AutoHeightImage source={require('../../assets/images/no_post.png')}
                                                 width={(Dimensions.get("window").width * 75) / 100} />
@@ -121,16 +123,17 @@ const SearchResult = (route) => {
     }
 
     React.useEffect(() => {
-        if (inputSearch == "") {
+        if (route.inputSearch == "") {
             setarr_acc([]);
             setarr_post([]);
         }
         if (inputSearch != route.inputSearch) {
+            setisSearching(true);
             setinputSearch(route.inputSearch);
-            GetListAccount();
-            GetListPost();
+            GetListAccount(route.inputSearch);
+            GetListPost(route.inputSearch);
         }
-    }, [route.inputSearch])
+    },[route.inputSearch])
 
     const renderScene = SceneMap({
         post: PostTab,
