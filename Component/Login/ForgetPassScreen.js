@@ -73,7 +73,7 @@ const ForgetPassScreen = (props) => {
             </TouchableHighlight>
 
             <View style={{ flexDirection: "row", margin: 20 }}>
-                <Text style={{ fontSize: 17 }}>Bạn nhớ ra mật khẩu?</Text>
+                <Text style={{ fontSize: 19 }}>Bạn nhớ ra mật khẩu?</Text>
                 <TouchableHighlight underlayColor={'#e3cac8'} activeOpacity={0.5} onPress={() => { props.navigation.navigate('LoginScreen') }}>
                     <Text style={styles.txtLogin}>Đăng nhập</Text>
                 </TouchableHighlight>

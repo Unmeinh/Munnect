@@ -92,15 +92,15 @@ export default StyleSheet.create({
 
     textRemem: {
         color: '#6B5E5E',
-        fontSize: 16,
+        fontSize: 17,
         fontWeight: '400',
         fontStyle: 'normal',
         marginLeft: 10,
     },
 
     textForget: {
-        color: '#0386D0',
-        fontSize: 16,
+        color: '#6B5E5E',
+        fontSize: 17,
         fontWeight: '400',
         fontStyle: 'normal',
         textDecorationLine: 'underline'
@@ -124,7 +124,7 @@ export default StyleSheet.create({
     txtLogin: {
         padding: 10,
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: 22,
         fontWeight: 'bold',
         color: '#262625'
     },
@@ -147,7 +147,7 @@ export default StyleSheet.create({
     txtRegist: {
         padding: 10,
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: 22,
         fontWeight: 'bold',
         color: '#00ff80'
     },

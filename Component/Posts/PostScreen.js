@@ -13,6 +13,7 @@ import * as FileSystem from 'expo-file-system';
 import AutoHeightImage from 'react-native-auto-height-image';
 import ItemPost from './ItemPost';
 
+
 const PostScreen = (route) => {
     const [arr_post, setarr_post] = useState({});
     const [isSelected, setisSelected] = useState(true);

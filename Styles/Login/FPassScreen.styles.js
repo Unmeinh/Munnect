@@ -72,7 +72,7 @@ export default StyleSheet.create({
     txtGetPass: {
         padding: 10,
         textAlign: 'center',
-        fontSize: 25,
+        fontSize: 22,
         fontWeight: 'bold',
         color: '#262625'
     },
@@ -80,7 +80,7 @@ export default StyleSheet.create({
     txtLogin: {
         fontWeight: 'bold',
         textDecorationLine: 'underline',
-        fontSize: 17,
+        fontSize: 19,
         marginLeft: 15
     }
 });
