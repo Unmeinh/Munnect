@@ -3,6 +3,7 @@ import {
     Dimensions,
     Image, ScrollView,
     TouchableOpacity,
+    ToastAndroid
 } from "react-native"
 import React, { useState, useLayoutEffect } from "react";
 import styles from '../../Styles/Account/AccScreen.styles';
@@ -18,16 +19,17 @@ const PreviewAccount = ({ route, navigation }) => {
     const [infoLogin, setinfoLogin] = useState(route.params.infoLogin);
     const [pickedAvatar, setpickedAvatar] = useState("");
     const [pickedWallpaper, setpickedWallpaper] = useState("");
+    const [uriAvatar, seturiAvatar] = useState({});
+    const [uriWallpaper, seturiWallpaper] = useState({});
     Moment.locale('en');
 
     const GetInfoLogin = async () => {
         try {
             const response = await fetch(
-                'http://192.168.191.19:3000/NguoiDung/DanhSach',
+                'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach',
             );
             const json = await response.json();
             setinfoLogin(json.data.listNguoiDung[0]);
-            console.log(json.data.listNguoiDung[0]);
         } catch (error) {
             console.error(error);
         }
@@ -35,7 +37,6 @@ const PreviewAccount = ({ route, navigation }) => {
 
     const PickingImage = async (type) => {
         let result;
-        console.log(type);
         if (type == 'imageWallpaper') {
             result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -54,26 +55,28 @@ const PreviewAccount = ({ route, navigation }) => {
         }
 
         if (!result.canceled) {
-            let imageUri = result.assets[0].uri;
-            let fileType = imageUri.substring(imageUri.lastIndexOf(".") + 1);
+            let fileUri = result.assets[0].uri;
+            let fileName = fileUri.split('/').pop();
+            let imageType = fileUri.substring(fileUri.lastIndexOf(".") + 1);
 
-            FileSystem.readAsStringAsync(imageUri, { encoding: "base64" }).then(
+            let match = /\.(\w+)$/.exec(fileName);
+            let fileType = match ? `image/${match[1]}` : `image`;
+
+            FileSystem.readAsStringAsync(fileUri, { encoding: "base64" }).then(
                 (res) => {
-                    let uriBase64 = "data:image/" + fileType + ";base64," + res;
+                    let uriBase64 = "data:image/" + imageType + ";base64," + res;
                     if (type == 'imageWallpaper') {
                         setpickedWallpaper(uriBase64);
+                        seturiWallpaper({ uri: fileUri, name: fileName, type: 'multipart/form-data' });
                     }
                     if (type == 'imageAvatar') {
                         setpickedAvatar(uriBase64);
+                        seturiAvatar({ uri: fileUri, name: fileName, type: 'multipart/form-data' });
                     }
                 }
             );
         }
     };
-
-    function saveImage() {
-        alert('ya');
-    }
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -83,22 +86,94 @@ const PreviewAccount = ({ route, navigation }) => {
                 </TouchableOpacity>
             ),
         });
-    }, [navigation]);
+    });
 
     React.useEffect(() => {
         const unsub = navigation.addListener('focus', () => {
-            GetInfoLogin();
+            // GetInfoLogin();
             if (route.params.typePicked == 'avatar') {
-                setpickedAvatar(route.params.picked);
+                setpickedAvatar(route.params.pickedBase64);
+                seturiAvatar(route.params.pickedImage);
                 setpickedWallpaper(infoLogin.anhBia);
             } else {
-                setpickedWallpaper(route.params.picked);
+                setpickedWallpaper(route.params.pickedBase64);
+                seturiWallpaper(route.params.pickedImage);
                 setpickedAvatar(infoLogin.anhDaiDien);
             }
         });
 
         return unsub;
     }, [navigation]);
+
+    function saveImage() {
+        let url_api = 'https://backend-munnect.herokuapp.com/NguoiDung/SuaNguoiDung/' + infoLogin._id;
+        let formData = new FormData();
+        formData.append('tenTaiKhoan', infoLogin.tenTaiKhoan);
+        formData.append('email', infoLogin.email);
+        formData.append('matKhau', infoLogin.matKhau);
+        formData.append('sdt', infoLogin.sdt);
+        formData.append('gioiThieu', infoLogin.gioiThieu);
+        formData.append('queQuan', infoLogin.queQuan);
+        formData.append('sinhNhat', infoLogin.sinhNhat);
+        formData.append('anhDaiDien', infoLogin.anhDaiDien);
+        formData.append('anhBia', infoLogin.anhBia);
+        formData.append('arr_BaiViet', infoLogin.arr_BaiViet);
+        formData.append('arr_AnBaiViet', infoLogin.arr_AnBaiViet);
+        formData.append('arr_TheoDoi', infoLogin.arr_TheoDoi);
+        formData.append('arr_NguoiTheoDoi', infoLogin.arr_NguoiTheoDoi);
+        formData.append('arr_HoiNhom', infoLogin.arr_HoiNhom);
+
+        var arr_Image = [];
+        var soloAva = 0;
+        var soloWall = 0;
+        if (infoLogin.anhDaiDien != pickedAvatar && pickedAvatar != "" ) {
+            console.log("newAvatar");
+            arr_Image[0] = uriAvatar;
+        } else {
+            console.log("oldAvatar");
+            formData.append('solo', 'wallpaper');
+            soloAva = 1;
+        }
+
+        if (infoLogin.anhBia != pickedWallpaper && pickedWallpaper != "") {
+            console.log("newWallpaper");
+            arr_Image[1] = uriWallpaper;
+        } else {
+            console.log("oldWallpaper");
+            formData.append('solo', 'avatar');
+            soloWall = 1;
+        }
+
+        if (soloAva == 1 && soloWall == 1) {
+            formData.append('solo', 'double');
+        }
+
+        for (let i = 0; i < arr_Image.length; i++) {
+            formData.append('anhTaiLen', arr_Image[i]);
+        }
+
+        fetch(url_api, {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                'content-type': 'application/json',
+                'content-type': 'multipart/form-data',
+            },
+            body: formData
+        })
+            .then((res) => {
+                console.log(res);
+                if (res.status == 200) {
+                    ToastAndroid.show('Cập nhật tài khoản thành công!', ToastAndroid.SHORT);
+                    navigation.goBack();
+                } else {
+                    ToastAndroid.show('Cập nhật tài khoản thất bại!', ToastAndroid.SHORT);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
 
     return (
         <View style={styles.container}>

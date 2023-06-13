@@ -62,7 +62,11 @@ const ItemPost = (row) => {
                 </TouchableOpacity>
             </View>
 
-            <Text style={{ margin: 10, fontSize: 20, fontFamily: String(baiViet.phongChu) }}>{baiViet.noiDung}</Text>
+            <Text style={{
+                margin: 10, fontSize: 20,
+                fontFamily: (String(baiViet.phongChu) == 'Default') ? "" : String(baiViet.phongChu)
+            }}>
+                {baiViet.noiDung}</Text>
 
             <TouchableOpacity activeOpacity={0.6}>
                 <AutoHeightImage source={{ uri: baiViet.anhBaiViet }}

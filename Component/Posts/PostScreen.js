@@ -19,7 +19,7 @@ const PostScreen = (route) => {
 
     function OpenNewPost() {
         if (infoLogin != {}) {
-            route.nav.navigate('NewPost', { infoLogin: infoLogin, picked: "" });
+            route.nav.navigate('NewPost', { infoLogin: infoLogin, pickedBase64: "", pickedImage: {} });
         }
     }
 
@@ -30,7 +30,7 @@ const PostScreen = (route) => {
     const GetInfoLogin = async () => {
         try {
             const response = await fetch(
-                'http://192.168.191.19:3000/NguoiDung/DanhSach',
+                'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach',
             );
             const json = await response.json();
             setinfoLogin(json.data.listNguoiDung[0]);
@@ -43,7 +43,7 @@ const PostScreen = (route) => {
     const GetListPost = async () => {
         try {
             const response = await fetch(
-                'http://192.168.191.19:3000/BaiViet/DanhSach',
+                'https://backend-munnect.herokuapp.com/BaiViet/DanhSach',
             );
             const json = await response.json();
             setarr_post(json.data.listBaiViet);
@@ -62,13 +62,18 @@ const PostScreen = (route) => {
         });
 
         if (!result.canceled) {
-            let imageUri = result.assets[0].uri;
-            let fileType = imageUri.substring(imageUri.lastIndexOf(".") + 1);
+            let fileUri = result.assets[0].uri;
+            let fileName = fileUri.split('/').pop();
+            let imageType = fileUri.substring(fileUri.lastIndexOf(".") + 1);
 
-            FileSystem.readAsStringAsync(imageUri, { encoding: "base64" }).then(
+            let match = /\.(\w+)$/.exec(fileName);
+            let fileType = match ? `image/${match[1]}` : `image`;
+
+            FileSystem.readAsStringAsync(fileUri, { encoding: "base64" }).then(
                 (res) => {
-                    let uriBase64 = "data:image/" + fileType + ";base64," + res;
-                    route.nav.navigate('NewPost', { infoLogin: infoLogin, picked: uriBase64 });
+                    let uriBase64 = "data:image/" + imageType + ";base64," + res;
+                    var dataImage = { uri: fileUri, name: fileName, type: "multipart/form-data" };
+                    route.nav.navigate('NewPost', { infoLogin: infoLogin, pickedBase64: uriBase64, pickedImage: dataImage });
                 }
             );
         }

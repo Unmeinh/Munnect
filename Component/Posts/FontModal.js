@@ -13,7 +13,11 @@ const FontModal = (route) => {
 
     const ItemFont = (route) => {
         const PickFont = () => {
-            route.callBack(route.inputFont);
+            if (route.inputFont == "") {
+                route.callBack("Default");
+            } else {
+                route.callBack(route.inputFont);
+            }
         }
 
         return (
