@@ -1,64 +1,55 @@
-import { StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, Image, View, Button, TouchableHighlight } from "react-native";
-import { useState } from "react";
+import {
+    Text, TextInput, View,
+    ToastAndroid, TouchableHighlight
+} from "react-native";
+import React, { useState, useCallback } from "react";
 import styles from '../../Styles/Login/ResisScreen.styles';
 
 const RegistScreen = (props) => {
-    const [email, setemail] = useState('');
-    const [taiKhoan, settaiKhoan] = useState('');
-    const [ngaySinh, setngaySinh] = useState('');
-    const [matKhau, setmatKhau] = useState('');
-    const [matKhau2, setmatKhau2] = useState('');
-    const [err, seterr] = useState('')
+    const [inputEmail, setinputEmail] = useState('abc@def.xyz');
+    const [inputUsername, setinputUsername] = useState('Demo');
+    const [inputPassword, setinputPassword] = useState('1223451');
+    const [inputDate, setinputDate] = useState(new Date().toDateString());
+    const onPress = () => {
+        setSelection(!isSelected);
+    };
 
-    const Regist = () => {
-        if (email.length == '') {
-            seterr('Email đang bị trống');
-            return;
+    function Resigter() {
+        // let url_api = 'https://backend-munnect.herokuapp.com/NguoiDung/DangKy';
+        let url_api = 'http://192.168.11.100:3000/NguoiDung/DangKy';
+        var inputObj = {
+            tenTaiKhoan: inputUsername,
+            email: inputEmail,
+            matKhau: inputPassword,
+            sinhNhat: inputDate
         }
-        if (taiKhoan.length == '') {
-            seterr('Tài khoản đang bị trống');
-            return;
-        }
-        if (ngaySinh.length == '') {
-            seterr('Ngày sinh đang bị trống');
-            return;
-        }
-        if (matKhau.length == '') {
-            seterr('Mật khẩu đang bị trống');
-            return;
-        }
-        if (matKhau2.length == '') {
-            seterr('Nhập lại mật khẩu đang bị trống');
-            return;
-        }
-        if (matKhau != matKhau2) {
-            seterr('Mật khẩu không trùng nhau');
-            return;
-        }
-        seterr(null);
+        console.log(inputObj);
 
-        let objU = {_id:'sdsdsd' ,email: email, taiKhoan: taiKhoan, ngaySinh: ngaySinh, matKhau: matKhau,hoTen:'',gioiTinh:'',sdt:'',queQuan:'' ,anhDaiDien:'',anhBia:'',arr_TheoDoi:[],arr_NguoiTheoDoi:[],arr_HoiNhom:[]};
-        fetch('http://192.168.11.103:3000/nguoi-dung-api', {
+        fetch(url_api, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json',
+                'content-type': 'application/json',
             },
-            body: JSON.stringify(objU),
-        }).then((res)=>{
-            if(res.status==201)
-            {
-                alert('Them thanh cong')
-            }
-            else{
-                alert('ko them dc '+res.status);
-                
-            }
-           
-        }).catch((e)=>{
-            console.log(e);
-        });
+            body: JSON.stringify(inputObj)
+        })
+            .then(async (res) => {
+                const json = await res.json();
+                if (res.status == 200) {
+                    if (json.success == true) {
+                        ToastAndroid.show('Cập nhật tài khoản thành công!', ToastAndroid.SHORT);
+                        navigation.goBack();
+                    }
+                } else {
+                    ToastAndroid.show('Đăng ký thất bại!', ToastAndroid.SHORT);
+                    ToastAndroid.show(json.message, ToastAndroid.SHORT);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
     }
+
     return (
         <View style={styles.container}>
 
@@ -66,23 +57,18 @@ const RegistScreen = (props) => {
                 <Text></Text>
             </View>
 
-            <Text style={styles.nameRegist}>Đăng kí tài khoản mới</Text>
-            <View style={styles.viewIntro}>
-                <Text style={styles.txtIntro}>Vui lòng nhập</Text>
-                <Text style={styles.txtIntro}>chính xác thông tin cá nhân</Text>
-            </View>
-
+            <Text style={styles.nameRegist}>Đăng kí tài khoản</Text>
+            <Text style={styles.txtIntro}>Vui lòng nhập chính xác thông tin !!!</Text>
             <View style={styles.viewInput}>
-                <TextInput style={styles.txtInput} placeholder="Email" onChangeText={(txt) => { setemail(txt) }} />
-                <TextInput style={styles.txtInput} placeholder="Tên tài khoản" onChangeText={(txt) => { settaiKhoan(txt) }} />
-                <TextInput style={styles.txtInput} placeholder="Ngày Sinh" onChangeText={(txt) => { setngaySinh(txt) }} />
-                <TextInput style={styles.txtInput} placeholder="Mật khẩu" secureTextEntry={true} onChangeText={(txt) => { setmatKhau(txt) }} />
-                <TextInput style={styles.txtInput} placeholder="Nhập lại mật khẩu" secureTextEntry={true} onChangeText={(txt) => { setmatKhau2(txt) }} />
+                <TextInput style={styles.txtInput} placeholder="Email.." onChangeText={(txt) => { setinputEmail(txt) }} />
+                <TextInput style={styles.txtInput} placeholder="Tên tài khoản.." onChangeText={(txt) => { setinputUsername(txt) }} />
+                <TextInput style={styles.txtInput} placeholder="Mật khẩu.." secureTextEntry={true} onChangeText={(txt) => { setinputPassword(txt) }} />
+                <TextInput style={styles.txtInput} placeholder="Nhập lại mật khẩu.." secureTextEntry={true} />
+                <TextInput style={styles.txtInput} placeholder="Ngày sinh.." onChangeText={(txt) => { setinputDate(new Date().toDateString()) }} />
 
-                <Text>{err}</Text>
             </View>
 
-            <TouchableHighlight style={styles.btnRegist} activeOpacity={0.6} underlayColor={'#cedbd9'} onPress={Regist}>
+            <TouchableHighlight style={styles.btnRegist} activeOpacity={0.6} underlayColor={'#cedbd9'} onPress={Resigter}>
                 <Text style={styles.txtRegist}>Đăng kí</Text>
             </TouchableHighlight>
             <View style={{ flexDirection: "row", margin: 20 }}>
@@ -91,11 +77,8 @@ const RegistScreen = (props) => {
                     <Text style={styles.txtLogin}>Đăng nhập</Text>
                 </TouchableHighlight>
             </View>
-
-
         </View>
-
     )
 }
-export default RegistScreen;
 
+export default RegistScreen;

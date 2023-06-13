@@ -8,8 +8,12 @@ import RegistScreen from './Component/Login/RegistScreen';
 import HomeScreen from './Component/HomeScreen';
 import ForgetPassScreen from './Component/Login/ForgetPassScreen';
 import NewPost from './Component/Posts/NewPost';
-import DetailPostScreen from './Component/Posts/DetailPostScreen';
-import AccountScreen from "./Component/Account/AccountScreen";
+import ItemPost from "./Component/Posts/ItemPost";
+import DetailItemPost from "./Component/Posts/DetailItemPost";
+// import AccountScreen from "./Component/Account/AccountScreen";
+import MyAccount from './Component/Account/MyAccount';
+import ViewAccount from "./Component/Account/ViewAccount";
+import ListAccount from './Component/Account/ListAccount';
 import UpdateAccountScreen from "./Component/Account/UpdateAccountScreen";
 import UpdateItemScreen from "./Component/Account/UpdateItemScreen";
 
@@ -29,8 +33,11 @@ const App = () => {
           
           title: 'Thêm bài viết mới'
         }} />
-        <StackNav.Screen name='DetailPostScreen' component={DetailPostScreen}  options={{headerShown:false}}/>
-        <StackNav.Screen name='AccountScreen' component={AccountScreen}  options={{headerShown:false}}/>
+        <StackNav.Screen name='ItemPost' component={ItemPost}  options={{headerShown:false}}/>
+        <StackNav.Screen name='DetailItemPost' component={DetailItemPost}  options={{headerShown:false}}/>
+        {/* <StackNav.Screen name='AccountScreen' component={AccountScreen}  options={{headerShown:false}}/> */}
+        <StackNav.Screen name='MyAccount' component={MyAccount}  options={{headerShown:false}}/>
+        <StackNav.Screen name='ViewAccount' component={ViewAccount}  options={{headerShown:false}}/>
         <StackNav.Screen name='UpdateAccountScreen' component={UpdateAccountScreen} options={{
          
           title: 'Thay đổi thông tin hồ sơ',
@@ -43,6 +50,17 @@ const App = () => {
             ({
              
               title: 'Cập nhật '+ props.route.params.title +' tài khoản',
+              headerTitleStyle: {
+                fontSize: 26
+              }
+            })
+        } />
+        
+        <StackNav.Screen name='ListAccount' component={ListAccount} options={ 
+          (props) => 
+            ({
+             
+              title:props.route.params.title,
               headerTitleStyle: {
                 fontSize: 26
               }

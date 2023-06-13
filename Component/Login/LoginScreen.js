@@ -1,88 +1,64 @@
-import { StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, Image, View, Button, TouchableHighlight, Alert } from "react-native";
+import {
+    Text, TextInput,
+    TouchableOpacity, Image, View,
+    ToastAndroid, TouchableHighlight, Alert
+} from "react-native";
 import React, { useState, useCallback } from "react";
 import styles from '../../Styles/Login/LoginScreen.styles';
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-SplashScreen.preventAutoHideAsync();
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const LoginScreen = (props) => {
-    const [email, setemail] = useState('');
-    const [matKhau, setmatKhau] = useState('');
+const LoginScreen = ({navigation}) => {
+    const [inputEmail, setinputEmail] = useState('');
+    const [inputPassword, setinputPassword] = useState('');
     const [err, seterr] = useState('');
     const [isHide, setisHide] = useState(true);
     const [isSelected, setSelection] = useState(false);
     const onPress = () => {
         setSelection(!isSelected);
     };
-    React.useEffect(() => {
-        const unsubscribe = props.navigation.addListener('focus', () => {
-            setemail('');
-            setmatKhau('')
-        });
-    
-        return unsubscribe;
-      }, [props.navigation]);
 
     const Login = () => {
-        if (email.length == 0) {
-            seterr('Bạn chưa nhập email!');
-            return;
+        // let url_api = 'https://backend-munnect.herokuapp.com/NguoiDung/DangNhap?inputEmail=' + inputEmail;
+        let url_api = 'http://192.168.11.100:3000/NguoiDung/DangNhap?inputEmail=' + inputEmail;
+        var inputObj = {
+            email: inputEmail,
+            matKhau: inputPassword
         }
-        else {
-            seterr('')
-        }
-        if (matKhau.length == 0) {
-            seterr('Bạn chưa nhập mật khẩu!');
-            return;
-        }
-        let url_api_user = 'http://192.168.11.102:3000/users/login?email='+email;
-        fetch(url_api_user)
-            .then((res) => {
-                return res.json();
-            })
-            .then(async (arr_user) => {
-                if(arr_user.length !=1)
-                {
-                    seterr('Không tồn tại email này hoặc CSDL bị trùng lặp!')
-                    return;
-                }
-                
-                const obj = arr_user[0];
-                console.log("obj "+obj.taiKhoan);
-                if (matKhau==obj.matKhau) {
-                    console.log("Login success full");
-                    try {
-                        const jsonValueObj = JSON.stringify(obj)
-                        await AsyncStorage.setItem('jsonValueObj', jsonValueObj);
-                      
-                        props.navigation.navigate('HomeScreen');
 
-
-                    } catch (error) {
-                        console.log(error);
-                        console.log("Chưa lưu dc obj");
+        fetch(url_api, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify(inputObj)
+        })
+            .then(async (res) => {
+                if (res.status == 200) {
+                    const json = await res.json();
+                    if (json.success == true) {
+                        ToastAndroid.show('Đăng nhập thành công!', ToastAndroid.SHORT);
+                        const loginObj = JSON.stringify(json.objData)
+                        await AsyncStorage.setItem('infoLogin', loginObj);
+                        navigation.navigate('HomeScreen');
+                    } else {
+                        console.log(json.message);
+                        ToastAndroid.show('Đăng nhập thất bại!', ToastAndroid.SHORT);
+                        ToastAndroid.show(json.message, ToastAndroid.SHORT);
                     }
-
+                } else {
+                    ToastAndroid.show('Đăng nhập thất bại!', ToastAndroid.SHORT);
                 }
-                else {
-                    // Alert.alert('Lỗi đăng nhập', "Sai pass rồi");
-                    seterr('Sai mật khẩu rồi!');
-                    return;
-                }
-
-
             })
-            .catch((err) => {
-                console.log(err);
-            })
+            .catch((e) => {
+                console.log(e);
+            });
 
     }
 
-
     return (
-        <View style={styles.container}>
+        <View style={styles.container} >
 
             <View style={styles.container2}>
                 <Text></Text>
@@ -91,15 +67,14 @@ const LoginScreen = (props) => {
             <Text style={styles.nameLogo}>MUNNECT</Text>
             <Text style={styles.txtIntro}>Vui lòng đăng nhập để tiếp tục</Text>
             <View style={styles.viewInput}>
-                <TextInput style={styles.txtInput} placeholder="Email" onChangeText={(txt) => { setemail(txt) }} value={email}/>
+                <TextInput style={styles.txtInput} placeholder="Email.." onChangeText={(txt) => { setinputEmail(txt) }} />
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <TextInput style={styles.txtInput} placeholder="Mật Khẩu" secureTextEntry={isHide} onChangeText={(txt) => { setmatKhau(txt) }} value={matKhau}/>
-                    <TouchableHighlight activeOpacity={0.5} underlayColor={'#c2f0ce'} style={{ height: 40, position: 'absolute', right: 30, top: 15 }}
+                    <TextInput style={styles.txtInput} placeholder="Mật khẩu.." secureTextEntry={isHide} onChangeText={(txt) => { setinputPassword(txt) }} />
+                    <TouchableOpacity activeOpacity={0.5} underlayColor={'#c2f0ce'} style={{ height: 40, position: 'absolute', right: 30, top: 15 }}
                         onPress={() => {
                             setisHide(!isHide);
-                        }}
-                    >
+                        }} >
                         {isHide
                             ? <Image
                                 style={styles.iconhide}
@@ -109,9 +84,8 @@ const LoginScreen = (props) => {
                                 style={styles.iconhide}
                                 source={require('../../assets/images/private.png')}
                             />}
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
-
 
                 <View style={styles.viewRemember}>
                     <View style={styles.viewRow}>
@@ -132,9 +106,9 @@ const LoginScreen = (props) => {
                             <Text style={styles.textRemem}>Lưu mật khẩu</Text>
                         </View>
                     </View>
-                    <TouchableHighlight underlayColor={'#daeff5'} activeOpacity={0.5} onPress={() => { props.navigation.navigate('ForgetPassScreen') }}>
+                    <TouchableOpacity underlayColor={'#daeff5'} activeOpacity={0.5} onPress={() => { navigation.navigate('ForgetPassScreen') }}>
                         <Text style={styles.textForget}>Quên mật khẩu ?</Text>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
 
                 </View>
             </View>
@@ -144,14 +118,13 @@ const LoginScreen = (props) => {
             <TouchableHighlight style={styles.btnLogin} activeOpacity={0.6} underlayColor={'#cedbd9'} onPress={Login}>
                 <Text style={styles.txtLogin}>Đăng nhập</Text>
             </TouchableHighlight>
-            <TouchableHighlight style={styles.btnRegist} activeOpacity={0.6} underlayColor={'#cedbd9'} onPress={() => { props.navigation.navigate('RegistScreen') }}>
+            <TouchableHighlight style={styles.btnRegist} activeOpacity={0.6} underlayColor={'#cedbd9'} onPress={() => { navigation.navigate('RegistScreen') }}>
                 <Text style={styles.txtRegist}>Tạo tài khoản mới</Text>
             </TouchableHighlight>
-
 
         </View>
 
     )
 }
-export default LoginScreen;
 
+export default LoginScreen;

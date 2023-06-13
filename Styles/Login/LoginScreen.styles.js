@@ -99,7 +99,7 @@ export default StyleSheet.create({
     },
 
     textForget: {
-        color: '#0386D0',
+        color: '#6B5E5E',
         fontSize: 16,
         fontWeight: '400',
         fontStyle: 'normal',
@@ -124,7 +124,7 @@ export default StyleSheet.create({
     txtLogin: {
         padding: 10,
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: 22,
         fontWeight: 'bold',
         color: '#262625'
     },
@@ -147,7 +147,7 @@ export default StyleSheet.create({
     txtRegist: {
         padding: 10,
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: 22,
         fontWeight: 'bold',
         color: '#00ff80'
     },

@@ -3,40 +3,42 @@ import React, { useState } from "react";
 import styles from '../../Styles/Setting/SettingScreen.styles'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const SettingScreen = (props) => {
-    const [anhDaiDien, setanhDaiDien] = useState();
-    const [hoTen, sethoTen] = useState();
-
-    // const [dsbv, setdsbv] = useState([]);
-
-    const GetDataUser = async () => {
-        var jsonValueObj = await AsyncStorage.getItem('jsonValueObj');
-
-        setanhDaiDien(JSON.parse(jsonValueObj).anhDaiDien);
-        sethoTen(JSON.parse(jsonValueObj).hoTen);
+    
+    const [infoLogin, setinfoLogin] = useState(props.infoLogin);
+ 
+    const GetInfoLogin = async () => {
+        try {
+            const dataLoginInfo = await AsyncStorage.getItem("infoLogin");
+            if (dataLoginInfo !== null) {
+                setinfoLogin(JSON.parse(dataLoginInfo));
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
     React.useEffect(() => {
-        GetDataUser();
+        GetInfoLogin();
 
     }, []);
 
     const Logout = async () => {
-        var obj = await AsyncStorage.getItem('jsonValueObj')
+        var obj = await AsyncStorage.getItem('infoLogin')
         if (obj != null) {
             AsyncStorage.clear();
-            props.nav.navigate('LoginScreen');
+            props.navigation.navigate('LoginScreen');
         }
     }
     return (
         <View style={styles.container}>
             <View>
-                <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => { props.settabNum(1) }}>
+                <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => { props.settabNum([1, true]) }}>
                     <View style={styles.viewAccount}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Image source={{
-                                uri: anhDaiDien
+                                uri: String(infoLogin.anhDaiDien)
                             }} style={{ width: 60, height: 60, borderRadius: 50 }} />
                             <View style={{ marginLeft: 10 }}>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{hoTen}</Text>
+                                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{String(infoLogin.tenTaiKhoan)}</Text>
                                 <Text style={{ fontSize: 18 }}>Xem hồ sơ chi tiết</Text>
                             </View>
                         </View>
@@ -46,7 +48,7 @@ const SettingScreen = (props) => {
 
                 <View style={{ height: 2, backgroundColor: '#c9c4c3' }} />
 
-                <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => { }}>
+                <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => { props.nav.navigate('ListAccount',{ title: 'Đang theo dõi' })}}>
                     <View style={styles.viewItemSetting}>
                         <Image source={require('../../assets/images/following.png')} />
                         <Text style={styles.txtItemSetting}>Người tôi theo dõi</Text>
@@ -55,7 +57,7 @@ const SettingScreen = (props) => {
 
                 <View style={{ height: 1, backgroundColor: '#c9c4c3' }} />
 
-                <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => { }}>
+                <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => {  props.nav.navigate('ListAccount',{ title: 'Người theo dõi' })}}>
                     <View style={styles.viewItemSetting}>
                         <Image source={require('../../assets/images/follower.png')} />
                         <Text style={styles.txtItemSetting}>Người theo dõi tôi</Text>
@@ -73,12 +75,12 @@ const SettingScreen = (props) => {
 
                 {/* <View style={{ height: 1, backgroundColor: '#c9c4c3' }} />
 
-            <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => { }}>
-                <View style={styles.viewItemSetting}>
-                    <Image source={require('../../assets/images/group.png')} />
-                    <Text style={styles.txtItemSetting}>Hội nhóm</Text>
-                </View>
-            </TouchableHighlight> */}
+                <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => { }}>
+                    <View style={styles.viewItemSetting}>
+                        <Image source={require('../../assets/images/group.png')} />
+                        <Text style={styles.txtItemSetting}>Hội nhóm</Text>
+                    </View>
+                </TouchableHighlight> */}
 
                 <View style={{ height: 1, backgroundColor: '#c9c4c3' }} />
 

@@ -10,7 +10,7 @@ export default StyleSheet.create({
         backgroundColor: 'white',
         
     },
-    viewTop: {
+    viewNewPost: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -28,6 +28,12 @@ export default StyleSheet.create({
     textHint: {
         fontSize: 20,
         color: 'rgba(0, 0, 0, 0.6)'
+    },
+
+    viewOther: {
+        flex: 1,
+        alignItems: 'center',
+        marginTop: 25
     },
 
     viewNoPost: {

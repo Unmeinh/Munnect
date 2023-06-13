@@ -10,7 +10,7 @@ const SplashMunnectScreen = (props)=>{
 
     React.useEffect(() => {
         setTimeout(() => {
-            props.navigation.navigate('HomeScreen');
+            props.navigation.navigate('LoginScreen');
         }, 2000);
       }, []);
       //font chữ
