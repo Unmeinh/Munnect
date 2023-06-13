@@ -29,7 +29,6 @@ const ItemPost = (row) => {
     //     }
     // })
 
-    const DetailPost = () => { console.log(row); };
 
     function OpenViewAccount() {
         row.nav.navigate('ViewAccount', { infoAcc: nguoiDung, });
@@ -44,12 +43,12 @@ const ItemPost = (row) => {
                             style={{ width: 50, height: 50, borderRadius: 50 }} />
                     </TouchableOpacity>
                     <View style={{ marginLeft: 7 }}>
-                        <TouchableHighlight underlayColor={'#e1e6e4'} activeOpacity={0.6}
+                        <TouchableOpacity underlayColor={'#e1e6e4'} activeOpacity={0.6}
                             onPress={OpenViewAccount}>
                             <Text style={styles.textName} numberOfLines={2}>
                                 {nguoiDung.tenTaiKhoan}
                             </Text>
-                        </TouchableHighlight>
+                        </TouchableOpacity>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <EvilIcons name='clock' size={20} color={'rgba(0, 0, 0, 0.50)'} />
                             <Text style={{ color: 'rgba(0, 0, 0, 0.75)' }}>{Moment(baiViet.thoiGian).format('MMM DD/YYYY')}</Text>
@@ -61,17 +60,22 @@ const ItemPost = (row) => {
                     <Feather name='more-horizontal' size={30} />
                 </TouchableOpacity>
             </View>
+            <TouchableOpacity activeOpacity={0.8} onPress={()=>{ row.nav.navigate('DetailItemPost', { row: baiViet }); }}>
+                <View>
+                    <Text style={{
+                        margin: 10, fontSize: 20,
+                        fontFamily: (String(baiViet.phongChu) == 'Default') ? "" : String(baiViet.phongChu)
+                    }}>
+                        {baiViet.noiDung}</Text>
 
-            <Text style={{
-                margin: 10, fontSize: 20,
-                fontFamily: (String(baiViet.phongChu) == 'Default') ? "" : String(baiViet.phongChu)
-            }}>
-                {baiViet.noiDung}</Text>
+                    <TouchableOpacity activeOpacity={0.8} onPress={()=>{ row.nav.navigate('DetailItemPost', { row: baiViet }); }}>
+                        <AutoHeightImage source={{ uri: baiViet.anhBaiViet }}
+                            width={Dimensions.get('window').width} />
+                    </TouchableOpacity>
 
-            <TouchableOpacity activeOpacity={0.6}>
-                <AutoHeightImage source={{ uri: baiViet.anhBaiViet }}
-                    width={Dimensions.get('window').width} />
+                </View>
             </TouchableOpacity>
+
 
             <View style={styles.viewBelowPost}>
                 <View style={styles.viewRowCenterBetween}>
@@ -106,7 +110,7 @@ const ItemPost = (row) => {
                 </View>
 
                 <View style={styles.viewRowCenterBetween}>
-                    <TouchableOpacity activeOpacity={0.6}>
+                    <TouchableOpacity activeOpacity={0.6} onPress={()=>{ row.nav.navigate('DetailItemPost', { row: baiViet }); }}>
                         <Image source={require('../../assets/images/comment.png')}
                             style={styles.buttonInteract} />
                     </TouchableOpacity>

@@ -27,7 +27,7 @@ export default StyleSheet.create({
         fontSize: 32,
         fontWeight: 'bold',
         margin: 30
-        // fontFamily:''
+       
     },
 
     txtIntro: {
@@ -68,7 +68,7 @@ export default StyleSheet.create({
     txtRegist: {
         padding: 10,
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: 22,
         fontWeight: 'bold',
         color: '#262625'
     },
@@ -91,7 +91,7 @@ export default StyleSheet.create({
     txtLogin: {
         fontWeight: 'bold',
         textDecorationLine: 'underline',
-        fontSize: 17,
+        fontSize: 19,
         marginLeft: 15
     }
 });
