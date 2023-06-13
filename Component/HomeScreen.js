@@ -1,7 +1,5 @@
 import {
-    Image, View,
-    Text, TouchableOpacity,
-    ScrollView, Dimensions, StatusBar
+    View,
 } from "react-native";
 import React, { useState, useRef } from "react";
 import styles from '../Styles/HomeScreen.styles';
@@ -36,12 +34,10 @@ const HomeScreen = ({ navigation }) => {
 
     const GetInfoLogin = async () => {
         try {
-            const response = await fetch(
-                'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach',
-            );
-            const json = await response.json();
-            setinfoLogin(json.data.listNguoiDung[0]);
-            console.log(json.data.listNguoiDung[0]);
+            const dataLoginInfo = await AsyncStorage.getItem("infoLogin");
+            if (dataLoginInfo !== null) {
+                setinfoLogin(JSON.parse(dataLoginInfo));
+            }
         } catch (error) {
             console.error(error);
         }
@@ -64,7 +60,7 @@ const HomeScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <CollapsibleHeaderScrollView
-                CollapsibleHeaderComponent={<DynamicHeader settabNum={callBackSetTab} tabNum={tabNum} nav={navigation}/>}
+                CollapsibleHeaderComponent={<DynamicHeader settabNum={callBackSetTab} tabNum={tabNum} nav={navigation} />}
                 headerHeight={135}
                 statusBarHeight={Platform.OS === 'ios' ? 20 : 0}
                 refreshControl={

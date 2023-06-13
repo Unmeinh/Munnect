@@ -12,7 +12,7 @@ SplashScreen.preventAutoHideAsync();
 const SplashMunnectScreen = (props) => {
     React.useEffect(() => {
         setTimeout(() => {
-            props.navigation.navigate('HomeNavi');
+            props.navigation.navigate('LoginScreen');
         }, 2000);
     }, []);
 
