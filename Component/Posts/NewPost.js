@@ -17,16 +17,17 @@ import AutoHeightImage from 'react-native-auto-height-image';
 
 const NewPost = ({ route, navigation }) => {
     const [infoLogin, setinfoLogin] = useState(route.params.infoLogin);
-    const [ipImageUrl, setipImageUrl] = useState(route.params.picked);
+    const [dataImage, setdataImage] = useState(route.params.pickedImage);
+    const [ipImageUrl, setipImageUrl] = useState(route.params.pickedBase64);
     const [inputContent, setinputContent] = useState("");
-    const [inputFont, setinputFont] = useState("");
+    const [inputFont, setinputFont] = useState("Default");
     const [isShowModal, setisShowModal] = useState(false);
 
     function CheckValidate(newPost) {
-        if (newPost.id_nguoiDung == undefined) {
+        if (newPost.idNguoiDung == undefined) {
             return false;
         }
-        
+
         if (newPost.noiDung == "") {
             alert('Bạn hãy nhập gì đó trước khi đăng nhé!')
             return false;
@@ -35,43 +36,48 @@ const NewPost = ({ route, navigation }) => {
 
     const UploadPost = () => {
         let newPost = {
-            id_nguoiDung: infoLogin._id,
+            idNguoiDung: infoLogin._id,
             noiDung: inputContent,
             phongChu: inputFont,
-            anhBaiViet: ipImageUrl,
-            thoiGian: new Date().toDateString(),
-            viTriBaiViet: "",
-            arr_binhLuan: {},
-            arr_dongTinh: {},
-            arr_phanDoi: {},
-            soLuongChiaSe: 0,
-            soLuongBaoCao: 0,
         };
-        let url_api = 'http://192.168.191.19:3000/listBaiViet';
+        let url_api = 'https://backend-munnect.herokuapp.com/BaiViet/ThemBaiViet';
 
         if (CheckValidate(newPost) == false) {
             return;
         }
-        console.log("================================");
-        console.log(newPost);
+        let formData = new FormData();
+        formData.append('idNguoiDung', infoLogin._id);
+        formData.append('noiDung', inputContent);
+        formData.append('phongChu', inputFont);
+        formData.append('anhBaiViet', dataImage);
+        formData.append('thoiGian', new Date().toDateString());
+        formData.append('viTriBaiViet', "personal");
+        formData.append('arr_binhLuan', {});
+        formData.append('arr_dongTinh', {});
+        formData.append('arr_phanDoi', {});
+        formData.append('soLuongChiaSe', 0);
+        formData.append('soLuongBaoCao', 0);
 
         fetch(url_api, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json',
+                'content-type': 'application/json',
+                'content-type': 'multipart/form-data',
             },
-            body: JSON.stringify(newPost)
+            body: formData
         })
             .then((res) => {
+                console.log(res); 
                 if (res.status == 201) {
-                    // navigation.navigate('PostMng', { author: inputAuthor })
-                    ToastAndroid.show('Đăng bài viết mới thành công!', ToastAndroid.SHORT)
+                    ToastAndroid.show('Đăng bài viết mới thành công!', ToastAndroid.SHORT);
+                    navigation.goBack();
+                } else {
+                    ToastAndroid.show('Đăng bài viết mới thất bại!', ToastAndroid.SHORT);
                 }
             })
             .catch((e) => {
                 console.log(e);
-                ToastAndroid.show('Đăng bài viết mới thất bại!', ToastAndroid.SHORT)
             });
     }
 
@@ -84,13 +90,18 @@ const NewPost = ({ route, navigation }) => {
         });
 
         if (!result.canceled) {
-            let imageUri = result.assets[0].uri;
-            let fileType = imageUri.substring(imageUri.lastIndexOf(".") + 1);
+            let fileUri = result.assets[0].uri;
+            let fileName = fileUri.split('/').pop();
+            let imageType = fileUri.substring(fileUri.lastIndexOf(".") + 1);
 
-            FileSystem.readAsStringAsync(imageUri, { encoding: "base64" }).then(
+            let match = /\.(\w+)$/.exec(fileName);
+            let fileType = match ? `image/${match[1]}` : `image`;
+
+            FileSystem.readAsStringAsync(fileUri, { encoding: "base64" }).then(
                 (res) => {
-                    let uriBase64 = "data:image/" + fileType + ";base64," + res;
+                    let uriBase64 = "data:image/" + imageType + ";base64," + res;
                     setipImageUrl(uriBase64);
+                    setdataImage({ uri: fileUri, name: fileName, type: "multipart/form-data" });
                 }
             );
         }
@@ -144,13 +155,17 @@ const NewPost = ({ route, navigation }) => {
                     (inputContent == "" && ipImageUrl != "")
                         ?
                         <View>
-                            <TextInput style={[styles.textContent, { fontFamily: String(inputFont) }]} multiline={true}
+                            <TextInput style={[styles.textContent,
+                            { fontFamily: (String(inputFont) == 'Default') ? "" : String(inputFont) }]}
+                                multiline={true}
                                 placeholder='Bức ảnh này có gì?' value={inputContent}
                                 onChangeText={(input) => { setinputContent(input) }} />
                         </View>
                         :
                         <View>
-                            <TextInput style={[styles.textContent, { fontFamily: String(inputFont) }]} multiline={true}
+                            <TextInput style={[styles.textContent,
+                            { fontFamily: (String(inputFont) == 'Default') ? "" : String(inputFont) }]}
+                                multiline={true}
                                 placeholder='Bạn muốn nói gì?' value={inputContent}
                                 onChangeText={(input) => { setinputContent(input) }} />
                         </View>

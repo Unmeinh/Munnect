@@ -48,7 +48,7 @@ const ViewAccount = ({ route, navigation }) => {
         console.log(infoAcc._id);
         try {
             const response = await fetch(
-                'http://192.168.191.19:3000/BaiViet/DanhSach?idNguoiDung=' + infoAcc._id,
+                'https://backend-munnect.herokuapp.com/BaiViet/DanhSach?idNguoiDung=' + infoAcc._id,
             );
             const json = await response.json();
             setarr_post(json.data.listBaiViet);

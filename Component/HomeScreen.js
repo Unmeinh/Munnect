@@ -37,7 +37,7 @@ const HomeScreen = ({ navigation }) => {
     const GetInfoLogin = async () => {
         try {
             const response = await fetch(
-                'http://192.168.191.19:3000/NguoiDung/DanhSach',
+                'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach',
             );
             const json = await response.json();
             setinfoLogin(json.data.listNguoiDung[0]);

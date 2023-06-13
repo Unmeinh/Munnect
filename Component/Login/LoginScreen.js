@@ -32,7 +32,7 @@ const LoginScreen = (props) => {
             return;
         }
 
-        let url_api_user = 'http://192.168.191.19:3000/nguoi-dung-api/dang-nhap?email=' + email;
+        let url_api_user = 'https://backend-munnect.herokuapp.com/nguoi-dung-api/dang-nhap?email=' + email;
         fetch(url_api_user)
             .then((res) => {
                 return res.json();
