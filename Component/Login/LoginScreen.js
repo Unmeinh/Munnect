@@ -20,7 +20,7 @@ const LoginScreen = ({navigation}) => {
 
     const Login = () => {
         // let url_api = 'https://backend-munnect.herokuapp.com/NguoiDung/DangNhap?inputEmail=' + inputEmail;
-        let url_api = 'http://192.168.191.7:3000/NguoiDung/DangNhap?inputEmail=' + inputEmail;
+        let url_api = 'http://192.168.11.100:3000/NguoiDung/DangNhap?inputEmail=' + inputEmail;
         var inputObj = {
             email: inputEmail,
             matKhau: inputPassword
@@ -42,6 +42,8 @@ const LoginScreen = ({navigation}) => {
                         await AsyncStorage.setItem('idLogin', json.objData._id);
                         await AsyncStorage.setItem('isLogin', 'true');
                         navigation.navigate('HomeNavi');
+                        setinputEmail('');
+                        setinputPassword('');
                     } else {
                         console.log(json.message);
                         ToastAndroid.show('Đăng nhập thất bại!', ToastAndroid.SHORT);
@@ -67,10 +69,10 @@ const LoginScreen = ({navigation}) => {
             <Text style={styles.nameLogo}>MUNNECT</Text>
             <Text style={styles.txtIntro}>Vui lòng đăng nhập để tiếp tục</Text>
             <View style={styles.viewInput}>
-                <TextInput style={styles.txtInput} placeholder="Email.." onChangeText={(txt) => { setinputEmail(txt) }} />
+                <TextInput style={styles.txtInput} placeholder="Email.." onChangeText={(txt) => { setinputEmail(txt) }} value={inputEmail}/>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <TextInput style={styles.txtInput} placeholder="Mật khẩu.." secureTextEntry={isHide} onChangeText={(txt) => { setinputPassword(txt) }} />
+                    <TextInput style={styles.txtInput} placeholder="Mật khẩu.." secureTextEntry={isHide} onChangeText={(txt) => { setinputPassword(txt) }} value={inputPassword}/>
                     <TouchableOpacity activeOpacity={0.5} underlayColor={'#c2f0ce'} style={{ height: 40, position: 'absolute', right: 30, top: 15 }}
                         onPress={() => {
                             setisHide(!isHide);
@@ -106,21 +108,21 @@ const LoginScreen = ({navigation}) => {
                             <Text style={styles.textRemem}>Lưu mật khẩu</Text>
                         </View>
                     </View>
-                    <TouchableHighlight underlayColor={'#daeff5'} activeOpacity={0.5} onPress={() => { navigation.navigate('ForgetPassScreen') }}>
+                    <TouchableOpacity underlayColor={'#daeff5'} activeOpacity={0.5} onPress={() => { navigation.navigate('ForgetPassScreen') }}>
                         <Text style={styles.textForget}>Quên mật khẩu ?</Text>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
 
                 </View>
             </View>
 
             <Text style={{ color: 'red', fontSize: 17, alignSelf: 'flex-start', marginLeft: 50, marginTop: 20 }}>{err}</Text>
 
-            <TouchableHighlight style={styles.btnLogin} activeOpacity={0.6} underlayColor={'#cedbd9'} onPress={Login}>
+            <TouchableOpacity style={styles.btnLogin} activeOpacity={0.6} underlayColor={'#cedbd9'} onPress={Login}>
                 <Text style={styles.txtLogin}>Đăng nhập</Text>
-            </TouchableHighlight>
-            <TouchableHighlight style={styles.btnRegist} activeOpacity={0.6} underlayColor={'#cedbd9'} onPress={() => { navigation.navigate('RegistScreen') }}>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnRegist} activeOpacity={0.6} underlayColor={'#cedbd9'} onPress={() => { navigation.navigate('RegistScreen') }}>
                 <Text style={styles.txtRegist}>Tạo tài khoản mới</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
 
         </View>
 

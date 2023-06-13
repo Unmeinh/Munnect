@@ -1,6 +1,6 @@
 import {
     Text, TextInput, View,
-    ToastAndroid, TouchableHighlight
+    ToastAndroid, TouchableHighlight, TouchableOpacity
 } from "react-native";
 import React, { useState, useCallback } from "react";
 import styles from '../../Styles/Login/ResisScreen.styles';
@@ -68,14 +68,14 @@ const RegistScreen = (props) => {
 
             </View>
 
-            <TouchableHighlight style={styles.btnRegist} activeOpacity={0.6} underlayColor={'#cedbd9'} onPress={Resigter}>
+            <TouchableOpacity style={styles.btnRegist} activeOpacity={0.6} underlayColor={'#cedbd9'} onPress={Resigter}>
                 <Text style={styles.txtRegist}>Đăng kí</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
             <View style={{ flexDirection: "row", margin: 20 }}>
-                <Text style={{ fontSize: 17 }}>Bạn đã có tài khoản?</Text>
-                <TouchableHighlight underlayColor={'#e3cac8'} activeOpacity={0.5} onPress={() => { props.navigation.navigate('LoginScreen') }}>
+                <Text style={{ fontSize: 19 }}>Bạn đã có tài khoản?</Text>
+                <TouchableOpacity underlayColor={'#e3cac8'} activeOpacity={0.5} onPress={() => { props.navigation.navigate('LoginScreen') }}>
                     <Text style={styles.txtLogin}>Đăng nhập</Text>
-                </TouchableHighlight>
+                </TouchableOpacity>
             </View>
         </View>
     )

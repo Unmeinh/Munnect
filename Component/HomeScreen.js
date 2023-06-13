@@ -60,7 +60,7 @@ const HomeScreen = ({ navigation }) => {
         <PostScreen infoLogin={infoLogin} nav={navigation} selected={isSelecting} settabNum={callBackSetTab} refreshing={isReloading} />,
         <MyAccount infoLogin={infoLogin} nav={navigation} selected={isSelecting} settabNum={callBackSetTab} refreshing={isReloading} />,
         <NotifyScreen />,
-        <SettingScreen />]
+        <SettingScreen  infoLogin={infoLogin} nav={navigation} selected={isSelecting} settabNum={callBackSetTab} refreshing={isReloading} />]
 
     return (
         <View style={styles.container}>
