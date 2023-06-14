@@ -7,6 +7,7 @@ import {
 } from "react-native"
 import React, { useState, useEffect, useRef } from "react";
 import styles from '../../Styles/Account/AccScreen.styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Moment from 'moment';
 
 import ItemPost from "../Posts/ItemPost";
@@ -20,12 +21,67 @@ const ViewAccount = ({ route, navigation }) => {
     const [infoAcc, setinfoAcc] = useState(route.params.infoAcc);
     const [isReloading, setisReloading] = useState(false);
     const [isSelected, setisSelected] = useState(true);
-    const [isFollowing, setisFollowing] = useState(true);
+    const [isFollowing, setisFollowing] = useState(false);
+    const [isRefresh, setisRefresh] = useState(true);
     const [offset, setoffset] = useState(0);
     const scrollRef = useRef(null);
     const startValue = useRef(new Animated.Value(0)).current;
     const duration = 150;
     Moment.locale('en');
+
+    const GetAccount = async () => {
+        const response = await fetch(
+            // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID=' + infoAcc._id,
+            'http://192.168.191.7:3000/NguoiDung/DanhSach?inputID=' + infoAcc._id,
+        );
+        const json = await response.json();
+        console.log(json.data.listNguoiDung);
+        setinfoAcc(json.data.listNguoiDung[0]);
+    }
+
+    const GetFollow = async () => {
+        try {
+            const loginId = await AsyncStorage.getItem("idLogin");
+            const response = await fetch(
+                // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
+                'http://192.168.191.7:3000/NguoiDung/TheoDoi/DanhSach?idAccount=' + infoAcc._id + '&&idSelf=' + loginId,
+            );
+            const json = await response.json();
+            if (json.data.trangThai == 'true') {
+                setisFollowing(true);
+            } else {
+                setisFollowing(false);
+            }
+            console.log(json.data.trangThai);
+        } catch (error) {
+            console.log("Get");
+            console.error(error);
+        }
+    }
+
+    const SetFollow = async (is) => {
+        try {
+            const loginId = await AsyncStorage.getItem("idLogin");
+            const response = await fetch(
+                // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
+                'http://192.168.191.7:3000/NguoiDung/TheoDoi/TheoDoiMoi?idSelf=' + loginId + '&&idAccount=' + infoAcc._id + '&&isFollow=' + is,
+            );
+            const json = await response.json();
+            console.log(json);
+            if (json != undefined) {
+                if (json.data.trangThai == 'true') {
+                    setisFollowing(true);
+                } else {
+                    setisFollowing(false);
+                }
+                GetAccount();
+                console.log(json.data.trangThai);
+            }
+        } catch (error) {
+            console.log("Set");
+            console.error(error);
+        }
+    }
 
     function OpenListAcc(type) {
         if (type == 'following') {
@@ -39,8 +95,10 @@ const ViewAccount = ({ route, navigation }) => {
         setisReloading(true);
         setinfoAcc(route.params.infoAcc);
         GetListPost();
+        setisRefresh(true);
         setTimeout(() => {
             setisReloading(false);
+            setisRefresh(false);
         }, 2000);
     }, []);
 
@@ -61,8 +119,11 @@ const ViewAccount = ({ route, navigation }) => {
 
     React.useEffect(() => {
         const unsub = navigation.addListener('focus', () => {
+            console.log("run");
             setinfoAcc(route.params.infoAcc);
+            GetFollow();
             GetListPost();
+            setisRefresh(true);
         });
 
         return unsub;
@@ -132,11 +193,11 @@ const ViewAccount = ({ route, navigation }) => {
                         {
                             (isFollowing == false)
                                 ?
-                                <TouchableOpacity style={styles.buttonFollowing} onPress={() => setisFollowing(true)}>
+                                <TouchableOpacity style={styles.buttonFollowing} onPress={() => SetFollow('true')}>
                                     <Text style={{ fontSize: 16, color: '#0C7F45', fontWeight: '500' }}>Theo dõi</Text>
                                 </TouchableOpacity>
                                 :
-                                <TouchableOpacity style={styles.buttonFollow} onPress={() => setisFollowing(false)}>
+                                <TouchableOpacity style={styles.buttonFollow} onPress={() => SetFollow('false')}>
                                     <Text style={{ fontSize: 16, fontWeight: '500' }}>Đã theo dõi</Text>
                                 </TouchableOpacity>
                         }
@@ -193,7 +254,7 @@ const ViewAccount = ({ route, navigation }) => {
                                         (arr_post.length > 0)
                                             ?
                                             arr_post.map((post, index, arr) => {
-                                                return <ItemPost post={post} key={index} nav={navigation} />
+                                                return <ItemPost post={post} key={index} nav={navigation} isRefresh={isRefresh} />
                                             })
                                             :
                                             <View style={styles.viewOther}>

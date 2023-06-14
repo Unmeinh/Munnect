@@ -4,9 +4,9 @@ import styles from '../../Styles/Setting/SettingScreen.styles'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const SettingScreen = (route) => {
-    
+
     const [infoLogin, setinfoLogin] = useState(route.infoLogin);
- 
+
     const GetInfoLogin = async () => {
         try {
             const dataLoginInfo = await AsyncStorage.getItem("infoLogin");
@@ -23,12 +23,14 @@ const SettingScreen = (route) => {
     }, []);
 
     const Logout = async () => {
-        var obj = await AsyncStorage.getItem('infoLogin')
+        var obj = await AsyncStorage.getItem('infoLogin');
+        var obj = await AsyncStorage.setItem('isLogin', 'false');
         if (obj != null) {
             AsyncStorage.clear();
             route.nav.navigate('LoginScreen');
         }
     }
+    
     return (
         <View style={styles.container}>
             <View>
@@ -43,50 +45,47 @@ const SettingScreen = (route) => {
                                 <Text style={{ fontSize: 18 }}>Xem hồ sơ chi tiết</Text>
                             </View>
                         </View>
-                        <MaterialIcons name="keyboard-arrow-right" size={40}/>
+                        <MaterialIcons name="keyboard-arrow-right" size={40} />
                         {/* <Image source={require('../../assets/images/right_arrow.png')} /> */}
                     </View>
                 </TouchableOpacity>
 
-                <View style={{ height: 2, backgroundColor: '#c9c4c3' }} />
+                <View style={{ height: 2, backgroundColor: '#D9D9D9' }} />
 
-                <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => { route.nav.navigate('ListAccount',{ title: 'Đang theo dõi' })}}>
+                <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} style={styles.bottomLine}
+                    onPress={() => { route.nav.navigate('ListAccount', { title: 'Đang theo dõi' }) }}>
                     <View style={styles.viewItemSetting}>
                         <Image source={require('../../assets/images/following.png')} />
                         <Text style={styles.txtItemSetting}>Người tôi theo dõi</Text>
                     </View>
                 </TouchableHighlight>
 
-                <View style={{ height: 1, backgroundColor: '#c9c4c3' }} />
-
-                <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => {  route.nav.navigate('ListAccount',{ title: 'Người theo dõi' })}}>
+                <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} style={styles.bottomLine}
+                    onPress={() => { route.nav.navigate('ListAccount', { title: 'Người theo dõi' }) }}>
                     <View style={styles.viewItemSetting}>
                         <Image source={require('../../assets/images/follower.png')} />
                         <Text style={styles.txtItemSetting}>Người theo dõi tôi</Text>
                     </View>
                 </TouchableHighlight>
 
-                <View style={{ height: 1, backgroundColor: '#c9c4c3' }} />
-
-                <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => { }}>
+                <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} style={styles.bottomLine}
+                    onPress={() => { }}>
                     <View style={styles.viewItemSetting}>
                         <Image source={require('../../assets/images/myPost.png')} />
                         <Text style={styles.txtItemSetting}>Bài viết của tôi</Text>
                     </View>
                 </TouchableHighlight>
 
-                {/* <View style={{ height: 1, backgroundColor: '#c9c4c3' }} />
-
-                <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => { }}>
+                {/* <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} style={styles.bottomLine}
+                    onPress={() => { }}>
                     <View style={styles.viewItemSetting}>
                         <Image source={require('../../assets/images/group.png')} />
                         <Text style={styles.txtItemSetting}>Hội nhóm</Text>
                     </View>
                 </TouchableHighlight> */}
 
-                <View style={{ height: 1, backgroundColor: '#c9c4c3' }} />
-
-                <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => {route.nav.navigate('SearchScreen') }}>
+                <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} style={styles.bottomLine}
+                    onPress={() => { route.nav.navigate('SearchScreen') }}>
                     <View style={styles.viewItemSetting}>
                         <Image source={require('../../assets/images/search.png')} />
                         <Text style={styles.txtItemSetting}>Tìm kiếm</Text>
@@ -95,30 +94,25 @@ const SettingScreen = (route) => {
             </View>
 
             <View>
-                <View style={{ height: 1, backgroundColor: '#c9c4c3' }} />
-
                 <View style={styles.viewBottom}>
-                    <View style={{ height: 1, backgroundColor: '#c9c4c3', alignItems: 'center' }} />
-
-                    <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => { route.nav.navigate('UpdateAccountScreen') }}>
+                    <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} style={styles.topLine}
+                        onPress={() => { route.nav.navigate('UpdateAccountScreen') }}>
                         <View style={styles.viewItemSetting}>
                             <Image source={require('../../assets/images/manageAccount.png')} />
                             <Text style={styles.txtItemSetting}>Quản lý tài khoản</Text>
                         </View>
                     </TouchableHighlight>
 
-                    <View style={{ height: 1, backgroundColor: '#c9c4c3' }} />
-
-                    <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => { }}>
+                    <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} style={styles.topLine}
+                        onPress={() => { }}>
                         <View style={styles.viewItemSetting}>
                             <Image source={require('../../assets/images/changePass.png')} />
                             <Text style={styles.txtItemSetting}>Thay đổi mật khẩu</Text>
                         </View>
                     </TouchableHighlight>
 
-                    <View style={{ height: 1, backgroundColor: '#c9c4c3' }} />
-
-                    <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} onPress={Logout}>
+                    <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} style={styles.topLine}
+                        onPress={Logout}>
                         <View style={styles.viewItemSetting}>
                             <Image source={require('../../assets/images/logout.png')} />
                             <Text style={styles.txtItemSetting}>Đăng xuất</Text>

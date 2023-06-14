@@ -18,6 +18,7 @@ const PostScreen = (route) => {
     const [arr_post, setarr_post] = useState({});
     const [isSelected, setisSelected] = useState(true);
     const [infoLogin, setinfoLogin] = useState(route.infoLogin);
+    const [isRefresh, setisRefresh] = useState(true);
 
     function OpenNewPost() {
         if (infoLogin != {}) {
@@ -92,9 +93,11 @@ const PostScreen = (route) => {
                 GetListPost();
                 route.settabNum([0, false]);
             }
+            setisRefresh(false);
         } else {
             console.log("refresh");
             setinfoLogin(route.infoLogin);
+            setisRefresh(true);
             GetListPost();
         }
     }, [route.refreshing]);
@@ -103,6 +106,7 @@ const PostScreen = (route) => {
         const unsub = route.nav.addListener('focus', () => {
             GetInfoLogin();
             GetListPost();
+            setisRefresh(true);
         });
 
         return unsub;
@@ -142,7 +146,7 @@ const PostScreen = (route) => {
                                 ?
                                 arr_post.map((post, index, arr) => {
                                     return <ItemPost post={post} key={index} nav={route.nav}
-                                        info={infoLogin} openAcc={OpenAccount} refreshList={GetListPost} />
+                                        info={infoLogin} openAcc={OpenAccount} isRefresh={isRefresh} />
                                 })
                                 :
                                 <View style={styles.viewOther}>
