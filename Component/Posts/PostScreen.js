@@ -18,6 +18,7 @@ const PostScreen = (route) => {
     const [arr_post, setarr_post] = useState({});
     const [isSelected, setisSelected] = useState(true);
     const [infoLogin, setinfoLogin] = useState(route.infoLogin);
+    const [isRefresh, setisRefresh] = useState(true);
 
     function OpenNewPost() {
         if (infoLogin != {}) {
@@ -31,9 +32,14 @@ const PostScreen = (route) => {
 
     const GetInfoLogin = async () => {
         try {
-            const dataLoginInfo = await AsyncStorage.getItem("infoLogin");
-            if (dataLoginInfo !== null) {
-                setinfoLogin(JSON.parse(dataLoginInfo));
+            const loginId = await AsyncStorage.getItem("idLogin");
+            if (loginId !== null) {
+                const response = await fetch(
+                    // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
+                    'http://192.168.191.7:3000/NguoiDung/DanhSach?inputID=' + loginId,
+                );
+                const json = await response.json();
+                setinfoLogin(json.data.listNguoiDung[0]);
             }
         } catch (error) {
             console.error(error);
@@ -87,9 +93,11 @@ const PostScreen = (route) => {
                 GetListPost();
                 route.settabNum([0, false]);
             }
+            setisRefresh(false);
         } else {
             console.log("refresh");
             setinfoLogin(route.infoLogin);
+            setisRefresh(true);
             GetListPost();
         }
     }, [route.refreshing]);
@@ -98,6 +106,7 @@ const PostScreen = (route) => {
         const unsub = route.nav.addListener('focus', () => {
             GetInfoLogin();
             GetListPost();
+            setisRefresh(true);
         });
 
         return unsub;
@@ -134,9 +143,10 @@ const PostScreen = (route) => {
                     <ScrollView>
                         {
                             (arr_post.length > 0)
-                                ? 
+                                ?
                                 arr_post.map((post, index, arr) => {
-                                    return <ItemPost post={post} key={index} nav={route.nav}/>
+                                    return <ItemPost post={post} key={index} nav={route.nav}
+                                        info={infoLogin} openAcc={OpenAccount} isRefresh={isRefresh} />
                                 })
                                 :
                                 <View style={styles.viewOther}>

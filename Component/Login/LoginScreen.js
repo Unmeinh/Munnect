@@ -20,7 +20,7 @@ const LoginScreen = ({navigation}) => {
 
     const Login = () => {
         // let url_api = 'https://backend-munnect.herokuapp.com/NguoiDung/DangNhap?inputEmail=' + inputEmail;
-        let url_api = 'http://192.168.11.100:3000/NguoiDung/DangNhap?inputEmail=' + inputEmail;
+        let url_api = 'http://192.168.191.7:3000/NguoiDung/DangNhap?inputEmail=' + inputEmail;
         var inputObj = {
             email: inputEmail,
             matKhau: inputPassword
@@ -39,8 +39,7 @@ const LoginScreen = ({navigation}) => {
                     const json = await res.json();
                     if (json.success == true) {
                         ToastAndroid.show('Đăng nhập thành công!', ToastAndroid.SHORT);
-                        const loginObj = JSON.stringify(json.objData)
-                        await AsyncStorage.setItem('infoLogin', loginObj);
+                        await AsyncStorage.setItem('idLogin', json.objData._id);
                         await AsyncStorage.setItem('isLogin', 'true');
                         navigation.navigate('HomeNavi');
                         setinputEmail('');

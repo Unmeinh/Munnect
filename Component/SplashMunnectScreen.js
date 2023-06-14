@@ -16,11 +16,11 @@ const SplashMunnectScreen = ({navigation}) => {
         setTimeout(async () => {
             try {
                 const isLogin = await AsyncStorage.getItem("isLogin");
-                // if (isLogin !== null && isLogin == 'true') {
-                //     navigation.navigate('HomeNavi');
-                // } else {
+                if (isLogin !== null && isLogin == 'true') {
+                    navigation.navigate('HomeNavi');
+                } else {
                     navigation.navigate('LoginScreen');
-                // }
+                }
             } catch (error) {
                 console.error(error);
             }

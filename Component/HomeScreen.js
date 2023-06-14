@@ -13,7 +13,7 @@ import DynamicHeader from "./DynamicHeader";
 import { RefreshControl } from "react-native-gesture-handler";
 import { CollapsibleHeaderScrollView } from 'react-native-collapsible-header-views';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ route, navigation }) => {
     const [tabNum, settabNum] = useState(0);
     const [isReloading, setisReloading] = useState(false);
     const [isSelecting, setisSelecting] = useState(true);
@@ -33,10 +33,15 @@ const HomeScreen = ({ navigation }) => {
     }, []);
 
     const GetInfoLogin = async () => {
-        try {
-            const dataLoginInfo = await AsyncStorage.getItem("infoLogin");
-            if (dataLoginInfo !== null) {
-                setinfoLogin(JSON.parse(dataLoginInfo));
+        try {            
+            const loginId = await AsyncStorage.getItem("idLogin");
+            if (loginId !== null) {
+                const response = await fetch(
+                    // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
+                    'http://192.168.191.7:3000/NguoiDung/DanhSach?inputID='+loginId,
+                );
+                const json = await response.json();
+                setinfoLogin(json.data.listNguoiDung[0]);
             }
         } catch (error) {
             console.error(error);
