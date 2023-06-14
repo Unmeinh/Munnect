@@ -8,18 +8,19 @@ export default StyleSheet.create({
     container: {
         flex: 1, 
         backgroundColor: '#FFFFFF',
-        marginTop:StatusBar.currentHeight 
-        
     },
+
     viewTitle:{
         flexDirection: 'row',
          margin: 15,
           alignItems: 'center' 
     },
+
     txtTitle:{
         marginLeft: 10,
          fontSize: 19
     },
+
     viewDetailPost:{
         margin: 10, 
         flexDirection: 'row', 
@@ -27,11 +28,25 @@ export default StyleSheet.create({
         justifyContent: 'space-between'
     },
     
+    textName: {
+        marginLeft: 10,
+        marginRight: 10,
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 1
+    },
+
+    buttonMore: {
+        position: 'absolute',
+        right: 0
+    },
+
     viewBelowPost: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         margin: 10,
     },
+    
     viewRowCenterBetween: {
             flexDirection: 'row',
             alignItems: 'center',

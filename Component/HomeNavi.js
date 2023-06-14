@@ -5,7 +5,7 @@ import React, { useState, useCallback } from "react";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from "./HomeScreen";
 import NewPost from './Posts/NewPost';
-import DetailItemPost from "./Posts/DetailItemPost";
+import DetailPost from "./Posts/DetailPost";
 import ViewAccount from "./Account/ViewAccount";
 import PreviewAccount from './Account/PreviewAccount';
 import ListAccount from "./Account/ListAccount";
@@ -28,7 +28,7 @@ const HomeNavi = ({ navigation }) => {
                     headerStyle: {},
                     headerTitleStyle: {
                         fontWeight: '400',
-                        fontSize: 27
+                        fontSize: 25
                     },
                 }} />
             <StackNav.Screen name='ViewAccount' component={ViewAccount}
@@ -40,7 +40,7 @@ const HomeNavi = ({ navigation }) => {
                     headerStyle: {},
                     headerTitleStyle: {
                         fontWeight: '400',
-                        fontSize: 27
+                        fontSize: 25
                     },
                     headerRight: () => (
                         <TouchableOpacity >
@@ -55,7 +55,7 @@ const HomeNavi = ({ navigation }) => {
                     headerStyle: {},
                     headerTitleStyle: {
                         fontWeight: '400',
-                        fontSize: 27
+                        fontSize: 25
                     },
                 })} />
             <StackNav.Screen name='SearchScreen' component={SearchScreen}
@@ -80,10 +80,16 @@ const HomeNavi = ({ navigation }) => {
                     }
                 })
             }/>
-            <StackNav.Screen name='DetailItemPost' component={DetailItemPost}
-                options={{
-                    headerShown:false
-                }} />
+            <StackNav.Screen name='DetailPost' component={DetailPost}
+                options={({ route }) =>
+                ({
+                    title: "Bài viết của " + route.params.title,
+                    headerStyle: {},
+                    headerTitleStyle: {
+                        fontWeight: '400',
+                        fontSize: 25
+                    },
+                })} />
         </StackNav.Navigator>
     )
 }

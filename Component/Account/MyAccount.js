@@ -21,6 +21,7 @@ const MyAccount = (route) => {
     const [arr_post, setarr_post] = useState({});
     const [isSelected, setisSelected] = useState(true);
     const [infoLogin, setinfoLogin] = useState(route.infoLogin);
+    const [isRefresh, setisRefresh] = useState(true);
     Moment.locale('en');
 
     function OpenNewPost() {
@@ -42,8 +43,8 @@ const MyAccount = (route) => {
             const loginId = await AsyncStorage.getItem("idLogin");
             if (loginId !== null) {
                 const response = await fetch(
-                    'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                    // 'http://192.168.191.7:3000/NguoiDung/DanhSach?inputID='+loginId,
+                    // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
+                    'http://192.168.191.7:3000/NguoiDung/DanhSach?inputID='+loginId,
                 );
                 const json = await response.json();
                 setinfoLogin(json.data.listNguoiDung[0]);
@@ -128,9 +129,11 @@ const MyAccount = (route) => {
                 GetListPost();
                 route.settabNum([1, false]);
             }
+            setisRefresh(false);
         } else {
             console.log("refresh");
             setinfoLogin(route.infoLogin);
+            setisRefresh(true);
             GetListPost();
         }
     }, [route.refreshing]);
@@ -139,6 +142,7 @@ const MyAccount = (route) => {
         const unsub = route.nav.addListener('focus', () => {
             GetInfoLogin();
             GetListPost();
+            setisRefresh(true);
         });
 
         return unsub;
@@ -236,7 +240,7 @@ const MyAccount = (route) => {
                                 (arr_post.length > 0)
                                     ?
                                     arr_post.map((post, index, arr) => {
-                                        return <ItemPost post={post} key={index} nav={route.nav} />
+                                        return <ItemPost post={post} key={index} nav={route.nav} isRefresh={isRefresh}/>
                                     })
                                     :
                                     <View style={styles.viewOther}>

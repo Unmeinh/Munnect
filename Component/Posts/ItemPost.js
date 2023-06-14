@@ -13,16 +13,31 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Feather from 'react-native-vector-icons/Feather';
 
 const ItemPost = (row) => {
-    var baiViet = row.post;
-    var nguoiDung = baiViet.idNguoiDung;
+    const [baiViet, setbaiViet] = useState(row.post);
+    const [arr_dongTinh, setarr_dongTinh] = useState(baiViet.arr_dongTinh);
+    const [arr_phanDoi, setarr_phanDoi] = useState(baiViet.arr_phanDoi);
+    const [arr_binhLuan, setarr_binhLuan] = useState(baiViet.arr_binhLuan);
     const [myTuongTac, setmyTuongTac] = useState('none');
-    const [isGetInteract, setisGetInteract] = useState(true);
-    var arr_dongTinh = [];
-    var arr_phanDoi = [];
+    var isGetInteract = true;
+    var nguoiDung = baiViet.idNguoiDung;
     Moment.locale('en');
-    var arr_dongTinh = baiViet.arr_dongTinh;
-    var arr_phanDoi = baiViet.arr_phanDoi;
-    var arr_binhLuan = baiViet.arr_binhLuan;
+
+    const GetPost = async () => {
+        try {
+            const response = await fetch(
+                // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
+                'http://192.168.191.7:3000/BaiViet/DanhSach/' + baiViet._id,
+            );
+            const json = await response.json();
+            setbaiViet(json.data.baiViet);
+            setarr_dongTinh(json.data.baiViet.arr_dongTinh);
+            setarr_phanDoi(json.data.baiViet.arr_phanDoi);
+            setarr_binhLuan(json.data.baiViet.arr_binhLuan);
+        } catch (error) {
+            console.log("Get");
+            console.error(error);
+        }
+    }
 
     const GetInteract = async () => {
         try {
@@ -32,6 +47,7 @@ const ItemPost = (row) => {
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
+            GetPost();
             console.log(json.data.tuongTac);
         } catch (error) {
             console.log("Get");
@@ -45,16 +61,15 @@ const ItemPost = (row) => {
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
                 'http://192.168.191.7:3000/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
             );
-            row.refreshList();
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
+            GetPost();
             console.log(json.data.tuongTac);
         } catch (error) {
             console.log("Set");
             console.error(error);
         }
     }
-
 
     function OpenViewAccount() {
         if (row.info != undefined) {
@@ -67,11 +82,18 @@ const ItemPost = (row) => {
     }
 
     React.useEffect(() => {
-        if (isGetInteract == true) {
+        if (row.isRefresh == true) {
             console.log("Get");
             GetInteract();
+            GetPost();
+        } else {
+            if (isGetInteract == true) {
+                console.log("Get");
+                GetInteract();
+                GetPost();
+            }
         }
-    }, [isGetInteract]);
+    }, [row.isRefresh]);
 
     return (
         <View>
@@ -82,12 +104,12 @@ const ItemPost = (row) => {
                             style={{ width: 50, height: 50, borderRadius: 50 }} />
                     </TouchableOpacity>
                     <View style={{ marginLeft: 7 }}>
-                        <TouchableOpacity underlayColor={'#e1e6e4'} activeOpacity={0.6}
+                        <TouchableHighlight underlayColor={'#e1e6e4'} activeOpacity={0.6}
                             onPress={OpenViewAccount}>
                             <Text style={styles.textName} numberOfLines={2}>
                                 {nguoiDung.tenTaiKhoan}
                             </Text>
-                        </TouchableOpacity>
+                        </TouchableHighlight>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <EvilIcons name='clock' size={20} color={'rgba(0, 0, 0, 0.50)'} />
                             <Text style={{ color: 'rgba(0, 0, 0, 0.75)' }}>{Moment(baiViet.thoiGian).format('MMM DD/YYYY')}</Text>
@@ -99,15 +121,19 @@ const ItemPost = (row) => {
                     <Feather name='more-horizontal' size={30} />
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity activeOpacity={0.8} onPress={()=>{ row.nav.navigate('DetailItemPost', { row: baiViet }); }}>
+            <TouchableOpacity activeOpacity={0.8}
+                onPress={() => {
+                    row.nav.navigate('DetailPost',
+                        { title: nguoiDung.tenTaiKhoan, post: baiViet, info: row.info });
+                }}>
                 <View>
                     <Text style={{
                         margin: 10, fontSize: 20,
                         fontFamily: (String(baiViet.phongChu) == 'Default') ? "" : String(baiViet.phongChu)
-                    }}>
+                    }} numberOfLines={2}>
                         {baiViet.noiDung}</Text>
 
-                    <TouchableOpacity activeOpacity={0.8} onPress={()=>{ row.nav.navigate('DetailItemPost', { row: baiViet }); }}>
+                    <TouchableOpacity activeOpacity={0.8} onPress={() => { }}>
                         <AutoHeightImage source={{ uri: baiViet.anhBaiViet }}
                             width={Dimensions.get('window').width} />
                     </TouchableOpacity>
@@ -149,7 +175,7 @@ const ItemPost = (row) => {
                 </View>
 
                 <View style={styles.viewRowCenterBetween}>
-                    <TouchableOpacity activeOpacity={0.6} onPress={()=>{ row.nav.navigate('DetailItemPost', { row: baiViet }); }}>
+                    <TouchableOpacity activeOpacity={0.6} onPress={() => { row.nav.navigate('DetailItemPost', { row: baiViet }); }}>
                         <Image source={require('../../assets/images/comment.png')}
                             style={styles.buttonInteract} />
                     </TouchableOpacity>

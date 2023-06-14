@@ -1,8 +1,6 @@
 import {
     ScrollView,
-    Text, Image,
-    View, TouchableOpacity,
-    TouchableHighlight
+    View,
 } from 'react-native';
 import React, { useState, useCallback } from "react";
 import styles from '../../Styles/Account/ListAcc.styles';
@@ -11,16 +9,28 @@ import ItemAccount from './ItemAccount';
 const ListAccount = ({ route, navigation }) => {
     const [arr_follow, setarr_follow] = useState([]);
     const [infoAcc, setinfoAcc] = useState(route.params.infoAcc);
+    const [isFocus, setisFocus] = useState(false);
+    const [type, settype] = useState('');
 
     const GetListFollow = async () => {
         try {
-            const response = await fetch(
-                'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach',
-            );
-            //api gửi id người dùng lên -> lấy danh sách ng theo dõi -> trả về danh sách
-            const json = await response.json();
-            setarr_follow(json.data.listNguoiDung);
-            console.log(arr_follow);
+            if (route.params.title == "Đang theo dõi") {
+                const response = await fetch(
+                    // 'https://backend-munnect.herokuapp.com/NguoiDung/TheoDoi/DanhSach?idSelf=' + infoAcc._id + "&&getFollowing=true",
+                    'http://192.168.191.7:3000/NguoiDung/TheoDoi/DanhSach?idSelf=' + infoAcc._id + "&&getFollowing=true",
+                );
+                const json = await response.json();
+                setarr_follow(json.data.listTheoDoi);
+                settype('following');
+            } else {
+                const response = await fetch(
+                    // 'https://backend-munnect.herokuapp.com/NguoiDung/TheoDoi/DanhSach?idSelf=' + infoAcc._id + "&&getFollower=true",
+                    'http://192.168.191.7:3000/NguoiDung/TheoDoi/DanhSach?idSelf=' + infoAcc._id + "&&getFollower=true",
+                );
+                const json = await response.json();
+                setarr_follow(json.data.listTheoDoi);
+                settype('follower');
+            }
         } catch (error) {
             console.error(error);
         }
@@ -29,6 +39,7 @@ const ListAccount = ({ route, navigation }) => {
     React.useEffect(() => {
         const unsub = navigation.addListener('focus', () => {
             GetListFollow();
+            setisFocus(true);
         });
 
         return unsub;
@@ -41,7 +52,15 @@ const ListAccount = ({ route, navigation }) => {
                     (arr_follow.length > 0)
                         ?
                         arr_follow.map((nguoiDung, index, arr) => {
-                            return <ItemAccount nguoiDung={nguoiDung} key={index} nav={navigation} />
+                            console.log(nguoiDung);
+                            if (type == 'follower') {
+                                return <ItemAccount nguoiDung={nguoiDung.idNguoiTheoDoi} key={index} nav={navigation}
+                                isFocus={isFocus} setisFocus={() => { setisFocus(false); }} />
+                            } 
+                            if (type == 'following') {
+                                return <ItemAccount nguoiDung={nguoiDung.idNguoiDung} key={index} nav={navigation}
+                                isFocus={isFocus} setisFocus={() => { setisFocus(false); }} />
+                            }
                         })
                         : ""
                 }

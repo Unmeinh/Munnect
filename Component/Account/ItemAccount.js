@@ -5,16 +5,79 @@ import {
     TouchableHighlight
 } from 'react-native';
 import React, { useState, useCallback } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from '../../Styles/Account/ListAcc.styles';
 import Moment from 'moment';
 
 const ItemAccount = (row) => {
     var nguoiDung = row.nguoiDung;
-    const [isFollowing, setisFollowing] = useState(true);
+    const [isFollowing, setisFollowing] = useState(false);
+    const [displayFollow, setdisplayFollow] = useState('none');
     Moment.locale('en');
 
-    function OpenViewAccount() {
-        row.nav.navigate('ViewAccount', { infoAcc: nguoiDung, });
+    async function OpenViewAccount() {
+        const loginId = await AsyncStorage.getItem("idLogin");
+        if (loginId != undefined) {
+            if (nguoiDung._id != loginId) {
+                row.nav.navigate('ViewAccount', { infoAcc: nguoiDung, });
+            }
+        }
+    }
+
+    React.useEffect( () => {
+        if (row.isFocus == true) {
+            GetFollow();
+            SetDisplayFollow();
+            row.setisFocus();
+        }
+    }, [row.isFocus]);
+
+    const SetDisplayFollow = async () => {
+        const loginId = await AsyncStorage.getItem("idLogin");
+        if (nguoiDung._id != loginId) {
+            setdisplayFollow('flex');
+        }
+    }
+
+    const GetFollow = async () => {
+        try {
+            const loginId = await AsyncStorage.getItem("idLogin");
+            const response = await fetch(
+                // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
+                'http://192.168.191.7:3000/NguoiDung/TheoDoi/DanhSach?idAccount=' + nguoiDung._id + '&&idSelf=' + loginId,
+            );
+            const json = await response.json();
+            if (json.data.trangThai == 'true') {
+                setisFollowing(true);
+            } else {
+                setisFollowing(false);
+            }
+        } catch (error) {
+            console.log("Get");
+            console.error(error);
+        }
+    }
+
+    const SetFollow = async (is) => {
+        try {
+            const loginId = await AsyncStorage.getItem("idLogin");
+            const response = await fetch(
+                // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
+                'http://192.168.191.7:3000/NguoiDung/TheoDoi/TheoDoiMoi?idSelf=' + loginId + '&&idAccount=' + nguoiDung._id + '&&isFollow=' + is,
+            );
+            const json = await response.json();
+            console.log(json);
+            if (json != undefined) {
+                if (json.data.trangThai == 'true') {
+                    setisFollowing(true);
+                } else {
+                    setisFollowing(false);
+                }
+            }
+        } catch (error) {
+            console.log("Set");
+            console.error(error);
+        }
     }
 
     return (
@@ -41,11 +104,13 @@ const ItemAccount = (row) => {
             {
                 (isFollowing == false)
                     ?
-                    <TouchableOpacity style={styles.buttonFollowing} onPress={() => setisFollowing(true)}>
+                    <TouchableOpacity style={[styles.buttonFollowing, { display: String(displayFollow) }]}
+                        onPress={() => SetFollow('true')}>
                         <Text style={{ fontSize: 16, color: '#0C7F45', fontWeight: '500' }}>Theo dõi</Text>
                     </TouchableOpacity>
                     :
-                    <TouchableOpacity style={styles.buttonFollow} onPress={() => setisFollowing(false)}>
+                    <TouchableOpacity style={[styles.buttonFollowing, { display: String(displayFollow) }]}
+                        onPress={() => SetFollow('false')}>
                         <Text style={{ fontSize: 16, fontWeight: '500' }}>Đã theo dõi</Text>
                     </TouchableOpacity>
             }

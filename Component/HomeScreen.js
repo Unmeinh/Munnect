@@ -13,7 +13,7 @@ import DynamicHeader from "./DynamicHeader";
 import { RefreshControl } from "react-native-gesture-handler";
 import { CollapsibleHeaderScrollView } from 'react-native-collapsible-header-views';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ route, navigation }) => {
     const [tabNum, settabNum] = useState(0);
     const [isReloading, setisReloading] = useState(false);
     const [isSelecting, setisSelecting] = useState(true);
