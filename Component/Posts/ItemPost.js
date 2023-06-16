@@ -26,7 +26,7 @@ const ItemPost = (row) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://192.168.191.7:3000/BaiViet/DanhSach/' + baiViet._id,
+                'http://192.168.11.100:3000/BaiViet/DanhSach/' + baiViet._id,
             );
             const json = await response.json();
             setbaiViet(json.data.baiViet);
@@ -43,7 +43,7 @@ const ItemPost = (row) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://192.168.191.7:3000/BaiViet/TuongTac?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id,
+                'http://192.168.11.100:3000/BaiViet/TuongTac?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id,
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
@@ -59,7 +59,7 @@ const ItemPost = (row) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://192.168.191.7:3000/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
+                'http://192.168.11.100:3000/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
@@ -175,7 +175,8 @@ const ItemPost = (row) => {
                 </View>
 
                 <View style={styles.viewRowCenterBetween}>
-                    <TouchableOpacity activeOpacity={0.6} onPress={() => { row.nav.navigate('DetailItemPost', { row: baiViet }); }}>
+                    <TouchableOpacity activeOpacity={0.6} onPress={() => { row.nav.navigate('DetailPost',
+                        { title: nguoiDung.tenTaiKhoan, post: baiViet, info: row.info });}}>
                         <Image source={require('../../assets/images/comment.png')}
                             style={styles.buttonInteract} />
                     </TouchableOpacity>
