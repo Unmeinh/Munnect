@@ -7,7 +7,8 @@ let StatusHeight = StatusBar.currentHeight;
 export default StyleSheet.create({
     container: {
         flex: 1,
-        height: WindowHeight - 75,
+        height: WindowHeight - StatusHeight - 20,
+        flexGrow: 1,
         justifyContent: 'space-between'
     },
 
@@ -40,9 +41,6 @@ export default StyleSheet.create({
     },
 
     viewBottom: {
-        // position:'absolute',
-        // bottom:0,
-
         width: '100%'
     }
 });
