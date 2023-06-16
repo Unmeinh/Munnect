@@ -99,17 +99,19 @@ const DetailPost = ({ route, navigation }) => {
         var row = route.comment;
         return (
             <View style={{ flex: 1, margin: 7 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Image source={{
-                        uri: row.idNguoiDung.anhDaiDien
-                    }} style={{ width: 50, height: 50, borderRadius: 50 }} />
-                    <View style={{ marginLeft: 10 }}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{row.idNguoiDung.tenTaiKhoan}</Text>
-                        <Text style={{ fontSize: 17 }}>{row.noiDung}</Text>
-                    </View>
-
-                </View>
-
+                {
+                    (typeof(row.idNguoiDung) != 'undefined')
+                        ? <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Image source={{
+                                uri: row.idNguoiDung.anhDaiDien
+                            }} style={{ width: 50, height: 50, borderRadius: 50 }} />
+                            <View style={{ marginLeft: 10 }}>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{row.idNguoiDung.tenTaiKhoan}</Text>
+                                <Text style={{ fontSize: 17 }}>{row.noiDung}</Text>
+                            </View>
+                        </View>
+                        : ""
+                }
             </View>
         )
     }

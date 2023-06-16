@@ -68,6 +68,7 @@ const HomeScreen = ({ route, navigation }) => {
                 CollapsibleHeaderComponent={<DynamicHeader settabNum={callBackSetTab} tabNum={tabNum} nav={navigation} />}
                 headerHeight={135}
                 statusBarHeight={Platform.OS === 'ios' ? 20 : 0}
+                showsVerticalScrollIndicator={false}
                 refreshControl={
                     <RefreshControl refreshing={isReloading} onRefresh={ReloadData} progressViewOffset={200} />
                 }>

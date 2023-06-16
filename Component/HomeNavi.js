@@ -60,26 +60,23 @@ const HomeNavi = ({ navigation }) => {
                 })} />
             <StackNav.Screen name='SearchScreen' component={SearchScreen}
                 options={{ headerShown: false }} />
-            <StackNav.Screen name="UpdateAccountScreen" component={UpdateAccountScreen} options={
-                (props) =>
+            <StackNav.Screen name="UpdateAccountScreen" component={UpdateAccountScreen}
+                options={{
+                    title: 'Cập nhật thông tin',
+                    headerTitleStyle: {
+                        fontSize: 26
+                    }
+                }} />
+            <StackNav.Screen name='UpdateItemScreen' component={UpdateItemScreen}
+                options={({ route }) =>
                 ({
-        
-                    title: 'Cập nhật thông tin tài khoản',
+
+                    title: 'Cập nhật ' + route.params.title + ' tài khoản',
                     headerTitleStyle: {
                         fontSize: 26
                     }
                 })
-            } />
-            <StackNav.Screen name='UpdateItemScreen' component={UpdateItemScreen} options={
-                (props) =>
-                ({
-                    
-                    title: 'Cập nhật '+props.route.params.title+' tài khoản',
-                    headerTitleStyle: {
-                        fontSize: 26
-                    }
-                })
-            }/>
+                } />
             <StackNav.Screen name='DetailPost' component={DetailPost}
                 options={({ route }) =>
                 ({
