@@ -16,7 +16,7 @@ const RegistScreen = (props) => {
 
     function Resigter() {
         // let url_api = 'https://backend-munnect.herokuapp.com/NguoiDung/DangKy';
-        let url_api = 'http://10.0.2.2:3000/NguoiDung/DangKy';
+        let url_api = 'http://192.168.191.8:3000/NguoiDung/DangKy';
         var inputObj = {
             tenTaiKhoan: inputUsername,
             email: inputEmail,
