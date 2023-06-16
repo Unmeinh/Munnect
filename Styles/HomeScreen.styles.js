@@ -42,6 +42,6 @@ export default StyleSheet.create({
     },
 
     viewTab: {
-        flex: 1
+        flex: 1,
     }
 });

@@ -46,7 +46,6 @@ const SettingScreen = (route) => {
                             </View>
                         </View>
                         <MaterialIcons name="keyboard-arrow-right" size={40} />
-                        {/* <Image source={require('../../assets/images/right_arrow.png')} /> */}
                     </View>
                 </TouchableOpacity>
 
