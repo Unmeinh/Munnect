@@ -32,7 +32,7 @@ const ViewAccount = ({ route, navigation }) => {
     const GetAccount = async () => {
         const response = await fetch(
             // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID=' + infoAcc._id,
-            'http://192.168.191.8:3000/NguoiDung/DanhSach?inputID=' + infoAcc._id,
+            'http://192.168.191.7:3000/NguoiDung/DanhSach?inputID=' + infoAcc._id,
         );
         const json = await response.json();
         console.log(json.data.listNguoiDung);
@@ -44,7 +44,7 @@ const ViewAccount = ({ route, navigation }) => {
             const loginId = await AsyncStorage.getItem("idLogin");
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://192.168.191.8:3000/NguoiDung/TheoDoi/DanhSach?idAccount=' + infoAcc._id + '&&idSelf=' + loginId,
+                'http://192.168.191.7:3000/NguoiDung/TheoDoi/DanhSach?idAccount=' + infoAcc._id + '&&idSelf=' + loginId,
             );
             const json = await response.json();
             if (json.data.trangThai == 'true') {
@@ -64,7 +64,7 @@ const ViewAccount = ({ route, navigation }) => {
             const loginId = await AsyncStorage.getItem("idLogin");
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://192.168.191.8:3000/NguoiDung/TheoDoi/TheoDoiMoi?idSelf=' + loginId + '&&idAccount=' + infoAcc._id + '&&isFollow=' + is,
+                'http://192.168.191.7:3000/NguoiDung/TheoDoi/TheoDoiMoi?idSelf=' + loginId + '&&idAccount=' + infoAcc._id + '&&isFollow=' + is,
             );
             const json = await response.json();
             console.log(json);

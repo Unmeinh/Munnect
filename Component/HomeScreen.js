@@ -38,7 +38,7 @@ const HomeScreen = ({ route, navigation }) => {
             if (loginId !== null) {
                 const response = await fetch(
                     // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                    'http://192.168.191.8:3000/NguoiDung/DanhSach?inputID='+loginId,
+                    'http://192.168.191.7:3000/NguoiDung/DanhSach?inputID='+loginId,
                 );
                 const json = await response.json();
                 setinfoLogin(json.data.listNguoiDung[0]);
