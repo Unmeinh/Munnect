@@ -20,7 +20,7 @@ const ForgetPassScreen = (props) => {
             return;
         }
 
-        let url_api_user = 'http://192.168.1.82:3000/api';
+        let url_api_user = 'http://10.0.2.2:3000/api';
         fetch(url_api_user)
             .then((res) => {
                 return res.json();

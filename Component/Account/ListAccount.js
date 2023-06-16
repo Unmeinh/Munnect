@@ -17,7 +17,7 @@ const ListAccount = ({ route, navigation }) => {
             if (route.params.title == "Đang theo dõi") {
                 const response = await fetch(
                     // 'https://backend-munnect.herokuapp.com/NguoiDung/TheoDoi/DanhSach?idSelf=' + infoAcc._id + "&&getFollowing=true",
-                    'http://192.168.191.7:3000/NguoiDung/TheoDoi/DanhSach?idSelf=' + infoAcc._id + "&&getFollowing=true",
+                    'http://10.0.2.2:3000/NguoiDung/TheoDoi/DanhSach?idSelf=' + infoAcc._id + "&&getFollowing=true",
                 );
                 const json = await response.json();
                 setarr_follow(json.data.listTheoDoi);
@@ -25,7 +25,7 @@ const ListAccount = ({ route, navigation }) => {
             } else {
                 const response = await fetch(
                     // 'https://backend-munnect.herokuapp.com/NguoiDung/TheoDoi/DanhSach?idSelf=' + infoAcc._id + "&&getFollower=true",
-                    'http://192.168.191.7:3000/NguoiDung/TheoDoi/DanhSach?idSelf=' + infoAcc._id + "&&getFollower=true",
+                    'http://10.0.2.2:3000/NguoiDung/TheoDoi/DanhSach?idSelf=' + infoAcc._id + "&&getFollower=true",
                 );
                 const json = await response.json();
                 setarr_follow(json.data.listTheoDoi);
