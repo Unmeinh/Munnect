@@ -9,8 +9,8 @@ export default StyleSheet.create({
         flex: 1,
         backgroundColor: '#00ff80',
         marginTop: StatusBar.currentHeight,
-        alignItems: 'center'
-
+        alignItems: 'center',
+        
     },
     
     container2: {

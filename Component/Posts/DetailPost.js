@@ -258,12 +258,6 @@ const DetailPost = ({ route, navigation }) => {
                 <View style={{ backgroundColor: '#D9D9D9', height: 7 }} />
 
                 <View>
-                    <View style={{ flexDirection: "row", alignItems: 'center', justifyContent: 'center', margin: 10 }}>
-                        <TextInput style={{ fontSize: 18, borderWidth: 1, borderColor: '#abd4bd', borderRadius: 5, width: '90%', padding: 7, margin: 5 }} placeholder="Viết bình luận" onChangeText={(txt) => { setbinhLuanMoi(txt) }} value={binhLuanMoi} />
-                        <TouchableOpacity onPress={UploadComment}>
-                            <Image source={require('../../assets/images/sendCmt.png')} style={{ width: 35, height: 35 }} />
-                        </TouchableOpacity>
-                    </View>
 
                     <View style={{ flexDirection: 'row', margin: 10 }}>
                         <Image source={require('../../assets/images/iconFillerComment.png')} />
@@ -282,6 +276,19 @@ const DetailPost = ({ route, navigation }) => {
                         </ScrollView>
                     }
 
+                    <View style={{ flexDirection: "row", alignItems: 'center', justifyContent: 'center', margin: 10 }}>
+                        <View style={{ backgroundColor: '#E6E6E6', width: '85%', flexDirection: 'row',alignItems:"center" , borderRadius:5}}>
+                            <TextInput style={{ fontSize: 18, borderRadius: 5, width: '80%', padding: 7, margin: 5 }} placeholder="Bạn thấy sao về bài viết này?" onChangeText={(txt) => { setbinhLuanMoi(txt) }} value={binhLuanMoi} />
+                            <TouchableHighlight underlayColor={'#b0ebc1'} onPress={()=>{}} activeOpacity={0.5}>
+                                <Image source={require('../../assets/images/iconImageCmt.png')}
+                                    style={{ width: 35, height: 35 }} />
+                            </TouchableHighlight>
+                        </View>
+
+                        <TouchableOpacity style={{ backgroundColor: '#00ff80', borderRadius: 50 ,marginLeft:10}} onPress={UploadComment}>
+                            <Image source={require('../../assets/images/iconSendCmt.png')} style={{ width: 35, height: 35 }} />
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </ScrollView>
         </View>
