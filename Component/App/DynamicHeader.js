@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Text, View, TouchableOpacity, Image } from 'react-native';
-import styles from '../Styles/HomeScreen.styles';
+import styles from '../../Styles/HomeScreen.styles';
 
 const DynamicHeader = (route) => {
     function OpenSearch() {
@@ -13,7 +13,7 @@ const DynamicHeader = (route) => {
                 <Text style={styles.txtLogo}>MUNNECT</Text>
 
                 <TouchableOpacity underlayColor={'#b0ebc1'} onPress={OpenSearch} activeOpacity={0.5}>
-                    <Image source={require('../assets/images/iconSearch.png')} style={{width: 26, height: 26}}/>
+                    <Image source={require('../../assets/images/iconSearch.png')} style={{width: 26, height: 26}}/>
                 </TouchableOpacity>
             </View>
 
@@ -29,7 +29,7 @@ const DynamicHeader = (route) => {
                         height: 30,
                         tintColor: (route.tabNum == 0) ? '#00BD5F' : 'rgba(0, 0, 0, 0.7)',
                     }}
-                        source={require('../assets/images/home.png')} />
+                        source={require('../../assets/images/home.png')} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => { route.settabNum([1, true]); }}
                     style={{
@@ -42,7 +42,7 @@ const DynamicHeader = (route) => {
                         height: 30,
                         tintColor: (route.tabNum == 1) ? '#00BD5F' : 'rgba(0, 0, 0, 0.7)',
                     }}
-                        source={require('../assets/images/account.png')} />
+                        source={require('../../assets/images/account.png')} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => { route.settabNum([2, true]); }}
                     style={{
@@ -55,7 +55,7 @@ const DynamicHeader = (route) => {
                         height: 30,
                         tintColor: (route.tabNum == 2) ? '#00BD5F' : 'rgba(0, 0, 0, 0.7)',
                     }}
-                        source={require('../assets/images/notify.png')} />
+                        source={require('../../assets/images/notify.png')} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => { route.settabNum([3, false]); }}
                     style={{
@@ -68,7 +68,7 @@ const DynamicHeader = (route) => {
                         height: 27,
                         tintColor: (route.tabNum == 3) ? '#00BD5F' : 'rgba(0, 0, 0, 0.7)',
                     }}
-                        source={require('../assets/images/align.png')} />
+                        source={require('../../assets/images/align.png')} />
                 </TouchableOpacity>
             </View>
         </View>
