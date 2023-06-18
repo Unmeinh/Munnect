@@ -6,6 +6,7 @@ import {
 } from "react-native";
 import React, { useState, useCallback } from "react";
 import styles from '../../Styles/Posts/PostScreen.styles';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Moment from 'moment';
 
 import AutoHeightImage from 'react-native-auto-height-image';
@@ -34,23 +35,21 @@ const ItemPost = (row) => {
             setarr_phanDoi(json.data.baiViet.arr_phanDoi);
             setarr_binhLuan(json.data.baiViet.arr_binhLuan);
         } catch (error) {
-            console.log("Get");
             console.error(error);
         }
     }
 
     const GetInteract = async () => {
         try {
+            const loginId = await AsyncStorage.getItem("idLogin");
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://10.0.2.2:3000/BaiViet/TuongTac?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id,
+                'http://10.0.2.2:3000/BaiViet/TuongTac?idNguoiDung=' + loginId + '&&idBaiViet=' + baiViet._id,
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
             GetPost();
-            console.log(json.data.tuongTac);
         } catch (error) {
-            console.log("Get");
             console.error(error);
         }
     }
@@ -64,9 +63,7 @@ const ItemPost = (row) => {
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
             GetPost();
-            console.log(json.data.tuongTac);
         } catch (error) {
-            console.log("Set");
             console.error(error);
         }
     }
@@ -74,21 +71,24 @@ const ItemPost = (row) => {
     function OpenViewAccount() {
         if (row.info != undefined) {
             if (nguoiDung._id != row.info._id) {
-                row.nav.navigate('ViewAccount', { infoAcc: nguoiDung, });
+                row.nav.navigate('ViewAccount', { infoAcc: nguoiDung });
             } else {
                 row.openAcc();
             }
         }
     }
 
+    function OpenDetail() {
+        row.nav.navigate('DetailPost',
+            { title: nguoiDung.tenTaiKhoan, post: baiViet, info: row.info });
+    }
+
     React.useEffect(() => {
         if (row.isRefresh == true) {
-            console.log("Get");
             GetInteract();
             GetPost();
         } else {
             if (isGetInteract == true) {
-                console.log("Get");
                 GetInteract();
                 GetPost();
             }
@@ -122,10 +122,7 @@ const ItemPost = (row) => {
                 </TouchableOpacity>
             </View>
             <TouchableOpacity activeOpacity={0.8}
-                onPress={() => {
-                    row.nav.navigate('DetailPost',
-                        { title: nguoiDung.tenTaiKhoan, post: baiViet, info: row.info });
-                }}>
+                onPress={OpenDetail}>
                 <View>
                     <Text style={{
                         margin: 10, fontSize: 20,
@@ -175,8 +172,10 @@ const ItemPost = (row) => {
                 </View>
 
                 <View style={styles.viewRowCenterBetween}>
-                    <TouchableOpacity activeOpacity={0.6} onPress={() => { row.nav.navigate('DetailPost',
-                        { title: nguoiDung.tenTaiKhoan, post: baiViet, info: row.info });}}>
+                    <TouchableOpacity activeOpacity={0.6} onPress={() => {
+                        row.nav.navigate('DetailPost',
+                            { title: nguoiDung.tenTaiKhoan, post: baiViet, info: row.info });
+                    }}>
                         <Image source={require('../../assets/images/comment.png')}
                             style={styles.buttonInteract} />
                     </TouchableOpacity>

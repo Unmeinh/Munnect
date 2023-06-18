@@ -118,13 +118,13 @@ const DetailPost = ({ route, navigation }) => {
 
     const UploadComment = async () => {
         const loginId = await AsyncStorage.getItem("idLogin");
-        let url_api = 'http://10.0.2.2:3000/BaiViet/BinhLuan/ThemBinhLuan';
+        let url_api = 'http://10.0.2.2:3000/BaiViet/BinhLuan/BinhLuanMoi';
 
         let formData = new FormData();
         formData.append('idNguoiDung', loginId);
         formData.append('idBaiViet', baiViet._id);
         formData.append('noiDung', binhLuanMoi);
-        formData.append('thoiGian', new Date().toDateString());
+        formData.append('thoiGian', new Date().toLocaleDateString());
 
         // if (dataImage != {} && ipImageUrl != "") {
         //     formData.append('anhBinhLuan', dataImage);

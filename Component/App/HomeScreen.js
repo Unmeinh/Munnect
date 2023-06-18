@@ -2,18 +2,18 @@ import {
     View,
 } from "react-native";
 import React, { useState, useRef } from "react";
-import styles from '../Styles/HomeScreen.styles';
+import styles from '../../Styles/HomeScreen.styles';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import PostScreen from "./Posts/PostScreen";
-import MyAccount from "./Account/MyAccount";
-import NotifyScreen from "./NotifyScreen";
-import SettingScreen from "./Setting/SettingScreen";
+import PostScreen from "../Posts/PostScreen";
+import MyAccount from "../Account/MyAccount";
+import NotifyScreen from "../App/NotifyScreen";
+import SettingScreen from "../Setting/SettingScreen";
 import DynamicHeader from "./DynamicHeader";
 import { RefreshControl } from "react-native-gesture-handler";
 import { CollapsibleHeaderScrollView } from 'react-native-collapsible-header-views';
 
-const HomeScreen = ({ route, navigation }) => {
+const HomeScreen = ({ navigation }) => {
     const [tabNum, settabNum] = useState(0);
     const [isReloading, setisReloading] = useState(false);
     const [isSelecting, setisSelecting] = useState(true);
@@ -33,12 +33,12 @@ const HomeScreen = ({ route, navigation }) => {
     }, []);
 
     const GetInfoLogin = async () => {
-        try {            
+        try {
             const loginId = await AsyncStorage.getItem("idLogin");
             if (loginId !== null) {
                 const response = await fetch(
                     // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                    'http://10.0.2.2:3000/NguoiDung/DanhSach?inputID='+loginId,
+                    'http://10.0.2.2:3000/NguoiDung/DanhSach?inputID=' + loginId,
                 );
                 const json = await response.json();
                 setinfoLogin(json.data.listNguoiDung[0]);
@@ -51,6 +51,8 @@ const HomeScreen = ({ route, navigation }) => {
     React.useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             GetInfoLogin();
+            settabNum(tabNum);
+            setisSelecting(true);
         });
 
         return unsubscribe;
@@ -59,8 +61,8 @@ const HomeScreen = ({ route, navigation }) => {
     var arr_Screen = [
         <PostScreen infoLogin={infoLogin} nav={navigation} selected={isSelecting} settabNum={callBackSetTab} refreshing={isReloading} />,
         <MyAccount infoLogin={infoLogin} nav={navigation} selected={isSelecting} settabNum={callBackSetTab} refreshing={isReloading} />,
-        <NotifyScreen />,
-        <SettingScreen  infoLogin={infoLogin} nav={navigation} selected={isSelecting} settabNum={callBackSetTab} refreshing={isReloading} />]
+        <NotifyScreen nav={navigation} selected={isSelecting} settabNum={callBackSetTab} refreshing={isReloading}/>,
+        <SettingScreen infoLogin={infoLogin} nav={navigation} selected={isSelecting} settabNum={callBackSetTab} refreshing={isReloading} />]
 
     return (
         <View style={styles.container}>

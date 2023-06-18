@@ -47,9 +47,11 @@ const PostScreen = (route) => {
     }
 
     const GetListPost = async () => {
+        setarr_post([]);
         try {
             const response = await fetch(
-                'https://backend-munnect.herokuapp.com/BaiViet/DanhSach',
+                // 'https://backend-munnect.herokuapp.com/BaiViet/DanhSach',
+                'http://10.0.2.2:3000/BaiViet/DanhSach',
             );
             const json = await response.json();
             setarr_post(json.data.listBaiViet);
@@ -96,21 +98,13 @@ const PostScreen = (route) => {
             setisRefresh(false);
         } else {
             console.log("refresh");
+            setisSelected(true);
+            GetListPost();
             setinfoLogin(route.infoLogin);
             setisRefresh(true);
-            GetListPost();
+            route.settabNum([0, false]);
         }
     }, [route.refreshing]);
-
-    React.useEffect(() => {
-        const unsub = route.nav.addListener('focus', () => {
-            GetInfoLogin();
-            GetListPost();
-            setisRefresh(true);
-        });
-
-        return unsub;
-    }, [route.nav]);
 
     return (
         <SafeAreaView style={styles.container}>
