@@ -4,7 +4,7 @@ import styles from '../../Styles/Setting/UpdateAccountScreen.style'
 const UpdateAccountScreen = (props) => {
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.viewItemName} onPress={()=>{props.navigation.navigate('UpdateItemScreen',{title:'tên'})}}>
+            <TouchableOpacity style={styles.viewItemName} onPress={()=>{props.navigation.navigate('UpdateItemScreen',{title:'tên',title1:'Tên'})}}>
                     <View style={styles.viewItemName1}>
                         <Image style={{tintColor:'#52524f'}} source={require('../../assets/images/updateName.png')} />
                         <View style={styles.viewTxt}>
@@ -17,7 +17,7 @@ const UpdateAccountScreen = (props) => {
 
             <View style={{ height: 1, backgroundColor: '#c9c4c3' }} />
 
-            <TouchableOpacity style={styles.viewItemName}  onPress={()=>{props.navigation.navigate('UpdateItemScreen',{title:'email'})}}>
+            <TouchableOpacity style={styles.viewItemName}  onPress={()=>{props.navigation.navigate('UpdateItemScreen',{title:'email',title1:'Email'})}}>
                     <View style={styles.viewItemName1}>
                         <Image source={require('../../assets/images/updateEmail.png')} />
                         <View style={styles.viewTxt}>
@@ -30,7 +30,7 @@ const UpdateAccountScreen = (props) => {
 
             <View style={{ height: 1, backgroundColor: '#c9c4c3' }} />
 
-            <TouchableOpacity style={styles.viewItemName}  onPress={()=>{props.navigation.navigate('UpdateItemScreen',{title:'SĐT'})}}>
+            <TouchableOpacity style={styles.viewItemName}  onPress={()=>{props.navigation.navigate('UpdateItemScreen',{title:'số điện thoại',title1:'Số điện thoại'})}}>
                     <View style={styles.viewItemName1}>
                         <Image source={require('../../assets/images/updatePhone.png')} />
                         <View style={styles.viewTxt}>
@@ -43,7 +43,7 @@ const UpdateAccountScreen = (props) => {
 
             <View style={{ height: 1, backgroundColor: '#c9c4c3' }} />
 
-            <TouchableOpacity style={styles.viewItemName}  onPress={()=>{props.navigation.navigate('UpdateItemScreen',{title:'giới thiệu'})}}>
+            <TouchableOpacity style={styles.viewItemName}  onPress={()=>{props.navigation.navigate('UpdateItemScreen',{title:'giới thiệu',title1:'Giới thiệu'})}}>
                     <View style={styles.viewItemName1}>
                         <Image source={require('../../assets/images/updateDesc.png')} />
                         <View style={styles.viewTxt}>
@@ -56,7 +56,7 @@ const UpdateAccountScreen = (props) => {
 
             <View style={{ height: 1, backgroundColor: '#c9c4c3' }} />
 
-            <TouchableOpacity style={styles.viewItemName}  onPress={()=>{props.navigation.navigate('UpdateItemScreen',{title:'ngày sinh'})}}>
+            <TouchableOpacity style={styles.viewItemName}  onPress={()=>{props.navigation.navigate('UpdateItemScreen',{title:'ngày sinh',title1:'Ngày sinh'})}}>
                     <View style={styles.viewItemName1}>
                         <Image source={require('../../assets/images/updateDate.png')} />
                         <View style={styles.viewTxt}>
@@ -69,7 +69,7 @@ const UpdateAccountScreen = (props) => {
 
             <View style={{ height: 1, backgroundColor: '#c9c4c3' }} />
 
-            <TouchableOpacity style={styles.viewItemName}  onPress={()=>{props.navigation.navigate('UpdateItemScreen',{title:'quê quán'})}}>
+            <TouchableOpacity style={styles.viewItemName}  onPress={()=>{props.navigation.navigate('UpdateItemScreen',{title:'quê quán',title1:'Quê quán'})}}>
                     <View style={styles.viewItemName1}>
                         <Image style={{tintColor:'#52524f'}} source={require('../../assets/images/updateLocation.png')} />
                         <View style={styles.viewTxt}>

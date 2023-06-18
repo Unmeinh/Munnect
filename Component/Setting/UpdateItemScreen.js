@@ -1,15 +1,32 @@
-import { View, Text, TextInput } from "react-native"
+import { View, Text, TextInput, TouchableOpacity } from "react-native"
+import Feather from 'react-native-vector-icons/Feather';
 import { useState } from "react";
+import styles from  '../../Styles/Setting/UpdateItemScreen.style'
 const UpdateItemScreen = (props) => {
     const [valueOld, setvalueOld] = useState('');
     const [valueNew, setvalueNew] = useState('');
     return (
-        <View style={{ flex: 1, backgroundColor: 'white', alignItems: 'center' }}>
-            <View style={{width:'90%'}}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{props.route.params.title} cũ:</Text>
-                <TextInput placeholder='giá trị cu' onChangeText={(txt) => { setvalueOld(txt) }} value={valueOld} />
-                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{props.route.params.title} mới:</Text>
-                <TextInput placeholder='giá trị moi' onChangeText={(txt) => { setvalueNew(txt) }} value={valueNew} />
+        <View style={styles.container}>
+            <View style={styles.viewItemUpdate}>
+                <Text style={styles.txtTitle}>{props.route.params.title1} cũ:</Text>
+                <View style={styles.viewValue}>
+                    <Feather name="chevron-right" size={22}/>
+                    <TextInput style={styles.txtValue} placeholder='Giá trị cũ' onChangeText={(txt) => { setvalueOld(txt) }} value={valueOld} />
+                </View>
+                
+                <Text style={styles.txtTitle}>{props.route.params.title1} mới:</Text>
+                <View style={styles.viewValue}>
+                    <Feather name="chevron-right" size={22}/>
+                    <TextInput  style={styles.txtValue} placeholder='Giá trị mới' onChangeText={(txt) => { setvalueNew(txt) }} value={valueNew} />
+                </View>
+            </View>
+            <View style={styles.viewButton}>
+                <TouchableOpacity activeOpacity={0.7} onPress={()=>{}}>
+                    <Text style={styles.btnBack}>Quay lại</Text>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.7}  style={{marginLeft:'7%'}}  onPress={()=>{}}>
+                    <Text style={styles.btnUpdate}>Cập nhật</Text>
+                </TouchableOpacity>
             </View>
 
         </View>

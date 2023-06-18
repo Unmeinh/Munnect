@@ -7,25 +7,9 @@ const SettingScreen = (route) => {
 
     const [infoLogin, setinfoLogin] = useState(route.infoLogin);
 
-    const GetInfoLogin = async () => {
-        try {
-            const dataLoginInfo = await AsyncStorage.getItem("infoLogin");
-            if (dataLoginInfo !== null) {
-                setinfoLogin(JSON.parse(dataLoginInfo));
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    }
-    React.useEffect(() => {
-        GetInfoLogin();
-
-    }, []);
-
     const Logout = async () => {
-        var obj = await AsyncStorage.getItem('infoLogin');
-        var obj = await AsyncStorage.setItem('isLogin', 'false');
-        if (obj != null) {
+       
+        if (infoLogin != null) {
             AsyncStorage.clear();
             route.nav.navigate('LoginScreen');
         }
@@ -103,7 +87,7 @@ const SettingScreen = (route) => {
                     </TouchableHighlight>
 
                     <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} style={styles.topLine}
-                        onPress={() => { }}>
+                        onPress={() => {route.nav.navigate('ChangePassScreen') }}>
                         <View style={styles.viewItemSetting}>
                             <Image source={require('../../assets/images/changePass.png')} />
                             <Text style={styles.txtItemSetting}>Thay đổi mật khẩu</Text>

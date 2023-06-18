@@ -2,7 +2,7 @@ import {
     Image, Text,
     TouchableOpacity,
     TouchableHighlight,
-    View, Dimensions,
+    View, Dimensions, Modal,
 } from "react-native";
 import React, { useState, useCallback } from "react";
 import styles from '../../Styles/Posts/PostScreen.styles';
@@ -21,12 +21,13 @@ const ItemPost = (row) => {
     var isGetInteract = true;
     var nguoiDung = baiViet.idNguoiDung;
     Moment.locale('en');
+    // const [isShowMore, setisShowMore] = useState(false);
 
     const GetPost = async () => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://10.0.2.2:3000/BaiViet/DanhSach/' + baiViet._id,
+                'http://192.168.11.104:3000/BaiViet/DanhSach/' + baiViet._id,
             );
             const json = await response.json();
             setbaiViet(json.data.baiViet);
@@ -43,7 +44,7 @@ const ItemPost = (row) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://10.0.2.2:3000/BaiViet/TuongTac?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id,
+                'http://192.168.11.104:3000/BaiViet/TuongTac?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id,
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
@@ -59,7 +60,7 @@ const ItemPost = (row) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://10.0.2.2:3000/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
+                'http://192.168.11.104:3000/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
@@ -97,7 +98,7 @@ const ItemPost = (row) => {
 
     return (
         <View>
-            <View style={{ margin: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <View style={{ margin: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',position:'relative' }}>
                 <View style={{ flexDirection: 'row', width: Dimensions.get('window').width * 85 / 100 }}>
                     <TouchableOpacity onPress={OpenViewAccount}>
                         <Image source={{ uri: nguoiDung.anhDaiDien }}
@@ -116,10 +117,28 @@ const ItemPost = (row) => {
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity activeOpacity={0.5} style={styles.buttonMore}
-                    onPress={() => { alert('option') }}>
-                    <Feather name='more-horizontal' size={30} />
+                <TouchableOpacity onPress={() => {
+                     row.nav.navigate('DetailPost',
+                     { title: nguoiDung.tenTaiKhoan, post: baiViet, info: row.info });
+                }}>
+                    <Feather name='more-horizontal' size={30}/>
                 </TouchableOpacity>
+                {/* SHOW MODAL MORE
+                <View style={{position:'absolute'}}>
+                <Modal visible={isShowMore} animationType="fade" transparent={true} onRequestClose={() => { setisShowMore(false) }} style={{}}>
+                    <View style={styles.viewModalMore}>
+                        <TouchableHighlight style={{ height: '50%', justifyContent: 'center', }} underlayColor={'#ebedeb'} activeOpacity={0.5} onPress={() => { setisShowMore(false) }}>
+                            <Text style={{ fontSize: 18, margin: 7 }}>Sửa bài viết</Text>
+                        </TouchableHighlight>
+                        <View style={{ height: 1, backgroundColor: '#000000' }} />
+                        <TouchableHighlight style={{ height: '50%', justifyContent: 'center' }} underlayColor={'#ebedeb'} activeOpacity={0.5} onPress={() => { setisShowMore(false) }}>
+                            <Text style={{ fontSize: 18, margin: 7 }}>Xóa bài viết</Text>
+                        </TouchableHighlight>
+                    </View>
+
+                </Modal>
+                </View> */}
+                
             </View>
             <TouchableOpacity activeOpacity={0.8}
                 onPress={() => {
@@ -175,8 +194,10 @@ const ItemPost = (row) => {
                 </View>
 
                 <View style={styles.viewRowCenterBetween}>
-                    <TouchableOpacity activeOpacity={0.6} onPress={() => { row.nav.navigate('DetailPost',
-                        { title: nguoiDung.tenTaiKhoan, post: baiViet, info: row.info });}}>
+                    <TouchableOpacity activeOpacity={0.6} onPress={() => {
+                        row.nav.navigate('DetailPost',
+                            { title: nguoiDung.tenTaiKhoan, post: baiViet, info: row.info });
+                    }}>
                         <Image source={require('../../assets/images/comment.png')}
                             style={styles.buttonInteract} />
                     </TouchableOpacity>
