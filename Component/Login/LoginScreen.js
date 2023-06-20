@@ -20,7 +20,7 @@ const LoginScreen = ({navigation}) => {
 
     const Login = () => {
         // let url_api = 'https://backend-munnect.herokuapp.com/NguoiDung/DangNhap?inputEmail=' + inputEmail;
-        let url_api = 'http://192.168.11.104:3000/NguoiDung/DangNhap?inputEmail=' + inputEmail;
+        let url_api = 'http://10.0.2.2:3000/NguoiDung/DangNhap?inputEmail=' + inputEmail;
         var inputObj = {
             email: inputEmail,
             matKhau: inputPassword

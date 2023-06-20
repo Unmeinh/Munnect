@@ -40,7 +40,7 @@ const NewPost = ({ route, navigation }) => {
             noiDung: inputContent,
             phongChu: inputFont,
         };
-        let url_api = 'http://192.168.11.104:3000/BaiViet/ThemBaiViet';
+        let url_api = 'http://10.0.2.2:3000/BaiViet/ThemBaiViet';
 
         if (CheckValidate(newPost) == false) {
             return;

@@ -32,7 +32,7 @@ const DetailPost = ({ route, navigation }) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://192.168.11.104:3000/BaiViet/DanhSach/' + baiViet._id,
+                'http://10.0.2.2:3000/BaiViet/DanhSach/' + baiViet._id,
             );
             const json = await response.json();
             setbaiViet(json.data.baiViet);
@@ -49,7 +49,7 @@ const DetailPost = ({ route, navigation }) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/BaiViet/BinhLuan/DanhSach?idBaiViet=' + baiViet._id,
-                'http://192.168.11.104:3000/BaiViet/BinhLuan/DanhSach?idBaiViet=' + baiViet._id,
+                'http://10.0.2.2:3000/BaiViet/BinhLuan/DanhSach?idBaiViet=' + baiViet._id,
             );
             const json = await response.json();
             setarr_binhLuan(json.data.listBinhLuan);
@@ -63,7 +63,7 @@ const DetailPost = ({ route, navigation }) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://192.168.11.104:3000/BaiViet/TuongTac?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id,
+                'http://10.0.2.2:3000/BaiViet/TuongTac?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id,
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
@@ -78,7 +78,7 @@ const DetailPost = ({ route, navigation }) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://192.168.11.104:3000/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
+                'http://10.0.2.2:3000/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
@@ -122,7 +122,7 @@ const DetailPost = ({ route, navigation }) => {
 
     const UploadComment = async () => {
         const loginId = await AsyncStorage.getItem("idLogin");
-        let url_api = 'http://192.168.11.104:3000/BaiViet/BinhLuan/ThemBinhLuan';
+        let url_api = 'http://10.0.2.2:3000/BaiViet/BinhLuan/ThemBinhLuan';
 
         let formData = new FormData();
         formData.append('idNguoiDung', loginId);
