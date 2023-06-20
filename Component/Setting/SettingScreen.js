@@ -23,14 +23,10 @@ const SettingScreen = (route) => {
     }, []);
 
     const Logout = async () => {
-        var obj = await AsyncStorage.getItem('infoLogin');
-        var obj = await AsyncStorage.setItem('isLogin', 'false');
-        if (obj != null) {
-            AsyncStorage.clear();
-            route.nav.navigate('LoginScreen');
-        }
+        AsyncStorage.clear();
+        route.nav.navigate('LoginScreen');
     }
-    
+
     return (
         <View style={styles.container}>
             <View>
@@ -46,7 +42,6 @@ const SettingScreen = (route) => {
                             </View>
                         </View>
                         <MaterialIcons name="keyboard-arrow-right" size={40} />
-                        {/* <Image source={require('../../assets/images/right_arrow.png')} /> */}
                     </View>
                 </TouchableOpacity>
 

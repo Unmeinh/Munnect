@@ -9,14 +9,14 @@ const RegistScreen = (props) => {
     const [inputEmail, setinputEmail] = useState('abc@def.xyz');
     const [inputUsername, setinputUsername] = useState('Demo');
     const [inputPassword, setinputPassword] = useState('1223451');
-    const [inputDate, setinputDate] = useState(new Date().toDateString());
+    const [inputDate, setinputDate] = useState(new Date().toLocaleString());
     const onPress = () => {
         setSelection(!isSelected);
     };
 
     function Resigter() {
         // let url_api = 'https://backend-munnect.herokuapp.com/NguoiDung/DangKy';
-        let url_api = 'http://192.168.191.7:3000/NguoiDung/DangKy';
+        let url_api = 'http://10.0.2.2:3000/NguoiDung/DangKy';
         var inputObj = {
             tenTaiKhoan: inputUsername,
             email: inputEmail,
@@ -64,7 +64,7 @@ const RegistScreen = (props) => {
                 <TextInput style={styles.txtInput} placeholder="Tên tài khoản.." onChangeText={(txt) => { setinputUsername(txt) }} />
                 <TextInput style={styles.txtInput} placeholder="Mật khẩu.." secureTextEntry={true} onChangeText={(txt) => { setinputPassword(txt) }} />
                 <TextInput style={styles.txtInput} placeholder="Nhập lại mật khẩu.." secureTextEntry={true} />
-                <TextInput style={styles.txtInput} placeholder="Ngày sinh.." onChangeText={(txt) => { setinputDate(new Date().toDateString()) }} />
+                <TextInput style={styles.txtInput} placeholder="Ngày sinh.." onChangeText={(txt) => { setinputDate(new Date().toLocaleString()) }} />
 
             </View>
 

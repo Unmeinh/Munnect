@@ -28,7 +28,7 @@ const DetailPost = ({ route, navigation }) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://192.168.191.7:3000/BaiViet/DanhSach/' + baiViet._id,
+                'http://10.0.2.2:3000/BaiViet/DanhSach/' + baiViet._id,
             );
             const json = await response.json();
             setbaiViet(json.data.baiViet);
@@ -45,7 +45,7 @@ const DetailPost = ({ route, navigation }) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/BaiViet/BinhLuan/DanhSach?idBaiViet=' + baiViet._id,
-                'http://192.168.191.7:3000/BaiViet/BinhLuan/DanhSach?idBaiViet=' + baiViet._id,
+                'http://10.0.2.2:3000/BaiViet/BinhLuan/DanhSach?idBaiViet=' + baiViet._id,
             );
             const json = await response.json();
             setarr_binhLuan(json.data.listBinhLuan);
@@ -59,7 +59,7 @@ const DetailPost = ({ route, navigation }) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://192.168.191.7:3000/BaiViet/TuongTac?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id,
+                'http://10.0.2.2:3000/BaiViet/TuongTac?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id,
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
@@ -74,7 +74,7 @@ const DetailPost = ({ route, navigation }) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://192.168.191.7:3000/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
+                'http://10.0.2.2:3000/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
@@ -99,30 +99,32 @@ const DetailPost = ({ route, navigation }) => {
         var row = route.comment;
         return (
             <View style={{ flex: 1, margin: 7 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Image source={{
-                        uri: row.idNguoiDung.anhDaiDien
-                    }} style={{ width: 50, height: 50, borderRadius: 50 }} />
-                    <View style={{ marginLeft: 10 }}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{row.idNguoiDung.tenTaiKhoan}</Text>
-                        <Text style={{ fontSize: 17 }}>{row.noiDung}</Text>
-                    </View>
-
-                </View>
-
+                {
+                    (typeof (row.idNguoiDung) != 'undefined')
+                        ? <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Image source={{
+                                uri: row.idNguoiDung.anhDaiDien
+                            }} style={{ width: 50, height: 50, borderRadius: 50 }} />
+                            <View style={{ marginLeft: 10 }}>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{row.idNguoiDung.tenTaiKhoan}</Text>
+                                <Text style={{ fontSize: 17 }}>{row.noiDung}</Text>
+                            </View>
+                        </View>
+                        : ""
+                }
             </View>
         )
     }
 
     const UploadComment = async () => {
         const loginId = await AsyncStorage.getItem("idLogin");
-        let url_api = 'http://192.168.191.7:3000/BaiViet/BinhLuan/ThemBinhLuan';
+        let url_api = 'http://10.0.2.2:3000/BaiViet/BinhLuan/BinhLuanMoi';
 
         let formData = new FormData();
         formData.append('idNguoiDung', loginId);
         formData.append('idBaiViet', baiViet._id);
         formData.append('noiDung', binhLuanMoi);
-        formData.append('thoiGian', new Date().toDateString());
+        formData.append('thoiGian', new Date().toLocaleDateString());
 
         // if (dataImage != {} && ipImageUrl != "") {
         //     formData.append('anhBinhLuan', dataImage);
@@ -256,13 +258,6 @@ const DetailPost = ({ route, navigation }) => {
                 <View style={{ backgroundColor: '#D9D9D9', height: 7 }} />
 
                 <View>
-                    <View style={{ flexDirection: "row", alignItems: 'center', justifyContent: 'center', margin: 10 }}>
-                        <TextInput style={{ fontSize: 18, borderWidth: 1, borderColor: '#abd4bd', borderRadius: 5, width: '90%', padding: 7, margin: 5 }} placeholder="Viết bình luận" onChangeText={(txt) => { setbinhLuanMoi(txt) }} value={binhLuanMoi} />
-                        <TouchableOpacity onPress={UploadComment}>
-                            <Image source={require('../../assets/images/sendCmt.png')} style={{ width: 35, height: 35 }} />
-                        </TouchableOpacity>
-                    </View>
-
                     <View style={{ flexDirection: 'row', margin: 10 }}>
                         <Image source={require('../../assets/images/iconFillerComment.png')} />
                         <Text style={{ fontSize: 17, marginLeft: 10 }}>Bình luận: Tương tác nhiều nhất</Text>
@@ -274,14 +269,27 @@ const DetailPost = ({ route, navigation }) => {
                                 {
                                     arr_binhLuan.map((binhLuan, index, arr) => {
                                         return <ItemComment comment={binhLuan} key={index} />
-                                    }) 
+                                    })
                                 }
                             </View>
                         </ScrollView>
                     }
-
                 </View>
             </ScrollView>
+
+            <View style={{ flexDirection: "row", alignItems: 'center', justifyContent: 'center', margin: 10 }}>
+                <View style={{ backgroundColor: '#E6E6E6', width: '85%', flexDirection: 'row', alignItems: "center", borderRadius: 5 }}>
+                    <TextInput style={{ fontSize: 18, borderRadius: 5, width: '80%', padding: 7, margin: 5 }} placeholder="Bạn thấy sao về bài viết này?" onChangeText={(txt) => { setbinhLuanMoi(txt) }} value={binhLuanMoi} />
+                    <TouchableHighlight underlayColor={'#b0ebc1'} onPress={() => { }} activeOpacity={0.5}>
+                        <Image source={require('../../assets/images/iconImageCmt.png')}
+                            style={{ width: 35, height: 35 }} />
+                    </TouchableHighlight>
+                </View>
+
+                <TouchableOpacity style={{ backgroundColor: '#00ff80', borderRadius: 50, marginLeft: 10 }} onPress={UploadComment}>
+                    <Feather name='send' size={22} style={styles.iconClock} />
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }

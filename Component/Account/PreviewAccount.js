@@ -106,7 +106,8 @@ const PreviewAccount = ({ route, navigation }) => {
     }, [navigation]);
 
     function saveImage() {
-        let url_api = 'https://backend-munnect.herokuapp.com/NguoiDung/SuaNguoiDung/' + infoLogin._id;
+        // let url_api = 'https://backend-munnect.herokuapp.com/NguoiDung/CapNhatAnh/' + infoLogin._id;
+        let url_api = 'http://10.0.2.2:3000/NguoiDung/CapNhatAnh/' + infoLogin._id;
         let formData = new FormData();
         formData.append('tenTaiKhoan', infoLogin.tenTaiKhoan);
         formData.append('email', infoLogin.email);

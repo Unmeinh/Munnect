@@ -26,7 +26,7 @@ const SearchResult = (route) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputSearch=' + inputSearch,
-                'http://192.168.191.7:3000/NguoiDung/DanhSach?inputSearch=' + input,
+                'http://10.0.2.2:3000/NguoiDung/DanhSach?inputSearch=' + input,
             );
             //API tìm kiếm người dùng theo regex
             const json = await response.json();
@@ -42,7 +42,7 @@ const SearchResult = (route) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/BaiViet/DanhSach?inputSearch=' + inputSearch,
-                'http://192.168.191.7:3000/BaiViet/DanhSach?inputSearch=' + input,
+                'http://10.0.2.2:3000/BaiViet/DanhSach?inputSearch=' + input,
             );
             //API tìm kiếm bài viết theo regex
             const json = await response.json();
