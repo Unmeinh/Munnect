@@ -34,7 +34,54 @@ const NewPost = ({ route, navigation }) => {
         }
     }
 
-    const UploadPost = () => {
+    const UploadNotification = (post, follower, index) => {
+        let newNotice = {
+            idNguoiDung: follower,
+            idBaiViet: post._id,
+            idChuBaiViet: infoLogin._id,
+            tieuDeTB: " đã đăng:",
+            noiDungTB: post.noiDung,
+            thoiGianTB: new Date().toLocaleString(),
+        };
+        console.log(newNotice);
+        let url_api = 'http://10.0.2.2:3000/ThongBao/ThongBaoMoi';
+
+        fetch(url_api, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify(newNotice)
+        })
+            .then((res) => {
+                console.log(res);
+                if (res.status == 201 && (index + 1) == infoLogin.arr_NguoiTheoDoi.length) {
+                    ToastAndroid.show('Đăng bài viết mới thành công!', ToastAndroid.SHORT);
+                    navigation.goBack();
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
+
+    const AfterPost = async (post) => {
+        await fetch(
+            // 'https://backend-munnect.herokuapp.com/BaiViet/DanhSach',
+            'http://10.0.2.2:3000/NguoiDung/SuaArrBaiViet/' + infoLogin._id + '?idBV=' + post._id,
+        );
+        if (infoLogin.arr_NguoiTheoDoi.length > 0) {
+            for (let index = 0; index < infoLogin.arr_NguoiTheoDoi.length; index++) {
+                UploadNotification(post, infoLogin.arr_NguoiTheoDoi[index], index);
+            }
+        } else {
+            ToastAndroid.show('Đăng bài viết mới thành công!', ToastAndroid.SHORT);
+            navigation.goBack();
+        }
+    }
+
+    const UploadPost = async() => {
         let newPost = {
             idNguoiDung: infoLogin._id,
             noiDung: inputContent,
@@ -49,7 +96,7 @@ const NewPost = ({ route, navigation }) => {
         formData.append('idNguoiDung', infoLogin._id);
         formData.append('noiDung', inputContent);
         formData.append('phongChu', inputFont);
-        formData.append('thoiGian', new Date().toDateString());
+        formData.append('thoiGian', new Date().toLocaleString());
         formData.append('viTriBaiViet', "personal");
         formData.append('arr_binhLuan', {});
         formData.append('arr_dongTinh', {});
@@ -61,7 +108,7 @@ const NewPost = ({ route, navigation }) => {
             formData.append('anhBaiViet', dataImage);
         }
 
-        fetch(url_api, {
+        await fetch(url_api, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

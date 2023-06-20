@@ -9,10 +9,9 @@ const SettingScreen = (route) => {
 
     const Logout = async () => {
        
-        if (infoLogin != null) {
             AsyncStorage.clear();
             route.nav.navigate('LoginScreen');
-        }
+        
     }
     
     return (
