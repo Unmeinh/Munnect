@@ -53,6 +53,7 @@ const HomeScreen = ({ navigation }) => {
             GetInfoLogin();
             settabNum(tabNum);
             setisSelecting(true);
+            ReloadData();
         });
 
         return unsubscribe;
