@@ -13,6 +13,8 @@ import ListAccount from "../Account/ListAccount";
 import SearchScreen from "../Setting/SearchScreen";
 import UpdateAccountScreen from "../Setting/UpdateAccountScreen";
 import UpdateItemScreen from "../Setting/UpdateItemScreen";
+import ChangePassScreen from "../Setting/ChangePassScreen";
+import ListMyPost from '../Setting/ListMyPost.Screen';
 
 const StackNav = createNativeStackNavigator();
 
@@ -75,7 +77,7 @@ const AppNavi = () => {
           options={({ route }) =>
           ({
 
-            title: 'Cập nhật ' + route.params.title + ' tài khoản',
+            title: 'Cập nhật ' + route.params.title,
             headerTitleStyle: {
               fontSize: 26
             }
@@ -91,6 +93,26 @@ const AppNavi = () => {
               fontSize: 25
             },
           })} />
+           <StackNav.Screen name='ChangePassScreen' component={ChangePassScreen}
+                options={({ route }) =>
+                ({
+                    title:'Thay đổi mật khẩu',
+                    headerStyle: {},
+                    headerTitleStyle: {
+                        fontWeight: '400',
+                        fontSize: 25
+                    },
+                })} />
+            <StackNav.Screen name='ListMyPost' component={ListMyPost}
+                options={({ route }) =>
+                ({
+                    title:'Danh sách bài viết',
+                    headerStyle: {},
+                    headerTitleStyle: {
+                        fontWeight: '400',
+                        fontSize: 25
+                    },
+                })} />
       </StackNav.Navigator>
     </NavigationContainer>
   )

@@ -3,7 +3,8 @@ import {
     ScrollView, Text,
     TouchableHighlight, View,
     TouchableOpacity, FlatList, TextInput,
-    ToastAndroid
+    ToastAndroid,
+    Modal
 } from "react-native";
 import React, { useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -23,6 +24,8 @@ const DetailPost = ({ route, navigation }) => {
     const [isGetInteract, setisGetInteract] = useState(true);
     var nguoiDung = baiViet.idNguoiDung;
     Moment.locale('en');
+
+    const [isShowMore, setisShowMore] = useState(false);
 
     const GetPost = async () => {
         try {
@@ -190,10 +193,27 @@ const DetailPost = ({ route, navigation }) => {
                             </View>
                         </View>
                     </View>
-                    <TouchableOpacity activeOpacity={0.5} style={styles.buttonMore}
-                        onPress={() => { alert('option') }}>
+
+                    <TouchableOpacity onPress={() => { setisShowMore(true)} }>
                         <Feather name='more-horizontal' size={30} />
                     </TouchableOpacity>
+                    {/* SHOW MODAL MORE */}
+                    <Modal visible={isShowMore} animationType="fade" transparent={true} onRequestClose={() => { setisShowMore(false) }}>
+                        <View style={styles.viewModalMore}>
+                            <TouchableHighlight style={styles.viewModalItemMore} underlayColor={'#ebedeb'} activeOpacity={0.5} onPress={()=>{
+                                setisShowMore(false);
+                                }}>
+                                <Text style={{fontSize:18, margin:7}}>Sửa bài viết</Text>
+                            </TouchableHighlight>
+                            <View style={{height:1, backgroundColor:'#000000'}}/>
+                            <TouchableHighlight  style={styles.viewModalItemMore}  underlayColor={'#ebedeb'} activeOpacity={0.5} onPress={()=>{
+                                setisShowMore(false)
+                                }}>
+                                <Text  style={{fontSize:18, margin:7}}>Xóa bài viết</Text>
+                            </TouchableHighlight>
+                        </View>
+                    </Modal>
+
                 </View>
                 <TouchableOpacity activeOpacity={1} >
                     <View>
@@ -258,11 +278,7 @@ const DetailPost = ({ route, navigation }) => {
                 <View style={{ backgroundColor: '#D9D9D9', height: 7 }} />
 
                 <View>
-                    <View style={{ flexDirection: 'row', margin: 10 }}>
-                        <Image source={require('../../assets/images/iconFillerComment.png')} />
-                        <Text style={{ fontSize: 17, marginLeft: 10 }}>Bình luận: Tương tác nhiều nhất</Text>
-                    </View>
-
+                    <Text style={{ fontSize: 18, marginLeft: 10 }}>Tất cả bình luận</Text>
                     {
                         <ScrollView>
                             <View style={{ flex: 1 }}>
@@ -277,17 +293,17 @@ const DetailPost = ({ route, navigation }) => {
                 </View>
             </ScrollView>
 
-            <View style={{ flexDirection: "row", alignItems: 'center', justifyContent: 'center', margin: 10 }}>
-                <View style={{ backgroundColor: '#E6E6E6', width: '85%', flexDirection: 'row', alignItems: "center", borderRadius: 5 }}>
-                    <TextInput style={{ fontSize: 18, borderRadius: 5, width: '80%', padding: 7, margin: 5 }} placeholder="Bạn thấy sao về bài viết này?" onChangeText={(txt) => { setbinhLuanMoi(txt) }} value={binhLuanMoi} />
+            <View style={styles.viewBoxComment}>
+                <View style={styles.viewComment}>
+                    <TextInput style={styles.txtComment} placeholder="Bạn thấy sao về bài viết này?" onChangeText={(txt) => { setbinhLuanMoi(txt) }} value={binhLuanMoi} />
                     <TouchableHighlight underlayColor={'#b0ebc1'} onPress={() => { }} activeOpacity={0.5}>
                         <Image source={require('../../assets/images/iconImageCmt.png')}
-                            style={{ width: 35, height: 35 }} />
+                            style={{ width: 30, height: 30 }} />
                     </TouchableHighlight>
                 </View>
 
-                <TouchableOpacity style={{ backgroundColor: '#00ff80', borderRadius: 50, marginLeft: 10 }} onPress={UploadComment}>
-                    <Feather name='send' size={22} style={styles.iconClock} />
+                <TouchableOpacity style={styles.btnSendComment} onPress={UploadComment}>
+                    <Feather name='send' size={22} />
                 </TouchableOpacity>
             </View>
         </View>
