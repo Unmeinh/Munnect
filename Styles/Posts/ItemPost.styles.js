@@ -41,6 +41,23 @@ export default StyleSheet.create({
         right: 0
     },
 
+    viewModalMore:{
+        width: '40%',
+         height: 90,  
+         justifyContent: 'center', 
+         backgroundColor: 'white', 
+         position: 'absolute', 
+         top: '11%', right: '5%' , 
+         borderWidth:1,
+         borderColor:'#000000', 
+         borderRadius:5
+    },
+
+    viewModalItemMore:{
+        height:'50%',
+        justifyContent:'center'
+    },
+
     viewBelowPost: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -62,5 +79,37 @@ export default StyleSheet.create({
     textInteract: {
         fontSize: 20,
         margin: 3
+    },
+
+    viewBoxComment:{
+        flexDirection: "row", 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        margin: 10 
+    },
+     
+    viewComment:{
+        backgroundColor: '#E6E6E6', 
+        width: '88%', 
+        flexDirection: 'row', 
+        alignItems: "center", 
+        borderRadius: 5
+    },
+
+    txtComment:{
+        fontSize: 18, 
+        borderRadius: 5, 
+        width: '85%', 
+        padding: 7, 
+        margin: 5
+    },
+
+    btnSendComment:{
+        backgroundColor: '#00ff80', 
+        borderRadius: 50, 
+        marginLeft: 8, 
+        marginRight: 8, 
+        padding: 10
     }
+
 });
