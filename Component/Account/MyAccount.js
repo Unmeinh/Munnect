@@ -128,6 +128,7 @@ const MyAccount = (route) => {
                 console.log("select");
                 setinfoLogin(route.infoLogin);
                 GetListPost();
+                // GetInfoLogin();
                 route.settabNum([1, false]);
             }
             setisRefresh(false);
