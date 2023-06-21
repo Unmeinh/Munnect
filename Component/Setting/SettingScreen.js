@@ -22,6 +22,14 @@ const SettingScreen = (route) => {
 
     // }, []);
 
+    function OpenListAcc(type) {
+        if (type == 'following') {
+            route.nav.navigate('ListAccount', { title: 'Đang theo dõi', infoAcc: infoLogin });
+        } else {
+            route.nav.navigate('ListAccount', { title: 'Người theo dõi', infoAcc: infoLogin });
+        }
+    }
+
     const Logout = async () => {
         AsyncStorage.clear();
         route.nav.navigate('LoginScreen');
@@ -37,7 +45,7 @@ const SettingScreen = (route) => {
                                 style={{ width: 60, height: 60, borderRadius: 50 }} />
                             <View style={{ marginLeft: 10 }}>
                                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{String(infoLogin.tenTaiKhoan)}</Text>
-                                <Text style={{ fontSize: 18 }}>Xem hồ sơ chi tiết</Text>
+                                <Text style={{ fontSize: 18, color: 'gray' }}>Xem hồ sơ chi tiết</Text>
                             </View>
                         </View>
                         <MaterialIcons name="keyboard-arrow-right" size={40} />
@@ -47,7 +55,7 @@ const SettingScreen = (route) => {
                 <View style={{ height: 2, backgroundColor: '#D9D9D9' }} />
 
                 <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} style={styles.bottomLine}
-                    onPress={() => { route.nav.navigate('ListAccount', { title: 'Đang theo dõi' }) }}>
+                    onPress={() => { OpenListAcc('following') }}>
                     <View style={styles.viewItemSetting}>
                         <Image source={require('../../assets/images/following.png')} />
                         <Text style={styles.txtItemSetting}>Người tôi theo dõi</Text>
@@ -55,7 +63,7 @@ const SettingScreen = (route) => {
                 </TouchableHighlight>
 
                 <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} style={styles.bottomLine}
-                    onPress={() => { route.nav.navigate('ListAccount', { title: 'Người theo dõi' }) }}>
+                    onPress={() => { OpenListAcc('follower')  }}>
                     <View style={styles.viewItemSetting}>
                         <Image source={require('../../assets/images/follower.png')} />
                         <Text style={styles.txtItemSetting}>Người theo dõi tôi</Text>
