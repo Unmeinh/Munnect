@@ -8,16 +8,19 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
-        padding: '7%'
+        paddingTop: 15,
+        paddingLeft: 25,
+        paddingRight: 25
     },
 
     viewItemUpdate: {
-        width: '85%',
-        marginTop: 20
+        width: '90%',
     },
 
     txtTitle: {
-        fontSize: 24, fontWeight: 'bold'
+        fontSize: 23,
+        fontWeight: '500',
+        marginTop: 15
     },
 
     viewValue: {
@@ -28,10 +31,12 @@ export default StyleSheet.create({
 
     txtValue: {
         fontSize: 20,
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingBottom: 3,
+        width: '100%',
         borderWidth: 1,
         borderColor: 'white',
-        padding: 2,
-        width: '100%',
         borderBottomColor: 'gray',
         borderRadius: 10
     },
@@ -39,30 +44,34 @@ export default StyleSheet.create({
     viewButton: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
-        marginTop: '7%'
+        marginTop: 35
     },
 
     btnBack: {
         backgroundColor: '#9b9e9b',
         color: 'white',
-        borderRadius: 25,
-        padding: 5,
-        width: 120,
+        borderRadius: 20,
         textAlign: 'center',
+        padding: 5,
+        paddingLeft: 17,
+        paddingRight: 17,
         fontSize: 18,
+        fontWeight: '500',
         borderColor: 'black',
         borderWidth: 1
     },
 
     btnUpdate: {
-        backgroundColor: '#00ff80', 
-        color: 'black', 
-        borderRadius: 25, 
-        padding: 5, 
-        width: 120, 
+        backgroundColor: '#00ff80',
+        color: 'black',
+        borderRadius: 20,
         textAlign: 'center',
-        fontSize: 18, 
-        borderColor: 'black', 
+        padding: 5,
+        paddingLeft: 17,
+        paddingRight: 17,
+        fontSize: 18,
+        fontWeight: '500',
+        borderColor: 'black',
         borderWidth: 1
 
     }

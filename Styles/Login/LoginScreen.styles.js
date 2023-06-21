@@ -12,15 +12,14 @@ export default StyleSheet.create({
         alignItems: 'center',
 
     },
-    
+
     container2: {
         backgroundColor: '#00ff80',
-        height: 1500,
-        width: 760,
-        borderRadius: 350,
+        height: WindowHeight,
+        width: WindowWidth,
+        borderTopLeftRadius: WindowWidth,
         position: 'absolute',
-        top: 240,
-        left: 0
+        top: WindowWidth / 2,
     },
 
     nameLogo: {
@@ -65,7 +64,7 @@ export default StyleSheet.create({
         alignItems: 'center',
         marginTop: 15,
     },
-    
+
     viewRemember: {
         flexDirection: 'row',
         paddingLeft: 20,

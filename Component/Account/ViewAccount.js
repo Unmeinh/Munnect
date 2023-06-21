@@ -19,6 +19,8 @@ import { RefreshControl } from "react-native-gesture-handler";
 const ViewAccount = ({ route, navigation }) => {
     const [arr_post, setarr_post] = useState({});
     const [infoAcc, setinfoAcc] = useState(route.params.infoAcc);
+    const [srcAvatar, setsrcAvatar] = useState({ uri: String(infoAcc.anhDaiDien) });
+    const [srcWallpaper, setsrcWallpaper] = useState({ uri: String(infoAcc.anhBia) });
     const [isReloading, setisReloading] = useState(false);
     const [isSelected, setisSelected] = useState(true);
     const [isFollowing, setisFollowing] = useState(false);
@@ -170,11 +172,11 @@ const ViewAccount = ({ route, navigation }) => {
                 }>
                 <View>
                     <View>
-                        <Image source={{ uri: String(infoAcc.anhBia) }}
+                        <Image source={srcWallpaper} onError={() => setsrcWallpaper(require('../../assets/images/error_image.jpg'))}
                             style={styles.imageWallpapar} />
                         <View style={styles.viewAvatar}>
                             <View>
-                                <Image source={{ uri: String(infoAcc.anhDaiDien) }}
+                                <Image source={srcAvatar} onError={() => setsrcAvatar(require('../../assets/images/error_image.jpg'))}
                                     style={styles.imageAvatar} />
                             </View>
                         </View>

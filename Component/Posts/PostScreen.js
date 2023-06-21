@@ -19,6 +19,7 @@ const PostScreen = (route) => {
     const [isSelected, setisSelected] = useState(true);
     const [infoLogin, setinfoLogin] = useState(route.infoLogin);
     const [isRefresh, setisRefresh] = useState(true);
+    const [srcAvatar, setsrcAvatar] = useState({ uri: String(infoLogin.anhDaiDien) });
 
     function OpenNewPost() {
         if (infoLogin != {}) {
@@ -111,7 +112,7 @@ const PostScreen = (route) => {
             <View style={styles.viewNewPost}>
                 <View style={{ flexDirection: 'row', alignItems: "center" }}>
                     <TouchableOpacity underlayColor={'#b0ebc1'} onPress={OpenAccount} activeOpacity={0.5}>
-                        <Image source={{ uri: String(infoLogin.anhDaiDien) }}
+                        <Image source={srcAvatar} onError={() => setsrcAvatar(require('../../assets/images/error_image.jpg'))}
                             style={styles.imageAvatar} />
                     </TouchableOpacity>
                     <TouchableHighlight underlayColor={'#b0ebc1'} onPress={OpenNewPost} activeOpacity={0.5}>

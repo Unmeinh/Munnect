@@ -3,7 +3,8 @@ import {
     Dimensions,
     ScrollView,
     Image,
-    TouchableHighlight
+    TouchableHighlight,
+    ToastAndroid
 } from "react-native"
 import React, { useState, useEffect } from "react";
 import styles from '../../Styles/NotifyScreen.styles';
@@ -44,8 +45,12 @@ const NotifyScreen = (route) => {
                     'http://10.0.2.2:3000/BaiViet/DanhSach/' + notifi.idBaiViet,
                 );
                 const json = await response.json();
-                row.nav.navigate('DetailPost',
+                if (json.data.baiViet != null) {
+                    row.nav.navigate('DetailPost',
                     { title: chuBaiViet.tenTaiKhoan, post: json.data.baiViet, info: infoLogin });
+                } else {
+                    ToastAndroid.show('Bài viết không tồn tại!', ToastAndroid.SHORT);
+                }
             } catch (error) {
                 console.log("Get");
                 console.error(error);
@@ -98,7 +103,6 @@ const NotifyScreen = (route) => {
             setisRefresh(true);
         }
     }, [route.refreshing]);
-
 
     return (
         <View style={styles.container}>

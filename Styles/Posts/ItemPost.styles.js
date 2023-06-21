@@ -6,28 +6,28 @@ let StatusHeight = StatusBar.currentHeight;
 
 export default StyleSheet.create({
     container: {
-        flex: 1, 
+        flex: 1,
         backgroundColor: '#FFFFFF',
     },
 
-    viewTitle:{
+    viewTitle: {
         flexDirection: 'row',
-         margin: 15,
-          alignItems: 'center' 
+        margin: 15,
+        alignItems: 'center'
     },
 
-    txtTitle:{
+    txtTitle: {
         marginLeft: 10,
-         fontSize: 19
+        fontSize: 19
     },
 
-    viewDetailPost:{
-        margin: 10, 
-        flexDirection: 'row', 
-        alignItems: 'center', 
+    viewDetailPost: {
+        margin: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-between'
     },
-    
+
     textName: {
         marginLeft: 10,
         marginRight: 10,
@@ -41,21 +41,21 @@ export default StyleSheet.create({
         right: 0
     },
 
-    viewModalMore:{
+    viewModalMore: {
         width: '40%',
-         height: 90,  
-         justifyContent: 'center', 
-         backgroundColor: 'white', 
-         position: 'absolute', 
-         top: '11%', right: '5%' , 
-         borderWidth:1,
-         borderColor:'#000000', 
-         borderRadius:5
+        height: 90,
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        position: 'absolute',
+        top: '14%', right: '4%',
+        borderWidth: 1,
+        borderColor: '#000000',
+        borderRadius: 5
     },
 
-    viewModalItemMore:{
-        height:'50%',
-        justifyContent:'center'
+    viewModalItemMore: {
+        height: '50%',
+        justifyContent: 'center'
     },
 
     viewBelowPost: {
@@ -63,12 +63,12 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         margin: 10,
     },
-    
+
     viewRowCenterBetween: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-        },
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
 
     buttonInteract: {
         width: 30,
@@ -81,35 +81,35 @@ export default StyleSheet.create({
         margin: 3
     },
 
-    viewBoxComment:{
-        flexDirection: "row", 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        margin: 10 
-    },
-     
-    viewComment:{
-        backgroundColor: '#E6E6E6', 
-        width: '88%', 
-        flexDirection: 'row', 
-        alignItems: "center", 
-        borderRadius: 5
-    },
-
-    txtComment:{
-        fontSize: 18, 
-        borderRadius: 5, 
-        width: '85%', 
-        padding: 7, 
-        margin: 5
-    },
-
-    btnSendComment:{
-        backgroundColor: '#00ff80', 
-        borderRadius: 50, 
-        marginLeft: 8, 
-        marginRight: 8, 
+    viewBoxComment: {
+        width: WindowWidth,
+        flexDirection: "row",
+        alignItems: 'center',
+        justifyContent: 'center',
         padding: 10
+    },
+
+    viewComment: {
+        backgroundColor: '#E6E6E6',
+        borderRadius: 5,
+        width: '85%'
+    },
+
+    txtComment: {
+        fontSize: 18,
+        borderRadius: 5,
+        width: '87%',
+        margin: 5,
+        padding: 7,
+    },
+
+    btnSendComment: {
+        backgroundColor: '#00ff80',
+        borderRadius: 50,
+        marginLeft: 8,
+        padding: 10,
+        paddingRight: 13,
+        paddingLeft: 9
     }
 
 });

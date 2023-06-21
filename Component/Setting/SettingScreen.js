@@ -4,8 +4,8 @@ import styles from '../../Styles/Setting/SettingScreen.styles'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const SettingScreen = (route) => {
-
     const [infoLogin, setinfoLogin] = useState(route.infoLogin);
+    const [srcAvatar, setsrcAvatar] = useState({ uri: String(infoLogin.anhDaiDien) });
 
     // const GetInfoLogin = async () => {
     //     try {
@@ -23,8 +23,8 @@ const SettingScreen = (route) => {
     // }, []);
 
     const Logout = async () => {
-            AsyncStorage.clear();
-            route.nav.navigate('LoginScreen');
+        AsyncStorage.clear();
+        route.nav.navigate('LoginScreen');
     }
 
     return (
@@ -33,9 +33,8 @@ const SettingScreen = (route) => {
                 <TouchableOpacity underlayColor={'#ededeb'} activeOpacity={0.8} onPress={() => { route.settabNum([1, true]) }}>
                     <View style={styles.viewAccount}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Image source={{
-                                uri: String(infoLogin.anhDaiDien)
-                            }} style={{ width: 60, height: 60, borderRadius: 50 }} />
+                            <Image source={srcAvatar} onError={() => setsrcAvatar(require('../../assets/images/error_image.jpg'))}
+                                style={{ width: 60, height: 60, borderRadius: 50 }} />
                             <View style={{ marginLeft: 10 }}>
                                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{String(infoLogin.tenTaiKhoan)}</Text>
                                 <Text style={{ fontSize: 18 }}>Xem hồ sơ chi tiết</Text>
@@ -64,7 +63,7 @@ const SettingScreen = (route) => {
                 </TouchableHighlight>
 
                 <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} style={styles.bottomLine}
-                    onPress={() => { route.nav.navigate('ListMyPost')}}>
+                    onPress={() => { route.nav.navigate('ListMyPost') }}>
                     <View style={styles.viewItemSetting}>
                         <Image source={require('../../assets/images/myPost.png')} />
                         <Text style={styles.txtItemSetting}>Bài viết của tôi</Text>
@@ -99,7 +98,7 @@ const SettingScreen = (route) => {
                     </TouchableHighlight>
 
                     <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} style={styles.topLine}
-                        onPress={() => {route.nav.navigate('ChangePassScreen')  }}>
+                        onPress={() => { route.nav.navigate('ChangePassScreen') }}>
                         <View style={styles.viewItemSetting}>
                             <Image source={require('../../assets/images/changePass.png')} />
                             <Text style={styles.txtItemSetting}>Thay đổi mật khẩu</Text>

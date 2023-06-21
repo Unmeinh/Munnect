@@ -15,12 +15,13 @@ import Feather from 'react-native-vector-icons/Feather';
 
 const ItemPost = (row) => {
     const [baiViet, setbaiViet] = useState(row.post);
+    var nguoiDung = baiViet.idNguoiDung;
+    const [srcAvatar, setsrcAvatar] = useState({ uri: String(nguoiDung.anhDaiDien) });
     const [arr_dongTinh, setarr_dongTinh] = useState(baiViet.arr_dongTinh);
     const [arr_phanDoi, setarr_phanDoi] = useState(baiViet.arr_phanDoi);
     const [arr_binhLuan, setarr_binhLuan] = useState(baiViet.arr_binhLuan);
     const [myTuongTac, setmyTuongTac] = useState('none');
     var isGetInteract = true;
-    var nguoiDung = baiViet.idNguoiDung;
     Moment.locale('en');
 
     const GetPost = async () => {
@@ -56,9 +57,10 @@ const ItemPost = (row) => {
 
     const SetInteract = async (type) => {
         try {
+            const loginId = await AsyncStorage.getItem("idLogin");
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://10.0.2.2:3000/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
+                'http://10.0.2.2:3000/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + loginId + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
@@ -100,7 +102,7 @@ const ItemPost = (row) => {
             <View style={{ margin: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <View style={{ flexDirection: 'row', width: Dimensions.get('window').width * 85 / 100 }}>
                     <TouchableOpacity onPress={OpenViewAccount}>
-                        <Image source={{ uri: nguoiDung.anhDaiDien }}
+                        <Image source={srcAvatar} onError={() => setsrcAvatar(require('../../assets/images/error_image.jpg'))}
                             style={{ width: 50, height: 50, borderRadius: 50 }} />
                     </TouchableOpacity>
                     <View style={{ marginLeft: 7 }}>

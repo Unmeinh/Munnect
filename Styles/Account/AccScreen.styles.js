@@ -40,13 +40,13 @@ export default StyleSheet.create({
     },
 
     imageWallpapar: {
-        width: '100%',
-        aspectRatio: 2 / 1
+        width: WindowWidth,
+        height: WindowWidth / 2
     },
 
     imageAvatar: {
         width: avatarWidth,
-        aspectRatio: 1 / 1,
+        height: avatarWidth,
         borderRadius: avatarWidth / 2,
         borderColor: '#00FF80',
         borderWidth: 1.5
@@ -81,7 +81,7 @@ export default StyleSheet.create({
         position: 'absolute',
         right: 11, top: 12,
         padding: 7,
-        paddingLeft: 10, 
+        paddingLeft: 10,
         paddingRight: 10,
         borderRadius: 10,
         borderColor: '#000',
@@ -93,7 +93,7 @@ export default StyleSheet.create({
         position: 'absolute',
         right: 11, top: 12,
         padding: 7,
-        paddingLeft: 10, 
+        paddingLeft: 10,
         paddingRight: 10,
         borderRadius: 10,
         borderColor: '#000',

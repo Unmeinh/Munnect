@@ -23,11 +23,13 @@ const MyAccount = (route) => {
     const [isSelected, setisSelected] = useState(true);
     const [infoLogin, setinfoLogin] = useState(route.infoLogin);
     const [isRefresh, setisRefresh] = useState(true);
+    const [srcAvatar, setsrcAvatar] = useState({ uri: String(infoLogin.anhDaiDien) });
+    const [srcWallpaper, setsrcWallpaper] = useState({ uri: String(infoLogin.anhBia) });
     Moment.locale('en');
 
     function OpenNewPost() {
         if (infoLogin != {}) {
-            route.nav.navigate({name: 'NewPost', key: 'NewPost', params: { infoLogin: infoLogin, pickedBase64: "", pickedImage: {}}});
+            route.nav.navigate('NewPost', { infoLogin: infoLogin, pickedBase64: "", pickedImage: {} });
         }
     }
 
@@ -109,7 +111,7 @@ const MyAccount = (route) => {
                     let uriBase64 = "data:image/" + imageType + ";base64," + res;
                     var dataImage = { uri: fileUri, name: fileName, type: "multipart/form-data" };
                     if (type == 'imagePost') {
-                        route.nav.navigate({name: 'NewPost', key: 'NewPost', params: { infoLogin: infoLogin, pickedBase64: uriBase64, pickedImage: dataImage}});
+                        route.nav.navigate('NewPost', { infoLogin: infoLogin, pickedBase64: uriBase64, pickedImage: dataImage });
                     }
                     if (type == 'imageWallpaper') {
                         route.nav.navigate('PreviewAccount', { title: 'Xem trước ảnh', infoLogin: infoLogin, pickedBase64: uriBase64, pickedImage: dataImage, typePicked: 'wallpaper' });
@@ -142,129 +144,120 @@ const MyAccount = (route) => {
 
     return (
         <View style={styles.container}>
-            {
-                (route.tabNum == 1)
-                    ?
-
+            <View>
+                <Image source={srcWallpaper} onError={() => setsrcWallpaper(require('../../assets/images/error_image.jpg'))}
+                    style={styles.imageWallpapar} />
+                <TouchableOpacity onPress={() => PickingImage('imageWallpaper')} activeOpacity={0.5}
+                    style={[styles.buttonPickImage, { right: 5, top: 5 }]}>
+                    <MaterialIcons name="camera-alt" size={20} />
+                </TouchableOpacity>
+                <View style={styles.viewAvatar}>
                     <View>
-                        <View>
-                            <Image source={{ uri: String(infoLogin.anhBia) }}
-                                style={styles.imageWallpapar} />
-                            <TouchableOpacity onPress={() => PickingImage('imageWallpaper')} activeOpacity={0.5}
-                                style={[styles.buttonPickImage, { right: 5, top: 5 }]}>
-                                <MaterialIcons name="camera-alt" size={20} />
-                            </TouchableOpacity>
-                            <View style={styles.viewAvatar}>
-                                <View>
-                                    <Image source={{ uri: String(infoLogin.anhDaiDien) }}
-                                        style={styles.imageAvatar} />
-                                    <TouchableOpacity onPress={() => PickingImage('imageAvatar')} activeOpacity={0.5}
-                                        style={[styles.buttonPickImage, { right: 2, bottom: 2 }]}>
-                                        <MaterialIcons name="camera-alt" size={20} />
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
+                        <Image source={srcAvatar} onError={() => setsrcAvatar(require('../../assets/images/error_image.jpg'))}
+                            style={styles.imageAvatar} />
+                        <TouchableOpacity onPress={() => PickingImage('imageAvatar')} activeOpacity={0.5}
+                            style={[styles.buttonPickImage, { right: 2, bottom: 2 }]}>
+                            <MaterialIcons name="camera-alt" size={20} />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+
+            {/* View thông tin */}
+            <View>
+                <Text style={styles.textName} numberOfLines={2}>
+                    {String(infoLogin.tenTaiKhoan)}
+                </Text>
+                <View style={styles.viewInfo}>
+                    <View>
+                        <View style={styles.viewInfoItem}>
+                            <Entypo name="location" size={17} color={'background: rgba(0, 0, 0, 0.6);'} />
+                            <Text style={styles.infoText}>{String(infoLogin.queQuan)}</Text>
                         </View>
-
-                        {/* View thông tin */}
-                        <View>
-                            <Text style={styles.textName} numberOfLines={2}>
-                                {String(infoLogin.tenTaiKhoan)}
-                            </Text>
-                            <View style={styles.viewInfo}>
-                                <View>
-                                    <View style={styles.viewInfoItem}>
-                                        <Entypo name="location" size={17} color={'background: rgba(0, 0, 0, 0.6);'} />
-                                        <Text style={styles.infoText}>{String(infoLogin.queQuan)}</Text>
-                                    </View>
-                                    <View style={styles.viewInfoItem}>
-                                        <Image source={require('../../assets/images/birthday-cake.png')} style={styles.imageInfoItem} />
-                                        <Text style={styles.infoText}>{Moment(infoLogin.sinhNhat).format('MMM DD/YYYY')}</Text>
-                                    </View>
-                                </View>
-                                <View>
-                                    <TouchableOpacity style={styles.viewInfoItem} onPress={() => OpenListAcc('following')}>
-                                        <Text style={{ fontSize: 16, fontWeight: '500' }}>
-                                            {
-                                                (infoLogin.arr_TheoDoi != undefined)
-                                                    ? infoLogin.arr_TheoDoi.length
-                                                    : 0
-                                            }
-                                        </Text>
-                                        <Text style={styles.infoText}>Đang theo dõi</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={styles.viewInfoItem} onPress={() => OpenListAcc('follower')}>
-                                        <Text style={{ fontSize: 16, fontWeight: '500' }}>
-                                            {
-                                                (infoLogin.arr_NguoiTheoDoi != undefined)
-                                                    ? infoLogin.arr_NguoiTheoDoi.length
-                                                    : 0
-                                            }
-                                        </Text>
-                                        <Text style={styles.infoText}>Người theo dõi</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                            <View style={styles.viewIntro}>
-                                <Text style={styles.textTitle}>
-                                    Giới thiệu
-                                </Text>
-                                <Text style={styles.textIntro}>
-                                    {String(infoLogin.gioiThieu)}
-                                </Text>
-                            </View>
-                        </View>
-
-                        {/* View bài viết */}
-                        <View style={styles.container}>
-                            <Text style={styles.textTitle}>
-                                Bài viết
-                            </Text>
-                            <View style={styles.viewNewPost}>
-                                <View style={{ flexDirection: 'row', alignItems: "center" }}>
-                                    <Image source={{ uri: String(infoLogin.anhDaiDien) }}
-                                        style={styles.imageAvatarNP} />
-                                    <TouchableHighlight underlayColor={'#b0ebc1'} onPress={OpenNewPost} activeOpacity={0.5}>
-                                        <Text style={styles.textHint}>Bạn muốn nói gì?</Text>
-                                    </TouchableHighlight>
-                                </View>
-
-                                <TouchableHighlight underlayColor={'#b0ebc1'} onPress={() => PickingImage('imagePost')} activeOpacity={0.5}>
-                                    <Image source={require('../../assets/images/addImage.png')}
-                                        style={{ width: 35, height: 35 }} />
-                                </TouchableHighlight>
-                            </View>
-                            <View style={{ backgroundColor: '#D9D9D9', height: 7 }} />
-                            {
-                                (isSelected == true)
-                                    ?
-                                    <View style={styles.viewOther}>
-                                        <AutoHeightImage source={require('../../assets/images/blogs.png')}
-                                            width={(Dimensions.get("window").width * 75) / 100} />
-                                        <Text style={styles.textHint}>Đang tải bài viết..</Text>
-                                    </View>
-                                    :
-                                    <ScrollView>
-                                        {
-                                            (arr_post.length > 0)
-                                                ?
-                                                arr_post.map((post, index, arr) => {
-                                                    return <ItemPost post={post} key={index} nav={route.nav} isRefresh={isRefresh} />
-                                                })
-                                                :
-                                                <View style={styles.viewOther}>
-                                                    <AutoHeightImage source={require('../../assets/images/no_post.png')}
-                                                        width={(Dimensions.get("window").width * 75) / 100} />
-                                                    <Text style={styles.textHint}>Không có bài viết nào..</Text>
-                                                </View>
-                                        }
-                                    </ScrollView>
-                            }
+                        <View style={styles.viewInfoItem}>
+                            <Image source={require('../../assets/images/birthday-cake.png')} style={styles.imageInfoItem} />
+                            <Text style={styles.infoText}>{Moment(infoLogin.sinhNhat).format('MMM DD/YYYY')}</Text>
                         </View>
                     </View>
-                    : ""
-            }
+                    <View>
+                        <TouchableOpacity style={styles.viewInfoItem} onPress={() => OpenListAcc('following')}>
+                            <Text style={{ fontSize: 16, fontWeight: '500' }}>
+                                {
+                                    (infoLogin.arr_TheoDoi != undefined)
+                                        ? infoLogin.arr_TheoDoi.length
+                                        : 0
+                                }
+                            </Text>
+                            <Text style={styles.infoText}>Đang theo dõi</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.viewInfoItem} onPress={() => OpenListAcc('follower')}>
+                            <Text style={{ fontSize: 16, fontWeight: '500' }}>
+                                {
+                                    (infoLogin.arr_NguoiTheoDoi != undefined)
+                                        ? infoLogin.arr_NguoiTheoDoi.length
+                                        : 0
+                                }
+                            </Text>
+                            <Text style={styles.infoText}>Người theo dõi</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styles.viewIntro}>
+                    <Text style={styles.textTitle}>
+                        Giới thiệu
+                    </Text>
+                    <Text style={styles.textIntro}>
+                        {String(infoLogin.gioiThieu)}
+                    </Text>
+                </View>
+            </View>
 
+            {/* View bài viết */}
+            <View style={styles.container}>
+                <Text style={styles.textTitle}>
+                    Bài viết
+                </Text>
+                <View style={styles.viewNewPost}>
+                    <View style={{ flexDirection: 'row', alignItems: "center" }}>
+                        <Image source={srcAvatar} onError={() => setsrcAvatar(require('../../assets/images/error_image.jpg'))}
+                            style={styles.imageAvatarNP} />
+                        <TouchableHighlight underlayColor={'#b0ebc1'} onPress={OpenNewPost} activeOpacity={0.5}>
+                            <Text style={styles.textHint}>Bạn muốn nói gì?</Text>
+                        </TouchableHighlight>
+                    </View>
+
+                    <TouchableHighlight underlayColor={'#b0ebc1'} onPress={() => PickingImage('imagePost')} activeOpacity={0.5}>
+                        <Image source={require('../../assets/images/addImage.png')}
+                            style={{ width: 35, height: 35 }} />
+                    </TouchableHighlight>
+                </View>
+                <View style={{ backgroundColor: '#D9D9D9', height: 7 }} />
+                {
+                    (isSelected == true)
+                        ?
+                        <View style={styles.viewOther}>
+                            <AutoHeightImage source={require('../../assets/images/blogs.png')}
+                                width={(Dimensions.get("window").width * 75) / 100} />
+                            <Text style={styles.textHint}>Đang tải bài viết..</Text>
+                        </View>
+                        :
+                        <ScrollView>
+                            {
+                                (arr_post.length > 0)
+                                    ?
+                                    arr_post.map((post, index, arr) => {
+                                        return <ItemPost post={post} key={index} nav={route.nav} isRefresh={isRefresh} />
+                                    })
+                                    :
+                                    <View style={styles.viewOther}>
+                                        <AutoHeightImage source={require('../../assets/images/no_post.png')}
+                                            width={(Dimensions.get("window").width * 75) / 100} />
+                                        <Text style={styles.textHint}>Không có bài viết nào..</Text>
+                                    </View>
+                            }
+                        </ScrollView>
+                }
+            </View>
         </View>
     )
 }
