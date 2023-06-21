@@ -15,21 +15,23 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import AutoHeightImage from 'react-native-auto-height-image';
 
-const NewPost = ({ route, navigation }) => {
+const UpdatePost = ({ route, navigation }) => {
+    var baiViet = route.params.post;
     const [infoLogin, setinfoLogin] = useState(route.params.infoLogin);
-    const [dataImage, setdataImage] = useState(route.params.pickedImage);
+    const [dataImage, setdataImage] = useState({});
     const [ipImageUrl, setipImageUrl] = useState(route.params.pickedBase64);
     const [srcAvatar, setsrcAvatar] = useState({ uri: String(infoLogin.anhDaiDien) });
-    const [inputContent, setinputContent] = useState("");
-    const [inputFont, setinputFont] = useState("Default");
+    const [inputContent, setinputContent] = useState(baiViet.noiDung);
+    const [inputFont, setinputFont] = useState(baiViet.phongChu);
     const [isShowModal, setisShowModal] = useState(false);
+    const [oldImage, setoldImage] = useState(baiViet.anhBaiViet);
 
-    function CheckValidate(newPost) {
-        if (newPost.idNguoiDung == undefined) {
+    function CheckValidate(UpdatePost) {
+        if (UpdatePost.idNguoiDung == undefined) {
             return false;
         }
 
-        if (newPost.noiDung == "") {
+        if (UpdatePost.noiDung == "") {
             alert('Bạn hãy nhập gì đó trước khi đăng nhé!')
             return false;
         }
@@ -40,7 +42,7 @@ const NewPost = ({ route, navigation }) => {
             idNguoiDung: follower,
             idBaiViet: post._id,
             idChuBaiViet: infoLogin._id,
-            tieuDeTB: " đã đăng:",
+            tieuDeTB: " đã đăng lại:",
             noiDungTB: post.noiDung,
             thoiGianTB: new Date().toLocaleString(),
         };
@@ -68,10 +70,6 @@ const NewPost = ({ route, navigation }) => {
     }
 
     const AfterPost = async (post) => {
-        await fetch(
-            // 'https://backend-munnect.herokuapp.com/BaiViet/DanhSach',
-            'http://10.0.2.2:3000/NguoiDung/SuaArrBaiViet/' + infoLogin._id + '?idBV=' + post._id,
-        );
         if (infoLogin.arr_NguoiTheoDoi.length > 0) {
             for (let index = 0; index < infoLogin.arr_NguoiTheoDoi.length; index++) {
                 if (infoLogin.arr_NguoiTheoDoi[index] == "" && index == 0) {
@@ -81,12 +79,6 @@ const NewPost = ({ route, navigation }) => {
                     UploadNotification(post, infoLogin.arr_NguoiTheoDoi[index], index);
                 }
             }
-            if (infoLogin.arr_NguoiTheoDoi[index] == "" && index == 0) {
-                ToastAndroid.show('Đăng bài viết mới thành công!', ToastAndroid.SHORT);
-                navigation.goBack();
-            } else {
-                UploadNotification(post, infoLogin.arr_NguoiTheoDoi[index], index);
-            }
         } else {
             ToastAndroid.show('Đăng bài viết mới thành công!', ToastAndroid.SHORT);
             navigation.goBack();
@@ -94,15 +86,15 @@ const NewPost = ({ route, navigation }) => {
     }
 
     const UploadPost = async () => {
-        let newPost = {
+        let UpdatePost = {
             idNguoiDung: infoLogin._id,
             noiDung: inputContent,
             phongChu: inputFont,
         };
         // let url_api = 'https://backend-munnect.herokuapp.com/BaiViet/BaiVietMoi';
-        let url_api = 'http://10.0.2.2:3000/BaiViet/BaiVietMoi';
+        let url_api = 'http://10.0.2.2:3000/BaiViet/SuaBaiViet/' + baiViet._id;
 
-        if (CheckValidate(newPost) == false) {
+        if (CheckValidate(UpdatePost) == false) {
             return;
         }
         let formData = new FormData();
@@ -110,19 +102,27 @@ const NewPost = ({ route, navigation }) => {
         formData.append('noiDung', inputContent);
         formData.append('phongChu', inputFont);
         formData.append('thoiGian', new Date().toLocaleString());
-        formData.append('viTriBaiViet', "personal");
-        formData.append('arr_binhLuan', {});
-        formData.append('arr_dongTinh', {});
-        formData.append('arr_phanDoi', {});
-        formData.append('soLuongChiaSe', 0);
-        formData.append('soLuongBaoCao', 0);
+        formData.append('viTriBaiViet', baiViet.viTriBaiViet);
+        formData.append('arr_binhLuan', baiViet.arr_binhLuan);
+        formData.append('arr_dongTinh', baiViet.arr_dongTinh);
+        formData.append('arr_phanDoi', baiViet.arr_phanDoi);
+        formData.append('soLuongChiaSe', baiViet.soLuongChiaSe);
+        formData.append('soLuongBaoCao', baiViet.soLuongBaoCao);
+
+        if (typeof (oldImage) != 'undefined') {
+            formData.append('anhBaiViet', oldImage);
+        }
+
+        if (ipImageUrl == "") {
+            formData.append('anhBaiViet', undefined);
+        }
 
         if (dataImage != {} && ipImageUrl != "") {
             formData.append('anhBaiViet', dataImage);
         }
 
         await fetch(url_api, {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 Accept: 'application/json',
                 'content-type': 'application/json',
@@ -130,11 +130,12 @@ const NewPost = ({ route, navigation }) => {
             },
             body: formData
         })
-            .then((res) => {
+            .then(async (res) => {
                 console.log(res);
-                if (res.status == 201) {
+                if (res.status == 200) {
                     ToastAndroid.show('Đang đăng bài viết, vui lòng đợi!', ToastAndroid.SHORT);
-                    var post = res.data.baiViet;
+                    const json = await res.json();
+                    var post = json.data.baiViet;
                     AfterPost(post);
                 } else {
                     ToastAndroid.show('Đăng bài viết mới thất bại!', ToastAndroid.SHORT);
@@ -150,10 +151,8 @@ const NewPost = ({ route, navigation }) => {
                             'http://10.0.2.2:3000/BaiViet/DanhSach/NguoiDung/' + infoLogin._id,
                         );
                         const json = await response.json();
-                        if (json.data.listBaiViet.length > infoLogin.arr_BaiViet.length) {
-                            var post = json.data.listBaiViet[0];
-                            AfterPost(post);
-                        }
+                        var post = json.data.listBaiViet[0];
+                        AfterPost(post);
                     }, 5000);
                 }
             });
@@ -188,6 +187,7 @@ const NewPost = ({ route, navigation }) => {
     const RemoveImage = () => {
         setipImageUrl("");
         setdataImage({});
+        setoldImage(undefined);
     }
 
     const ShowFontModal = () => {
@@ -285,4 +285,4 @@ const NewPost = ({ route, navigation }) => {
 }
 
 
-export default NewPost;
+export default UpdatePost;
