@@ -10,24 +10,23 @@ export default StyleSheet.create({
         backgroundColor: '#00ff80',
         marginTop: StatusBar.currentHeight,
         alignItems: 'center',
-        
+
     },
-    
+
     container2: {
         backgroundColor: '#ffffff',
-        height: 2000,
-        width: 780,
-        borderRadius: 380,
+        height: WindowHeight * 70 / 100,
+        width: WindowWidth,
+        borderBottomRightRadius: WindowWidth,
         position: 'absolute',
-        bottom: 260,
-        right: 0
+        top: 0,
     },
 
     nameRegist: {
         fontSize: 32,
         fontWeight: 'bold',
         margin: 30
-       
+
     },
 
     txtIntro: {

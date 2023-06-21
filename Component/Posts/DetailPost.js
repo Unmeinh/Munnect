@@ -22,10 +22,10 @@ const DetailPost = ({ route, navigation }) => {
     const [arr_binhLuan, setarr_binhLuan] = useState(baiViet.arr_binhLuan);
     const [myTuongTac, setmyTuongTac] = useState('none');
     const [isGetInteract, setisGetInteract] = useState(true);
-    var nguoiDung = baiViet.idNguoiDung;
-    Moment.locale('en');
-
     const [isShowMore, setisShowMore] = useState(false);
+    var nguoiDung = baiViet.idNguoiDung;
+    const [srcAvatar, setsrcAvatar] = useState({ uri: String(nguoiDung.anhDaiDien) });
+    Moment.locale('en');
 
     const GetPost = async () => {
         try {
@@ -60,9 +60,10 @@ const DetailPost = ({ route, navigation }) => {
 
     const GetInteract = async () => {
         try {
+            const loginId = await AsyncStorage.getItem("idLogin");
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://10.0.2.2:3000/BaiViet/TuongTac?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id,
+                'http://10.0.2.2:3000/BaiViet/TuongTac?idNguoiDung=' + loginId + '&&idBaiViet=' + baiViet._id,
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
@@ -75,9 +76,10 @@ const DetailPost = ({ route, navigation }) => {
 
     const SetInteract = async (type) => {
         try {
+            const loginId = await AsyncStorage.getItem("idLogin");
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://10.0.2.2:3000/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + nguoiDung._id + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
+                'http://10.0.2.2:3000/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + loginId + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
@@ -98,16 +100,57 @@ const DetailPost = ({ route, navigation }) => {
         }
     }
 
+    async function UpdatePost() {
+        const loginId = await AsyncStorage.getItem("idLogin");
+        if (loginId == nguoiDung._id) {
+            if (typeof (baiViet.anhBaiViet) != 'undefined') {
+                navigation.navigate('UpdatePost', { infoLogin: nguoiDung, pickedBase64: baiViet.anhBaiViet, pickedImage: {}, post: baiViet });
+            } else {
+                navigation.navigate('UpdatePost', { infoLogin: nguoiDung, pickedBase64: "", pickedImage: {}, post: baiViet });
+            }
+        }
+    }
+
+    async function DeletePost() {
+        const loginId = await AsyncStorage.getItem("idLogin");
+        let url_api = 'http://10.0.2.2:3000/BaiViet/XoaBaiViet/' + baiViet._id;
+
+        fetch(url_api, {
+            method: 'DELETE',
+            headers: {
+                Accept: 'application/json',
+                'content-type': 'application/json',
+            },
+        })
+            .then((res) => {
+                console.log(res);
+                if (res.status == 203) {
+                    ToastAndroid.show('Xóa bài viết thành công!', ToastAndroid.SHORT);
+                    navigation.goBack();
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
+
     const ItemComment = (route) => {
         var row = route.comment;
+        const [srcAvatar, setsrcAvatar] = useState(require('../../assets/images/error_image.jpg'));
+
+        React.useEffect(() => {
+            if (typeof (row.idNguoiDung) != 'undefined') {
+                setsrcAvatar({ uri: String(row.idNguoiDung.anhDaiDien) });
+            }
+        }, [row.idNguoiDung]);
+
         return (
             <View style={{ flex: 1, margin: 7 }}>
                 {
                     (typeof (row.idNguoiDung) != 'undefined')
                         ? <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Image source={{
-                                uri: row.idNguoiDung.anhDaiDien
-                            }} style={{ width: 50, height: 50, borderRadius: 50 }} />
+                            <Image source={srcAvatar} onError={() => setsrcAvatar(require('../../assets/images/error_image.jpg'))}
+                                style={{ width: 50, height: 50, borderRadius: 50 }} />
                             <View style={{ marginLeft: 10 }}>
                                 <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{row.idNguoiDung.tenTaiKhoan}</Text>
                                 <Text style={{ fontSize: 17 }}>{row.noiDung}</Text>
@@ -165,6 +208,8 @@ const DetailPost = ({ route, navigation }) => {
 
     React.useEffect(() => {
         const unsub = navigation.addListener('focus', () => {
+            GetPost();
+            GetInteract();
             GetComment();
         });
 
@@ -177,7 +222,7 @@ const DetailPost = ({ route, navigation }) => {
                 <View style={styles.viewDetailPost}>
                     <View style={{ flexDirection: 'row', width: Dimensions.get('window').width * 85 / 100 }}>
                         <TouchableOpacity onPress={OpenViewAccount}>
-                            <Image source={{ uri: nguoiDung.anhDaiDien }}
+                            <Image source={srcAvatar} onError={() => setsrcAvatar(require('../../assets/images/error_image.jpg'))}
                                 style={{ width: 50, height: 50, borderRadius: 50 }} />
                         </TouchableOpacity>
                         <View style={{ marginLeft: 7 }}>
@@ -194,22 +239,25 @@ const DetailPost = ({ route, navigation }) => {
                         </View>
                     </View>
 
-                    <TouchableOpacity onPress={() => { setisShowMore(true)} }>
+                    <TouchableOpacity onPress={() => { setisShowMore(true) }}>
                         <Feather name='more-horizontal' size={30} />
                     </TouchableOpacity>
-                    {/* SHOW MODAL MORE */}
+
+                    {/* Model more */}
                     <Modal visible={isShowMore} animationType="fade" transparent={true} onRequestClose={() => { setisShowMore(false) }}>
                         <View style={styles.viewModalMore}>
-                            <TouchableHighlight style={styles.viewModalItemMore} underlayColor={'#ebedeb'} activeOpacity={0.5} onPress={()=>{
+                            <TouchableHighlight style={styles.viewModalItemMore} underlayColor={'#ebedeb'} activeOpacity={0.5} onPress={() => {
                                 setisShowMore(false);
-                                }}>
-                                <Text style={{fontSize:18, margin:7}}>Sửa bài viết</Text>
+                                UpdatePost();
+                            }}>
+                                <Text style={{ fontSize: 18, margin: 7 }}>Sửa bài viết</Text>
                             </TouchableHighlight>
-                            <View style={{height:1, backgroundColor:'#000000'}}/>
-                            <TouchableHighlight  style={styles.viewModalItemMore}  underlayColor={'#ebedeb'} activeOpacity={0.5} onPress={()=>{
-                                setisShowMore(false)
-                                }}>
-                                <Text  style={{fontSize:18, margin:7}}>Xóa bài viết</Text>
+                            <View style={{ height: 1, backgroundColor: '#000000' }} />
+                            <TouchableHighlight style={styles.viewModalItemMore} underlayColor={'#ebedeb'} activeOpacity={0.5} onPress={() => {
+                                setisShowMore(false);
+                                DeletePost();
+                            }}>
+                                <Text style={{ fontSize: 18, margin: 7 }}>Xóa bài viết</Text>
                             </TouchableHighlight>
                         </View>
                     </Modal>
@@ -278,10 +326,10 @@ const DetailPost = ({ route, navigation }) => {
                 <View style={{ backgroundColor: '#D9D9D9', height: 7 }} />
 
                 <View>
-                    <Text style={{ fontSize: 18, marginLeft: 10 }}>Tất cả bình luận</Text>
+                    {/* <Text style={{ fontSize: 18, marginLeft: 10 }}>Tất cả bình luận</Text> */}
                     {
                         <ScrollView>
-                            <View style={{ flex: 1 }}>
+                            <View style={{ flex: 1, marginTop: 10 }}>
                                 {
                                     arr_binhLuan.map((binhLuan, index, arr) => {
                                         return <ItemComment comment={binhLuan} key={index} />
@@ -295,15 +343,18 @@ const DetailPost = ({ route, navigation }) => {
 
             <View style={styles.viewBoxComment}>
                 <View style={styles.viewComment}>
-                    <TextInput style={styles.txtComment} placeholder="Bạn thấy sao về bài viết này?" onChangeText={(txt) => { setbinhLuanMoi(txt) }} value={binhLuanMoi} />
-                    <TouchableHighlight underlayColor={'#b0ebc1'} onPress={() => { }} activeOpacity={0.5}>
+                    <TextInput style={styles.txtComment} placeholder="Bạn thấy sao về bài viết này?"
+                        onChangeText={(txt) => { setbinhLuanMoi(txt) }} value={binhLuanMoi} />
+
+                    <TouchableOpacity onPress={() => { }}
+                        activeOpacity={0.5} style={{ position: 'absolute', right: 7, top: '25%' }}>
                         <Image source={require('../../assets/images/iconImageCmt.png')}
                             style={{ width: 30, height: 30 }} />
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
 
                 <TouchableOpacity style={styles.btnSendComment} onPress={UploadComment}>
-                    <Feather name='send' size={22} />
+                    <Feather name='send' size={22} style={{ transform: [{ rotate: '45deg' }] }} />
                 </TouchableOpacity>
             </View>
         </View>

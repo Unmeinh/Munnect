@@ -1,3 +1,4 @@
+import { Text, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SplashMunnectScreen from './SplashMunnectScreen';
@@ -6,6 +7,7 @@ import LoginScreen from '../Login/LoginScreen';
 import RegistScreen from '../Login/RegisterScreen';
 import ForgetPassScreen from '../Login/ForgetPassScreen';
 import NewPost from '../Posts/NewPost';
+import UpdatePost from '../Posts/UpdatePost';
 import DetailPost from "../Posts/DetailPost";
 import ViewAccount from "../Account/ViewAccount";
 import PreviewAccount from '../Account/PreviewAccount';
@@ -14,7 +16,7 @@ import SearchScreen from "../Setting/SearchScreen";
 import UpdateAccountScreen from "../Setting/UpdateAccountScreen";
 import UpdateItemScreen from "../Setting/UpdateItemScreen";
 import ChangePassScreen from "../Setting/ChangePassScreen";
-import ListMyPost from '../Setting/ListMyPost.Screen';
+import ListMyPost from '../Setting/ListMyPostScreen';
 
 const StackNav = createNativeStackNavigator();
 
@@ -31,6 +33,15 @@ const AppNavi = () => {
         <StackNav.Screen name='NewPost' component={NewPost}
           options={{
             title: 'Bài viết mới',
+            headerStyle: {},
+            headerTitleStyle: {
+              fontWeight: '400',
+              fontSize: 25
+            },
+          }} />
+        <StackNav.Screen name='UpdatePost' component={UpdatePost}
+          options={{
+            title: 'Sửa bài viết',
             headerStyle: {},
             headerTitleStyle: {
               fontWeight: '400',
@@ -93,26 +104,26 @@ const AppNavi = () => {
               fontSize: 25
             },
           })} />
-           <StackNav.Screen name='ChangePassScreen' component={ChangePassScreen}
-                options={({ route }) =>
-                ({
-                    title:'Thay đổi mật khẩu',
-                    headerStyle: {},
-                    headerTitleStyle: {
-                        fontWeight: '400',
-                        fontSize: 25
-                    },
-                })} />
-            <StackNav.Screen name='ListMyPost' component={ListMyPost}
-                options={({ route }) =>
-                ({
-                    title:'Danh sách bài viết',
-                    headerStyle: {},
-                    headerTitleStyle: {
-                        fontWeight: '400',
-                        fontSize: 25
-                    },
-                })} />
+        <StackNav.Screen name='ChangePassScreen' component={ChangePassScreen}
+          options={({ route }) =>
+          ({
+            title: 'Thay đổi mật khẩu',
+            headerStyle: {},
+            headerTitleStyle: {
+              fontWeight: '400',
+              fontSize: 25
+            },
+          })} />
+        <StackNav.Screen name='ListMyPost' component={ListMyPost}
+          options={({ route }) =>
+          ({
+            title: 'Danh sách bài viết',
+            headerStyle: {},
+            headerTitleStyle: {
+              fontWeight: '400',
+              fontSize: 25
+            },
+          })} />
       </StackNav.Navigator>
     </NavigationContainer>
   )
