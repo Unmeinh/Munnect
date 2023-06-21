@@ -8,28 +8,34 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
-       
+
     },
-    viewItemName:{
-        flexDirection: 'row', 
-        alignItems: 'center', 
-        justifyContent: 'space-between', 
+
+    viewItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         margin: 15
     },
-    viewItemName1:{
-        flexDirection: 'row', 
-        alignItems: 'center' 
+
+    viewItemName: {
+        flexDirection: 'row',
+        alignItems: 'center'
     },
-    
-    viewTxt:{
+
+    viewTxt: {
         marginLeft: 10
     },
-    txtTile:{
-        fontSize: 20, 
-        fontWeight: 'bold' 
+
+    txtTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginLeft: 5,
     },
-    txtValue:{
-        fontSize: 17, 
-        marginLeft: 15
+
+    txtValue: {
+        fontSize: 17,
+        marginLeft: 15,
+        width: WindowWidth*70/100
     }
 });

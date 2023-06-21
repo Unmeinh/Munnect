@@ -1,4 +1,7 @@
-import { Image, Text, TouchableHighlight, TouchableOpacity, View } from "react-native"
+import {
+    Image, Text, View,
+    TouchableHighlight, TouchableOpacity
+} from "react-native"
 import React, { useState } from "react";
 import styles from '../../Styles/Setting/SettingScreen.styles'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -63,7 +66,7 @@ const SettingScreen = (route) => {
                 </TouchableHighlight>
 
                 <TouchableHighlight underlayColor={'#ededeb'} activeOpacity={0.8} style={styles.bottomLine}
-                    onPress={() => { OpenListAcc('follower')  }}>
+                    onPress={() => { OpenListAcc('follower') }}>
                     <View style={styles.viewItemSetting}>
                         <Image source={require('../../assets/images/follower.png')} />
                         <Text style={styles.txtItemSetting}>Người theo dõi tôi</Text>
