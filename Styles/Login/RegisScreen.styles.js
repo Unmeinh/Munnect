@@ -23,19 +23,20 @@ export default StyleSheet.create({
     },
 
     nameRegist: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        margin: 30
-
+        fontWeight: '500',
+        margin: 20,
+        fontSize: 29,
+        width: '75%'
     },
 
     txtIntro: {
-        fontSize: 17
+        fontSize: 17,
+        width: '73%'
     },
 
     viewInput: {
         width: '85%',
-        marginTop: 70
+        marginTop: '10%'
     },
 
     txtInput: {
@@ -52,7 +53,10 @@ export default StyleSheet.create({
         margin: 15,
         borderRadius: 4,
         padding: 13,
+    },
 
+    txtDate: {
+        fontSize: 18,
     },
 
     btnRegist: {
@@ -88,6 +92,7 @@ export default StyleSheet.create({
     },
 
     txtLogin: {
+        color: '#403E3E',
         fontWeight: 'bold',
         textDecorationLine: 'underline',
         fontSize: 19,

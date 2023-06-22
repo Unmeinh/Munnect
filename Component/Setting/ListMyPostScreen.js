@@ -8,7 +8,8 @@ import React, { useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from '../../Styles/Account/AccScreen.styles'
 import AutoHeightImage from "react-native-auto-height-image";
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Moment from 'moment';
 
 const ListMyPost = ({ route, navigation }) => {
@@ -78,64 +79,73 @@ const ListMyPost = ({ route, navigation }) => {
         }
 
         return (
-            <View style={{ borderColor: '#000000', borderWidth: 1, borderRadius: 20, padding: 20 }}>
-                <View style={{ flexDirection: 'row', width: Dimensions.get('window').width * 85 / 100 }}>
+            <View>
+                <Text style={{ color: 'rgba(0, 0, 0, 0.75)', fontSize: 20, margin: 7 }}> - {Moment(baiViet.thoiGian).format('MMM DD/YYYY')}</Text>
+                <View style={{ flexDirection: 'row', width: Dimensions.get('window').width * 85 / 100, marginLeft: 15, alignItems: 'center' }}>
                     <Image source={{ uri: nguoiDung.anhDaiDien }}
                         style={{ width: 50, height: 50, borderRadius: 50 }} />
                     <View style={{ marginLeft: 7 }}>
                         <Text style={styles.textName} numberOfLines={2}>
                             {nguoiDung.tenTaiKhoan}
                         </Text>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <EvilIcons name='clock' size={20} color={'rgba(0, 0, 0, 0.50)'} />
-                            <Text style={{ color: 'rgba(0, 0, 0, 0.75)' }}>{Moment(baiViet.thoiGian).format('MMM DD/YYYY')}</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
+                            {/* <EvilIcons name='clock' size={20} color={'rgba(0, 0, 0, 0.50)'} /> */}
+                            <FontAwesome5 name="map-pin" size={20} color={'rgba(0, 0, 0, 0.7)'}/>
+                            <Text style={{ color: 'rgba(0, 0, 0, 0.75)', fontSize: 17, marginLeft: 5 }}>
+                                {
+                                    (baiViet.viTriBaiViet == 'personal')
+                                    ? 'Cá nhân'
+                                    : 'Hội nhóm'
+                                }
+                            </Text>
                         </View>
                     </View>
                 </View>
 
                 <View>
                     <Text style={{
-                        margin: 10, fontSize: 20,
+                        margin: 15, fontSize: 20,
                         fontFamily: (String(baiViet.phongChu) == 'Default') ? "" : String(baiViet.phongChu)
                     }} numberOfLines={2}>
                         {baiViet.noiDung}</Text>
 
                     <TouchableOpacity activeOpacity={0.8} onPress={() => { }}>
                         <AutoHeightImage source={{ uri: baiViet.anhBaiViet }}
-                            width={Dimensions.get('window').width * 85 / 100} />
+                            width={Dimensions.get('window').width} />
                     </TouchableOpacity>
 
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginTop: 10 }}>
+                <View style={{ height: 1, backgroundColor: '#D9D9D9' }} />
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', margin: 15 }}>
                     <TouchableOpacity onPress={UpdatePost}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Image source={require('../../assets/images/iconEditPost.png')} style={{ width: 30 }} />
+                        <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                            <MaterialCommunityIcons name="lead-pencil" size={27}/>
                             <Text style={{ fontSize: 20, marginLeft: 5 }}>Sửa bài viết</Text>
                         </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={DeletePost}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Image source={require('../../assets/images/iconDelPost.png')} style={{ width: 30 }} />
-                            <Text style={{ fontSize: 20, marginLeft: 5 }}>Sửa bài viết</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                            <MaterialCommunityIcons name="eraser" size={28}/>
+                            <Text style={{ fontSize: 20, marginLeft: 5 }}>Xóa bài viết</Text>
                         </View>
                     </TouchableOpacity>
 
-
                 </View>
+                <View style={{ height: 7, backgroundColor: '#D9D9D9' }} />
             </View>
         )
     }
 
     return (
-        <ScrollView>
-            <View style={{ flex: 1, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', padding: 30 }}>
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
+            <ScrollView>
                 {
                     (isSelected == true)
                         ?
                         <View style={styles.viewOther}>
                             <AutoHeightImage source={require('../../assets/images/blogs.png')}
-                                width={(Dimensions.get("window").width * 75) / 100} />
+                                width={(Dimensions.get("window").width * 95) / 100} />
                             <Text style={styles.textHint}>Đang tải bài viết..</Text>
                         </View>
                         :
@@ -155,9 +165,8 @@ const ListMyPost = ({ route, navigation }) => {
                             }
                         </View>
                 }
-
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </View>
     )
 }
 export default ListMyPost;

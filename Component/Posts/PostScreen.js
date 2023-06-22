@@ -19,7 +19,7 @@ const PostScreen = (route) => {
     const [isSelected, setisSelected] = useState(true);
     const [infoLogin, setinfoLogin] = useState(route.infoLogin);
     const [isRefresh, setisRefresh] = useState(true);
-    const [srcAvatar, setsrcAvatar] = useState({ uri: String(infoLogin.anhDaiDien) });
+    const [srcAvatar, setsrcAvatar] = useState({ uri: String(route.infoLogin.anhDaiDien) });
 
     function OpenNewPost() {
         if (infoLogin != {}) {
@@ -41,6 +41,7 @@ const PostScreen = (route) => {
                 );
                 const json = await response.json();
                 setinfoLogin(json.data.listNguoiDung[0]);
+                setsrcAvatar({ uri: String(json.data.listNguoiDung[0].anhDaiDien) });
             }
         } catch (error) {
             console.error(error);

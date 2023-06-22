@@ -1,22 +1,37 @@
 import {
     Text, TextInput,
     TouchableOpacity, Image, View,
-    ToastAndroid, TouchableHighlight, Alert
+    ToastAndroid,
 } from "react-native";
 import React, { useState, useCallback } from "react";
 import styles from '../../Styles/Login/LoginScreen.styles';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({ navigation }) => {
     const [inputEmail, setinputEmail] = useState('');
     const [inputPassword, setinputPassword] = useState('');
-    const [err, seterr] = useState('');
     const [isHide, setisHide] = useState(true);
     const [isSelected, setSelection] = useState(false);
     const onPress = () => {
         setSelection(!isSelected);
     };
+
+    function checkValidate(inputObj) {
+        var regEmail = /^(\w+@[a-zA-Z]+\.[a-zA-Z]{2,})$/;
+        if (!inputObj.email.match(regEmail)) {
+            ToastAndroid.show('Email chưa đúng định dạng!', ToastAndroid.SHORT);
+            return false;
+        }
+
+        if (inputObj.matKhau == "") {
+            ToastAndroid.show('Mật khẩu không được trống!', ToastAndroid.SHORT);
+            return false;
+        }
+
+        return true;
+    }
 
     const Login = () => {
         // let url_api = 'https://backend-munnect.herokuapp.com/NguoiDung/DangNhap?inputEmail=' + inputEmail;
@@ -24,6 +39,9 @@ const LoginScreen = ({navigation}) => {
         var inputObj = {
             email: inputEmail,
             matKhau: inputPassword
+        }
+        if (checkValidate(inputObj) == false) {
+            return;
         }
 
         fetch(url_api, {
@@ -40,7 +58,9 @@ const LoginScreen = ({navigation}) => {
                     if (json.success == true) {
                         ToastAndroid.show('Đăng nhập thành công!', ToastAndroid.SHORT);
                         await AsyncStorage.setItem('idLogin', json.objData._id);
-                        await AsyncStorage.setItem('isLogin', 'true');
+                        if (isSelected) {
+                            await AsyncStorage.setItem('isLogin', 'true');
+                        }
                         navigation.navigate('HomeScreen');
                         setinputEmail('');
                         setinputPassword('');
@@ -67,25 +87,22 @@ const LoginScreen = ({navigation}) => {
             </View>
 
             <Text style={styles.nameLogo}>MUNNECT</Text>
-            <Text style={styles.txtIntro}>Vui lòng đăng nhập để tiếp tục</Text>
+            <Text style={styles.txtIntro}>Vui lòng đăng nhập {'\n'}để tiếp tục</Text>
             <View style={styles.viewInput}>
-                <TextInput style={styles.txtInput} placeholder="Email.." onChangeText={(txt) => { setinputEmail(txt) }} value={inputEmail}/>
+                <TextInput style={styles.txtInput} placeholder="Email.." onChangeText={(txt) => { setinputEmail(txt) }} value={inputEmail} />
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <TextInput style={styles.txtInput} placeholder="Mật khẩu.." secureTextEntry={isHide} onChangeText={(txt) => { setinputPassword(txt) }} value={inputPassword}/>
-                    <TouchableOpacity activeOpacity={0.5} underlayColor={'#c2f0ce'} style={{ height: 40, position: 'absolute', right: 30, top: 15 }}
+                    <TextInput style={styles.txtInput} placeholder="Mật khẩu.." secureTextEntry={isHide} onChangeText={(txt) => { setinputPassword(txt) }} value={inputPassword} />
+                    <TouchableOpacity activeOpacity={0.5} underlayColor={'#c2f0ce'} style={{ position: 'absolute', right: 30, top: '33%' }}
                         onPress={() => {
                             setisHide(!isHide);
                         }} >
                         {isHide
-                            ? <Image
-                                style={styles.iconhide}
-                                source={require('../../assets/images/view.png')}
-                            />
-                            : <Image
-                                style={styles.iconhide}
-                                source={require('../../assets/images/private.png')}
-                            />}
+                            ?
+                            <Entypo name="eye" size={28} />
+                            :
+                            <Entypo name="eye-with-line" size={28} />
+                        }
                     </TouchableOpacity>
                 </View>
 
@@ -105,17 +122,15 @@ const LoginScreen = ({navigation}) => {
                                         : <View />}
                                 </View>
                             </TouchableOpacity>
-                            <Text style={styles.textRemem}>Lưu mật khẩu</Text>
+                            <Text style={styles.textRemem}>Giữ đăng nhập</Text>
                         </View>
                     </View>
                     <TouchableOpacity underlayColor={'#daeff5'} activeOpacity={0.5} onPress={() => { navigation.navigate('ForgetPassScreen') }}>
-                        <Text style={styles.textForget}>Quên mật khẩu ?</Text>
+                        <Text style={styles.textForget}>Quên mật khẩu?</Text>
                     </TouchableOpacity>
 
                 </View>
             </View>
-
-            <Text style={{ color: 'red', fontSize: 17, alignSelf: 'flex-start', marginLeft: 50, marginTop: 20 }}>{err}</Text>
 
             <TouchableOpacity style={styles.btnLogin} activeOpacity={0.6} underlayColor={'#cedbd9'} onPress={Login}>
                 <Text style={styles.txtLogin}>Đăng nhập</Text>

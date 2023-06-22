@@ -108,19 +108,19 @@ const ChangePassScreen = ({ route, navigation }) => {
                 <Text style={styles.txtTitle}>Mật khẩu cũ:</Text>
                 <View style={styles.viewValue}>
                     <Feather name="chevron-right" size={22} />
-                    <TextInput style={styles.txtValue} placeholder='Mật khẩu cũ' onChangeText={(txt) => { setoldValue(txt) }} value={oldValue} />
+                    <TextInput style={styles.txtValue} placeholder='Mật khẩu cũ' onChangeText={(txt) => { setoldValue(txt) }} value={oldValue} secureTextEntry={true}/>
                 </View>
 
                 <Text style={styles.txtTitle}>Mật khẩu mới:</Text>
                 <View style={styles.viewValue}>
                     <Feather name="chevron-right" size={22} />
-                    <TextInput style={styles.txtValue} placeholder='Mật khẩu mới' onChangeText={(txt) => { setnewValue(txt) }} value={newValue} />
+                    <TextInput style={styles.txtValue} placeholder='Mật khẩu mới' onChangeText={(txt) => { setnewValue(txt) }} value={newValue}  secureTextEntry={true}/>
                 </View>
 
                 <Text style={styles.txtTitle}>Nhập lại mật khẩu mới:</Text>
                 <View style={styles.viewValue}>
                     <Feather name="chevron-right" size={22} />
-                    <TextInput style={styles.txtValue} placeholder='Mật khẩu mới' onChangeText={(txt) => { setnewValueRP(txt) }} value={newValueRP} />
+                    <TextInput style={styles.txtValue} placeholder='Mật khẩu mới' onChangeText={(txt) => { setnewValueRP(txt) }} value={newValueRP}  secureTextEntry={true}/>
                 </View>
             </View>
             <View style={styles.viewButton}>

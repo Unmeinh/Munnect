@@ -118,10 +118,10 @@ const ItemPost = (row) => {
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity activeOpacity={0.5} style={styles.buttonMore}
+                {/* <TouchableOpacity activeOpacity={0.5} style={styles.buttonMore}
                     onPress={OpenDetail}>
                     <Feather name='more-horizontal' size={30} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
             <TouchableOpacity activeOpacity={0.8}
                 onPress={OpenDetail}>

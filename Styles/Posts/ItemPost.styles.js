@@ -22,7 +22,7 @@ export default StyleSheet.create({
     },
 
     viewDetailPost: {
-        margin: 10,
+        margin: 15,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'
