@@ -145,20 +145,25 @@ const DetailPost = ({ route, navigation }) => {
         }, [row.idNguoiDung]);
 
         return (
-            <View style={{ flex: 1, margin: 7 }}>
-                {
-                    (typeof (row.idNguoiDung) != 'undefined')
-                        ? <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ flex: 1}}>
+            {
+                (typeof (row.idNguoiDung) != 'undefined')
+                    ? <View style={{ flexDirection: 'row', alignItems: 'center' , borderBottomWidth:1,borderBottomColor:'#D9D9D9',padding:12}}>
                             <Image source={srcAvatar} onError={() => setsrcAvatar(require('../../assets/images/error_image.jpg'))}
                                 style={{ width: 50, height: 50, borderRadius: 50 }} />
-                            <View style={{ marginLeft: 10 }}>
-                                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{row.idNguoiDung.tenTaiKhoan}</Text>
-                                <Text style={{ fontSize: 17 }}>{row.noiDung}</Text>
+                            <View style={{ marginLeft: 15 }}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <Text style={{ fontSize: 19, fontWeight: 'bold' }}>{row.idNguoiDung.tenTaiKhoan}</Text>
+                                    <Text style={{ color: 'rgba(0, 0, 0, 0.75)', marginLeft:10,fontSize:18 }}> -  {Moment(row.thoiGian).format('MMM DD/YYYY')}</Text>
+                                </View>
+
+                                <Text style={{ fontSize: 18,width:'100%' }}>{row.noiDung}</Text>
                             </View>
                         </View>
-                        : ""
-                }
-            </View>
+                       
+                    : ""
+            }
+        </View>
         )
     }
 
@@ -245,21 +250,24 @@ const DetailPost = ({ route, navigation }) => {
 
                     {/* Model more */}
                     <Modal visible={isShowMore} animationType="fade" transparent={true} onRequestClose={() => { setisShowMore(false) }}>
-                        <View style={styles.viewModalMore}>
-                            <TouchableHighlight style={styles.viewModalItemMore} underlayColor={'#ebedeb'} activeOpacity={0.5} onPress={() => {
-                                setisShowMore(false);
-                                UpdatePost();
-                            }}>
-                                <Text style={{ fontSize: 18, margin: 7 }}>Sửa bài viết</Text>
-                            </TouchableHighlight>
-                            <View style={{ height: 1, backgroundColor: '#000000' }} />
-                            <TouchableHighlight style={styles.viewModalItemMore} underlayColor={'#ebedeb'} activeOpacity={0.5} onPress={() => {
-                                setisShowMore(false);
-                                DeletePost();
-                            }}>
-                                <Text style={{ fontSize: 18, margin: 7 }}>Xóa bài viết</Text>
-                            </TouchableHighlight>
-                        </View>
+                         <TouchableOpacity activeOpacity={1} style={{ flex: 1 }} onPress={() => { setisShowMore(false) }} >
+                            <View style={styles.viewModalMore}>
+                                <TouchableHighlight style={styles.viewModalItemMore} underlayColor={'#ebedeb'} activeOpacity={0.5} onPress={() => {
+                                    setisShowMore(false);
+                                    UpdatePost();
+                                }}>
+                                    <Text style={{ fontSize: 18, margin: 7 }}>Sửa bài viết</Text>
+                                </TouchableHighlight>
+                                <View style={{ height: 1, backgroundColor: '#000000' }} />
+                                <TouchableHighlight style={styles.viewModalItemMore} underlayColor={'#ebedeb'} activeOpacity={0.5} onPress={() => {       
+                                    setisShowMore(false);
+                                    DeletePost();
+                                }}>
+                                    <Text style={{ fontSize: 18, margin: 7 }}>Xóa bài viết</Text>
+                                </TouchableHighlight>
+                            </View>
+                        </TouchableOpacity>
+                        
                     </Modal>
 
                 </View>
