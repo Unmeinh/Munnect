@@ -37,7 +37,7 @@ const PostScreen = (route) => {
             if (loginId !== null) {
                 const response = await fetch(
                     // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                    'http://10.0.2.2:3000/NguoiDung/DanhSach?inputID=' + loginId,
+                    'https://backend-munnect-104-716a330c6634.herokuapp.com/NguoiDung/DanhSach?inputID=' + loginId,
                 );
                 const json = await response.json();
                 setinfoLogin(json.data.listNguoiDung[0]);
@@ -53,7 +53,7 @@ const PostScreen = (route) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/BaiViet/DanhSach',
-                'http://10.0.2.2:3000/BaiViet/DanhSach',
+                'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/DanhSach',
             );
             const json = await response.json();
             setarr_post(json.data.listBaiViet);

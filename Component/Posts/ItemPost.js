@@ -28,7 +28,7 @@ const ItemPost = (row) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://10.0.2.2:3000/BaiViet/DanhSach/' + baiViet._id,
+                'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/DanhSach/' + baiViet._id,
             );
             const json = await response.json();
             setbaiViet(json.data.baiViet);
@@ -45,7 +45,7 @@ const ItemPost = (row) => {
             const loginId = await AsyncStorage.getItem("idLogin");
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://10.0.2.2:3000/BaiViet/TuongTac?idNguoiDung=' + loginId + '&&idBaiViet=' + baiViet._id,
+                'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/TuongTac?idNguoiDung=' + loginId + '&&idBaiViet=' + baiViet._id,
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
@@ -60,7 +60,7 @@ const ItemPost = (row) => {
             const loginId = await AsyncStorage.getItem("idLogin");
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://10.0.2.2:3000/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + loginId + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
+                'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + loginId + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);

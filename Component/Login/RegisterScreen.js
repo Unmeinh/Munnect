@@ -73,12 +73,12 @@ const RegistScreen = ({navigation}) => {
 
     function Register() {
         // let url_api = 'https://backend-munnect.herokuapp.com/NguoiDung/DangKy';
-        let url_api = 'http://10.0.2.2:3000/NguoiDung/DangKy';
+        let url_api = 'https://backend-munnect-104-716a330c6634.herokuapp.com/NguoiDung/DangKy';
         var inputObj = {
             tenTaiKhoan: inputUsername,
             email: inputEmail,
             matKhau: inputPassword,
-            sinhNhat: dateValue.toLocaleString()
+            sinhNhat: dateValue.toString()
         }
         if (checkValidate(inputObj) == false) {
             return;

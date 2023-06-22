@@ -43,7 +43,7 @@ const DetailPost = ({ route, navigation }) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://10.0.2.2:3000/BaiViet/DanhSach/' + baiViet._id,
+                'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/DanhSach/' + baiViet._id,
             );
             const json = await response.json();
             setbaiViet(json.data.baiViet);
@@ -60,7 +60,7 @@ const DetailPost = ({ route, navigation }) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/BaiViet/BinhLuan/DanhSach?idBaiViet=' + baiViet._id,
-                'http://10.0.2.2:3000/BaiViet/BinhLuan/DanhSach?idBaiViet=' + baiViet._id,
+                'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/BinhLuan/DanhSach?idBaiViet=' + baiViet._id,
             );
             const json = await response.json();
             setarr_binhLuan(json.data.listBinhLuan);
@@ -75,7 +75,7 @@ const DetailPost = ({ route, navigation }) => {
             const loginId = await AsyncStorage.getItem("idLogin");
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://10.0.2.2:3000/BaiViet/TuongTac?idNguoiDung=' + loginId + '&&idBaiViet=' + baiViet._id,
+                'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/TuongTac?idNguoiDung=' + loginId + '&&idBaiViet=' + baiViet._id,
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
@@ -91,7 +91,7 @@ const DetailPost = ({ route, navigation }) => {
             const loginId = await AsyncStorage.getItem("idLogin");
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://10.0.2.2:3000/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + loginId + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
+                'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + loginId + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
@@ -125,7 +125,7 @@ const DetailPost = ({ route, navigation }) => {
 
     async function DeletePost() {
         const loginId = await AsyncStorage.getItem("idLogin");
-        let url_api = 'http://10.0.2.2:3000/BaiViet/XoaBaiViet/' + baiViet._id;
+        let url_api = 'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/XoaBaiViet/' + baiViet._id;
 
         fetch(url_api, {
             method: 'DELETE',
@@ -181,13 +181,13 @@ const DetailPost = ({ route, navigation }) => {
 
     const UploadComment = async () => {
         const loginId = await AsyncStorage.getItem("idLogin");
-        let url_api = 'http://10.0.2.2:3000/BaiViet/BinhLuan/BinhLuanMoi';
+        let url_api = 'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/BinhLuan/BinhLuanMoi';
 
         let formData = new FormData();
         formData.append('idNguoiDung', loginId);
         formData.append('idBaiViet', baiViet._id);
         formData.append('noiDung', binhLuanMoi);
-        formData.append('thoiGian', new Date().toLocaleDateString());
+        formData.append('thoiGian', new Date().toString());
 
         // if (dataImage != {} && ipImageUrl != "") {
         //     formData.append('anhBinhLuan', dataImage);

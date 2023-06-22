@@ -18,7 +18,7 @@ const UpdateAccountScreen = ({ route, navigation }) => {
             if (loginId !== null) {
                 const response = await fetch(
                     // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                    'http://10.0.2.2:3000/NguoiDung/DanhSach?inputID=' + loginId,
+                    'https://backend-munnect-104-716a330c6634.herokuapp.com/NguoiDung/DanhSach?inputID=' + loginId,
                 );
                 const json = await response.json();
                 setinfoLogin(json.data.listNguoiDung[0]);

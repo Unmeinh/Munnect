@@ -24,7 +24,7 @@ const NotifyScreen = (route) => {
         try {
             const loginId = await AsyncStorage.getItem("idLogin");
             const response = await fetch(
-                'http://10.0.2.2:3000/ThongBao/DanhSach?idNguoiDung=' + loginId,
+                'https://backend-munnect-104-716a330c6634.herokuapp.com/ThongBao/DanhSach?idNguoiDung=' + loginId,
             );
             const json = await response.json();
             setarr_notifi(json.data.listThongBao);
@@ -42,7 +42,7 @@ const NotifyScreen = (route) => {
             try {
                 const response = await fetch(
                     // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                    'http://10.0.2.2:3000/BaiViet/DanhSach/' + notifi.idBaiViet,
+                    'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/DanhSach/' + notifi.idBaiViet,
                 );
                 const json = await response.json();
                 if (json.data.baiViet != null) {
