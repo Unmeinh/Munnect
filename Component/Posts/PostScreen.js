@@ -19,7 +19,7 @@ const PostScreen = (route) => {
     const [isSelected, setisSelected] = useState(true);
     const [infoLogin, setinfoLogin] = useState(route.infoLogin);
     const [isRefresh, setisRefresh] = useState(true);
-    const [srcAvatar, setsrcAvatar] = useState({ uri: String(infoLogin.anhDaiDien) });
+    const [srcAvatar, setsrcAvatar] = useState({ uri: String(route.infoLogin.anhDaiDien) });
 
     function OpenNewPost() {
         if (infoLogin != {}) {
@@ -37,10 +37,11 @@ const PostScreen = (route) => {
             if (loginId !== null) {
                 const response = await fetch(
                     // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                    'http://10.0.2.2:3000/NguoiDung/DanhSach?inputID=' + loginId,
+                    'https://backend-munnect-104-716a330c6634.herokuapp.com/NguoiDung/DanhSach?inputID=' + loginId,
                 );
                 const json = await response.json();
                 setinfoLogin(json.data.listNguoiDung[0]);
+                setsrcAvatar({ uri: String(json.data.listNguoiDung[0].anhDaiDien) });
             }
         } catch (error) {
             console.error(error);
@@ -52,7 +53,7 @@ const PostScreen = (route) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/BaiViet/DanhSach',
-                'http://10.0.2.2:3000/BaiViet/DanhSach',
+                'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/DanhSach',
             );
             const json = await response.json();
             setarr_post(json.data.listBaiViet);

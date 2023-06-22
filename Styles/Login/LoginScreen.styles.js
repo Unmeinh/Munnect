@@ -10,7 +10,7 @@ export default StyleSheet.create({
         backgroundColor: '#FFFFFF',
         marginTop: StatusBar.currentHeight,
         alignItems: 'center',
-
+        height: WindowHeight
     },
 
     container2: {
@@ -24,19 +24,18 @@ export default StyleSheet.create({
 
     nameLogo: {
         fontSize: 40,
-        margin: 30,
-        fontFamily: 'Aclonica'
+        fontFamily: 'Aclonica',
+        margin: 20
     },
 
     txtIntro: {
-        fontSize: 32,
+        fontSize: 27,
         width: '75%'
     },
 
     viewInput: {
         width: '90%',
-        marginTop: 130
-
+        marginTop: '25%'
     },
 
     txtInput: {
@@ -57,18 +56,10 @@ export default StyleSheet.create({
         paddingRight: 40
     },
 
-    iconhide: {
-        width: 30,
-        height: 24,
-        resizeMode: 'stretch',
-        alignItems: 'center',
-        marginTop: 15,
-    },
-
     viewRemember: {
         flexDirection: 'row',
         paddingLeft: 20,
-        paddingRight: 40,
+        paddingRight: 20,
     },
 
     viewRow: {
@@ -90,7 +81,7 @@ export default StyleSheet.create({
     },
 
     textRemem: {
-        color: '#6B5E5E',
+        color: '#403E3E',
         fontSize: 17,
         fontWeight: '400',
         fontStyle: 'normal',
@@ -98,7 +89,7 @@ export default StyleSheet.create({
     },
 
     textForget: {
-        color: '#6B5E5E',
+        color: '#403E3E',
         fontSize: 17,
         fontWeight: '400',
         fontStyle: 'normal',
@@ -132,7 +123,7 @@ export default StyleSheet.create({
         backgroundColor: 'white',
         width: '80%',
         borderRadius: 5,
-        marginTop: 40,
+        marginTop: 30,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -148,6 +139,6 @@ export default StyleSheet.create({
         textAlign: 'center',
         fontSize: 22,
         fontWeight: 'bold',
-        color: '#00ff80'
+        color: '#0C7F45'
     },
 });

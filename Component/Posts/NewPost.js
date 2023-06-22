@@ -42,10 +42,10 @@ const NewPost = ({ route, navigation }) => {
             idChuBaiViet: infoLogin._id,
             tieuDeTB: " đã đăng:",
             noiDungTB: post.noiDung,
-            thoiGianTB: new Date().toLocaleString(),
+            thoiGianTB: new Date().toString(),
         };
         console.log(newNotice);
-        let url_api = 'http://10.0.2.2:3000/ThongBao/ThongBaoMoi';
+        let url_api = 'https://backend-munnect-104-716a330c6634.herokuapp.com/ThongBao/ThongBaoMoi';
 
         fetch(url_api, {
             method: 'POST',
@@ -70,7 +70,7 @@ const NewPost = ({ route, navigation }) => {
     const AfterPost = async (post) => {
         await fetch(
             // 'https://backend-munnect.herokuapp.com/BaiViet/DanhSach',
-            'http://10.0.2.2:3000/NguoiDung/SuaArrBaiViet/' + infoLogin._id + '?idBV=' + post._id,
+            'https://backend-munnect-104-716a330c6634.herokuapp.com/NguoiDung/SuaArrBaiViet/' + infoLogin._id + '?idBV=' + post._id,
         );
         if (infoLogin.arr_NguoiTheoDoi.length > 0) {
             for (let index = 0; index < infoLogin.arr_NguoiTheoDoi.length; index++) {
@@ -100,7 +100,7 @@ const NewPost = ({ route, navigation }) => {
             phongChu: inputFont,
         };
         // let url_api = 'https://backend-munnect.herokuapp.com/BaiViet/BaiVietMoi';
-        let url_api = 'http://10.0.2.2:3000/BaiViet/BaiVietMoi';
+        let url_api = 'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/BaiVietMoi';
 
         if (CheckValidate(newPost) == false) {
             return;
@@ -109,7 +109,7 @@ const NewPost = ({ route, navigation }) => {
         formData.append('idNguoiDung', infoLogin._id);
         formData.append('noiDung', inputContent);
         formData.append('phongChu', inputFont);
-        formData.append('thoiGian', new Date().toLocaleString());
+        formData.append('thoiGian', new Date().toString());
         formData.append('viTriBaiViet', "personal");
         formData.append('arr_binhLuan', {});
         formData.append('arr_dongTinh', {});
@@ -148,7 +148,7 @@ const NewPost = ({ route, navigation }) => {
                     setTimeout(async () => {
                         const response = await fetch(
                             // 'https://backend-munnect.herokuapp.com/BaiViet/DanhSach',
-                            'http://10.0.2.2:3000/BaiViet/DanhSach/NguoiDung/' + infoLogin._id,
+                            'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/DanhSach/NguoiDung/' + infoLogin._id,
                         );
                         const json = await response.json();
                         if (json.data.listBaiViet.length > infoLogin.arr_BaiViet.length) {

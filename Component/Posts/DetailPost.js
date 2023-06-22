@@ -15,6 +15,7 @@ import Moment from "moment";
 import styles from '../../Styles/Posts/ItemPost.styles';
 
 const DetailPost = ({ route, navigation }) => {
+    const [idLogin, setidLogin] = useState({});
     const [binhLuanMoi, setbinhLuanMoi] = useState('');
     const [baiViet, setbaiViet] = useState(route.params.post);
     const [arr_dongTinh, setarr_dongTinh] = useState(baiViet.arr_dongTinh);
@@ -27,11 +28,22 @@ const DetailPost = ({ route, navigation }) => {
     const [srcAvatar, setsrcAvatar] = useState({ uri: String(nguoiDung.anhDaiDien) });
     Moment.locale('en');
 
+    const GetInfoLogin = async () => {
+        try {
+            const loginId = await AsyncStorage.getItem("idLogin");
+            if (loginId !== null) {
+                setidLogin(loginId);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const GetPost = async () => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://10.0.2.2:3000/BaiViet/DanhSach/' + baiViet._id,
+                'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/DanhSach/' + baiViet._id,
             );
             const json = await response.json();
             setbaiViet(json.data.baiViet);
@@ -48,7 +60,7 @@ const DetailPost = ({ route, navigation }) => {
         try {
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/BaiViet/BinhLuan/DanhSach?idBaiViet=' + baiViet._id,
-                'http://10.0.2.2:3000/BaiViet/BinhLuan/DanhSach?idBaiViet=' + baiViet._id,
+                'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/BinhLuan/DanhSach?idBaiViet=' + baiViet._id,
             );
             const json = await response.json();
             setarr_binhLuan(json.data.listBinhLuan);
@@ -63,7 +75,7 @@ const DetailPost = ({ route, navigation }) => {
             const loginId = await AsyncStorage.getItem("idLogin");
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://10.0.2.2:3000/BaiViet/TuongTac?idNguoiDung=' + loginId + '&&idBaiViet=' + baiViet._id,
+                'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/TuongTac?idNguoiDung=' + loginId + '&&idBaiViet=' + baiViet._id,
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
@@ -79,7 +91,7 @@ const DetailPost = ({ route, navigation }) => {
             const loginId = await AsyncStorage.getItem("idLogin");
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://10.0.2.2:3000/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + loginId + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
+                'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/TuongTac/TuongTacMoi?idNguoiDung=' + loginId + '&&idBaiViet=' + baiViet._id + '&&tuongTac=' + type,
             );
             const json = await response.json();
             setmyTuongTac(json.data.tuongTac);
@@ -113,7 +125,7 @@ const DetailPost = ({ route, navigation }) => {
 
     async function DeletePost() {
         const loginId = await AsyncStorage.getItem("idLogin");
-        let url_api = 'http://10.0.2.2:3000/BaiViet/XoaBaiViet/' + baiViet._id;
+        let url_api = 'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/XoaBaiViet/' + baiViet._id;
 
         fetch(url_api, {
             method: 'DELETE',
@@ -145,17 +157,22 @@ const DetailPost = ({ route, navigation }) => {
         }, [row.idNguoiDung]);
 
         return (
-            <View style={{ flex: 1, margin: 7 }}>
+            <View style={{ flex: 1 }}>
                 {
                     (typeof (row.idNguoiDung) != 'undefined')
-                        ? <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        ? <View style={{ flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#D9D9D9', padding: 12 }}>
                             <Image source={srcAvatar} onError={() => setsrcAvatar(require('../../assets/images/error_image.jpg'))}
                                 style={{ width: 50, height: 50, borderRadius: 50 }} />
-                            <View style={{ marginLeft: 10 }}>
-                                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{row.idNguoiDung.tenTaiKhoan}</Text>
-                                <Text style={{ fontSize: 17 }}>{row.noiDung}</Text>
+                            <View style={{ marginLeft: 15 }}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <Text style={{ fontSize: 19, fontWeight: 'bold' }}>{row.idNguoiDung.tenTaiKhoan}</Text>
+                                    <Text style={{ color: 'rgba(0, 0, 0, 0.75)', marginLeft: 10, fontSize: 15 }}> -  {Moment(row.thoiGian).format('MMM DD/YYYY')}</Text>
+                                </View>
+
+                                <Text style={{ fontSize: 18, width: '100%' }}>{row.noiDung}</Text>
                             </View>
                         </View>
+
                         : ""
                 }
             </View>
@@ -164,13 +181,13 @@ const DetailPost = ({ route, navigation }) => {
 
     const UploadComment = async () => {
         const loginId = await AsyncStorage.getItem("idLogin");
-        let url_api = 'http://10.0.2.2:3000/BaiViet/BinhLuan/BinhLuanMoi';
+        let url_api = 'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/BinhLuan/BinhLuanMoi';
 
         let formData = new FormData();
         formData.append('idNguoiDung', loginId);
         formData.append('idBaiViet', baiViet._id);
         formData.append('noiDung', binhLuanMoi);
-        formData.append('thoiGian', new Date().toLocaleDateString());
+        formData.append('thoiGian', new Date().toString());
 
         // if (dataImage != {} && ipImageUrl != "") {
         //     formData.append('anhBinhLuan', dataImage);
@@ -208,6 +225,7 @@ const DetailPost = ({ route, navigation }) => {
 
     React.useEffect(() => {
         const unsub = navigation.addListener('focus', () => {
+            GetInfoLogin();
             GetPost();
             GetInteract();
             GetComment();
@@ -242,26 +260,43 @@ const DetailPost = ({ route, navigation }) => {
                     <TouchableOpacity onPress={() => { setisShowMore(true) }}>
                         <Feather name='more-horizontal' size={30} />
                     </TouchableOpacity>
-
-                    {/* Model more */}
                     <Modal visible={isShowMore} animationType="fade" transparent={true} onRequestClose={() => { setisShowMore(false) }}>
-                        <View style={styles.viewModalMore}>
-                            <TouchableHighlight style={styles.viewModalItemMore} underlayColor={'#ebedeb'} activeOpacity={0.5} onPress={() => {
-                                setisShowMore(false);
-                                UpdatePost();
-                            }}>
-                                <Text style={{ fontSize: 18, margin: 7 }}>Sửa bài viết</Text>
-                            </TouchableHighlight>
-                            <View style={{ height: 1, backgroundColor: '#000000' }} />
-                            <TouchableHighlight style={styles.viewModalItemMore} underlayColor={'#ebedeb'} activeOpacity={0.5} onPress={() => {
-                                setisShowMore(false);
-                                DeletePost();
-                            }}>
-                                <Text style={{ fontSize: 18, margin: 7 }}>Xóa bài viết</Text>
-                            </TouchableHighlight>
-                        </View>
+                        <TouchableOpacity activeOpacity={1} style={{ flex: 1 }} onPress={() => { setisShowMore(false) }} >
+                            {
+                                (idLogin == nguoiDung._id)
+                                    ?
+                                    <View style={styles.viewModalMore}>
+                                        <TouchableHighlight style={styles.viewModalItemMore} underlayColor={'#ebedeb'} activeOpacity={0.5} onPress={() => {
+                                            setisShowMore(false);
+                                            UpdatePost();
+                                        }}>
+                                            <Text style={{ fontSize: 18, margin: 7 }}>Sửa bài viết</Text>
+                                        </TouchableHighlight>
+                                        <View style={{ height: 1, backgroundColor: '#000000' }} />
+                                        <TouchableHighlight style={styles.viewModalItemMore} underlayColor={'#ebedeb'} activeOpacity={0.5} onPress={() => {
+                                            setisShowMore(false);
+                                            DeletePost();
+                                        }}>
+                                            <Text style={{ fontSize: 18, margin: 7 }}>Xóa bài viết</Text>
+                                        </TouchableHighlight>
+                                    </View>
+                                    :
+                                    <View style={styles.viewModalMore}>
+                                        <TouchableHighlight style={styles.viewModalItemMore} underlayColor={'#ebedeb'} activeOpacity={0.5} onPress={() => {
+                                            setisShowMore(false);
+                                        }}>
+                                            <Text style={{ fontSize: 18, margin: 7 }}>Ẩn bài viết</Text>
+                                        </TouchableHighlight>
+                                        <View style={{ height: 1, backgroundColor: '#000000' }} />
+                                        <TouchableHighlight style={styles.viewModalItemMore} underlayColor={'#ebedeb'} activeOpacity={0.5} onPress={() => {
+                                            setisShowMore(false);
+                                        }}>
+                                            <Text style={{ fontSize: 18, margin: 7 }}>Báo cáo bài viết</Text>
+                                        </TouchableHighlight>
+                                    </View>
+                            }
+                        </TouchableOpacity>
                     </Modal>
-
                 </View>
                 <TouchableOpacity activeOpacity={1} >
                     <View>

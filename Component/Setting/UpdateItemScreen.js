@@ -24,7 +24,7 @@ const UpdateItemScreen = ({ route, navigation }) => {
             if (loginId !== null) {
                 const response = await fetch(
                     // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                    'http://10.0.2.2:3000/NguoiDung/DanhSach?inputID=' + loginId,
+                    'https://backend-munnect-104-716a330c6634.herokuapp.com/NguoiDung/DanhSach?inputID=' + loginId,
                 );
                 const json = await response.json();
                 setinfoLogin(json.data.listNguoiDung[0]);
@@ -56,6 +56,7 @@ const UpdateItemScreen = ({ route, navigation }) => {
 
                 case 'Sinh nhật':
                     setoldValue(Moment(info.sinhNhat).format('MMM DD/YYYY'));
+                    setnewValue('Chọn ngày..');
                     break;
 
                 case 'Quê quán':
@@ -133,7 +134,7 @@ const UpdateItemScreen = ({ route, navigation }) => {
     }
 
     const UpdateAccount = () => {
-        let url_api = 'http://10.0.2.2:3000/NguoiDung/CapNhatThongTin/' + infoLogin._id;
+        let url_api = 'https://backend-munnect-104-716a330c6634.herokuapp.com/NguoiDung/CapNhatThongTin/' + infoLogin._id;
         let formData = GetNewValue();
 
         fetch(url_api, {

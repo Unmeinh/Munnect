@@ -22,7 +22,7 @@ const ChangePassScreen = ({ route, navigation }) => {
             if (loginId !== null) {
                 const response = await fetch(
                     // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                    'http://10.0.2.2:3000/NguoiDung/DanhSach?inputID=' + loginId,
+                    'https://backend-munnect-104-716a330c6634.herokuapp.com/NguoiDung/DanhSach?inputID=' + loginId,
                 );
                 const json = await response.json();
                 setinfoLogin(json.data.listNguoiDung[0]);
@@ -55,7 +55,7 @@ const ChangePassScreen = ({ route, navigation }) => {
 
     const UpdateAccount = () => {
         console.log(infoLogin._id);
-        let url_api = 'http://10.0.2.2:3000/NguoiDung/ThayDoiMatKhau/' + infoLogin._id + '?matKhauCu=' + oldValue;
+        let url_api = 'https://backend-munnect-104-716a330c6634.herokuapp.com/NguoiDung/ThayDoiMatKhau/' + infoLogin._id + '?matKhauCu=' + oldValue;
         let formData = GetNewValue();
 
         if (oldValue == '' && oldValue != infoLogin.matKhau) {
@@ -108,19 +108,19 @@ const ChangePassScreen = ({ route, navigation }) => {
                 <Text style={styles.txtTitle}>Mật khẩu cũ:</Text>
                 <View style={styles.viewValue}>
                     <Feather name="chevron-right" size={22} />
-                    <TextInput style={styles.txtValue} placeholder='Mật khẩu cũ' onChangeText={(txt) => { setoldValue(txt) }} value={oldValue} />
+                    <TextInput style={styles.txtValue} placeholder='Mật khẩu cũ' onChangeText={(txt) => { setoldValue(txt) }} value={oldValue} secureTextEntry={true}/>
                 </View>
 
                 <Text style={styles.txtTitle}>Mật khẩu mới:</Text>
                 <View style={styles.viewValue}>
                     <Feather name="chevron-right" size={22} />
-                    <TextInput style={styles.txtValue} placeholder='Mật khẩu mới' onChangeText={(txt) => { setnewValue(txt) }} value={newValue} />
+                    <TextInput style={styles.txtValue} placeholder='Mật khẩu mới' onChangeText={(txt) => { setnewValue(txt) }} value={newValue}  secureTextEntry={true}/>
                 </View>
 
                 <Text style={styles.txtTitle}>Nhập lại mật khẩu mới:</Text>
                 <View style={styles.viewValue}>
                     <Feather name="chevron-right" size={22} />
-                    <TextInput style={styles.txtValue} placeholder='Mật khẩu mới' onChangeText={(txt) => { setnewValueRP(txt) }} value={newValueRP} />
+                    <TextInput style={styles.txtValue} placeholder='Mật khẩu mới' onChangeText={(txt) => { setnewValueRP(txt) }} value={newValueRP}  secureTextEntry={true}/>
                 </View>
             </View>
             <View style={styles.viewButton}>
