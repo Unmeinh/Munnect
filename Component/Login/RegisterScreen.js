@@ -78,7 +78,7 @@ const RegistScreen = ({navigation}) => {
             tenTaiKhoan: inputUsername,
             email: inputEmail,
             matKhau: inputPassword,
-            sinhNhat: dateValue.toDateString()
+            sinhNhat: dateValue.toString()
         }
         if (checkValidate(inputObj) == false) {
             return;
