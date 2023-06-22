@@ -9,8 +9,8 @@ export default StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
         paddingTop: 15,
-        paddingLeft: 25,
-        paddingRight: 25
+        paddingLeft: 20,
+        paddingRight: 20
     },
 
     viewItemUpdate: {

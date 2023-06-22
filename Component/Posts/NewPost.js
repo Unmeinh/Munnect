@@ -130,11 +130,12 @@ const NewPost = ({ route, navigation }) => {
             },
             body: formData
         })
-            .then((res) => {
+            .then(async (res) => {
                 console.log(res);
                 if (res.status == 201) {
+                    const json = await res.json();
                     ToastAndroid.show('Đang đăng bài viết, vui lòng đợi!', ToastAndroid.SHORT);
-                    var post = res.data.baiViet;
+                    var post = json.data.baiViet;
                     AfterPost(post);
                 } else {
                     ToastAndroid.show('Đăng bài viết mới thất bại!', ToastAndroid.SHORT);
