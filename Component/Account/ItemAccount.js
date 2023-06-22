@@ -44,7 +44,7 @@ const ItemAccount = (row) => {
             const loginId = await AsyncStorage.getItem("idLogin");
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://10.0.2.2:3000/NguoiDung/TheoDoi/DanhSach?idAccount=' + nguoiDung._id + '&&idSelf=' + loginId,
+                'https://backend-munnect-104-716a330c6634.herokuapp.com/NguoiDung/TheoDoi/DanhSach?idAccount=' + nguoiDung._id + '&&idSelf=' + loginId,
             );
             const json = await response.json();
             if (json.data.trangThai == 'true') {
@@ -63,7 +63,7 @@ const ItemAccount = (row) => {
             const loginId = await AsyncStorage.getItem("idLogin");
             const response = await fetch(
                 // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                'http://10.0.2.2:3000/NguoiDung/TheoDoi/TheoDoiMoi?idSelf=' + loginId + '&&idAccount=' + nguoiDung._id + '&&isFollow=' + is,
+                'https://backend-munnect-104-716a330c6634.herokuapp.com/NguoiDung/TheoDoi/TheoDoiMoi?idSelf=' + loginId + '&&idAccount=' + nguoiDung._id + '&&isFollow=' + is,
             );
             const json = await response.json();
             console.log(json);

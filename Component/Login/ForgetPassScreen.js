@@ -20,7 +20,7 @@ const ForgetPassScreen = (props) => {
             return;
         }
 
-        let url_api_user = 'http://10.0.2.2:3000/api';
+        let url_api_user = 'https://backend-munnect-104-716a330c6634.herokuapp.com/api';
         fetch(url_api_user)
             .then((res) => {
                 return res.json();

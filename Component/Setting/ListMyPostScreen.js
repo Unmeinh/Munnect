@@ -57,7 +57,7 @@ const ListMyPost = ({ route, navigation }) => {
 
         async function DeletePost() {
             const loginId = await AsyncStorage.getItem("idLogin");
-            let url_api = 'http://10.0.2.2:3000/BaiViet/XoaBaiViet/' + baiViet._id;
+            let url_api = 'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/XoaBaiViet/' + baiViet._id;
 
             fetch(url_api, {
                 method: 'DELETE',

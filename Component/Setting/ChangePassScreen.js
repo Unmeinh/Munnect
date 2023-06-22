@@ -22,7 +22,7 @@ const ChangePassScreen = ({ route, navigation }) => {
             if (loginId !== null) {
                 const response = await fetch(
                     // 'https://backend-munnect.herokuapp.com/NguoiDung/DanhSach?inputID='+loginId,
-                    'http://10.0.2.2:3000/NguoiDung/DanhSach?inputID=' + loginId,
+                    'https://backend-munnect-104-716a330c6634.herokuapp.com/NguoiDung/DanhSach?inputID=' + loginId,
                 );
                 const json = await response.json();
                 setinfoLogin(json.data.listNguoiDung[0]);
@@ -55,7 +55,7 @@ const ChangePassScreen = ({ route, navigation }) => {
 
     const UpdateAccount = () => {
         console.log(infoLogin._id);
-        let url_api = 'http://10.0.2.2:3000/NguoiDung/ThayDoiMatKhau/' + infoLogin._id + '?matKhauCu=' + oldValue;
+        let url_api = 'https://backend-munnect-104-716a330c6634.herokuapp.com/NguoiDung/ThayDoiMatKhau/' + infoLogin._id + '?matKhauCu=' + oldValue;
         let formData = GetNewValue();
 
         if (oldValue == '' && oldValue != infoLogin.matKhau) {

@@ -44,10 +44,10 @@ const UpdatePost = ({ route, navigation }) => {
             idChuBaiViet: infoLogin._id,
             tieuDeTB: " đã đăng lại:",
             noiDungTB: post.noiDung,
-            thoiGianTB: new Date().toLocaleString(),
+            thoiGianTB: new Date().toString(),
         };
         console.log(newNotice);
-        let url_api = 'http://10.0.2.2:3000/ThongBao/ThongBaoMoi';
+        let url_api = 'https://backend-munnect-104-716a330c6634.herokuapp.com/ThongBao/ThongBaoMoi';
 
         fetch(url_api, {
             method: 'POST',
@@ -92,7 +92,7 @@ const UpdatePost = ({ route, navigation }) => {
             phongChu: inputFont,
         };
         // let url_api = 'https://backend-munnect.herokuapp.com/BaiViet/BaiVietMoi';
-        let url_api = 'http://10.0.2.2:3000/BaiViet/SuaBaiViet/' + baiViet._id;
+        let url_api = 'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/SuaBaiViet/' + baiViet._id;
 
         if (CheckValidate(UpdatePost) == false) {
             return;
@@ -101,7 +101,7 @@ const UpdatePost = ({ route, navigation }) => {
         formData.append('idNguoiDung', infoLogin._id);
         formData.append('noiDung', inputContent);
         formData.append('phongChu', inputFont);
-        formData.append('thoiGian', new Date().toLocaleString());
+        formData.append('thoiGian', new Date().toString());
         formData.append('viTriBaiViet', baiViet.viTriBaiViet);
         formData.append('arr_binhLuan', baiViet.arr_binhLuan);
         formData.append('arr_dongTinh', baiViet.arr_dongTinh);
@@ -148,7 +148,7 @@ const UpdatePost = ({ route, navigation }) => {
                     setTimeout(async () => {
                         const response = await fetch(
                             // 'https://backend-munnect.herokuapp.com/BaiViet/DanhSach',
-                            'http://10.0.2.2:3000/BaiViet/DanhSach/NguoiDung/' + infoLogin._id,
+                            'https://backend-munnect-104-716a330c6634.herokuapp.com/BaiViet/DanhSach/NguoiDung/' + infoLogin._id,
                         );
                         const json = await response.json();
                         var post = json.data.listBaiViet[0];
