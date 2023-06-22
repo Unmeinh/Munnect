@@ -8,7 +8,8 @@ import React, { useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from '../../Styles/Account/AccScreen.styles'
 import AutoHeightImage from "react-native-auto-height-image";
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Moment from 'moment';
 
 const ListMyPost = ({ route, navigation }) => {
@@ -79,18 +80,24 @@ const ListMyPost = ({ route, navigation }) => {
 
         return (
             <View>
-                <Text style={{ color: 'rgba(0, 0, 0, 0.75)', fontSize: 20, margin: 7 }}>- {Moment(baiViet.thoiGian).format('MMM DD/YYYY')}</Text>
-                <View style={{ flexDirection: 'row', width: Dimensions.get('window').width * 85 / 100, marginLeft: 15 ,alignItems:'center'}}>
+                <Text style={{ color: 'rgba(0, 0, 0, 0.75)', fontSize: 20, margin: 7 }}> - {Moment(baiViet.thoiGian).format('MMM DD/YYYY')}</Text>
+                <View style={{ flexDirection: 'row', width: Dimensions.get('window').width * 85 / 100, marginLeft: 15, alignItems: 'center' }}>
                     <Image source={{ uri: nguoiDung.anhDaiDien }}
                         style={{ width: 50, height: 50, borderRadius: 50 }} />
                     <View style={{ marginLeft: 7 }}>
                         <Text style={styles.textName} numberOfLines={2}>
                             {nguoiDung.tenTaiKhoan}
                         </Text>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' , marginLeft:10}}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
                             {/* <EvilIcons name='clock' size={20} color={'rgba(0, 0, 0, 0.50)'} /> */}
-                            <Image source={require('../../assets/images/yourself.png')}/>
-                            <Text style={{ color: 'rgba(0, 0, 0, 0.75)',marginLeft:5 }}>{baiViet.viTriBaiViet}</Text>
+                            <FontAwesome5 name="map-pin" size={20} color={'rgba(0, 0, 0, 0.7)'}/>
+                            <Text style={{ color: 'rgba(0, 0, 0, 0.75)', fontSize: 17, marginLeft: 5 }}>
+                                {
+                                    (baiViet.viTriBaiViet == 'personal')
+                                    ? 'Cá nhân'
+                                    : 'Hội nhóm'
+                                }
+                            </Text>
                         </View>
                     </View>
                 </View>
@@ -111,15 +118,15 @@ const ListMyPost = ({ route, navigation }) => {
                 <View style={{ height: 1, backgroundColor: '#D9D9D9' }} />
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', margin: 15 }}>
                     <TouchableOpacity onPress={UpdatePost}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Image source={require('../../assets/images/iconEditPost.png')} style={{ width: 30 }} />
+                        <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                            <MaterialCommunityIcons name="lead-pencil" size={27}/>
                             <Text style={{ fontSize: 20, marginLeft: 5 }}>Sửa bài viết</Text>
                         </View>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={DeletePost}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Image source={require('../../assets/images/iconDelPost.png')} style={{ width: 30 }} />
+                        <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                            <MaterialCommunityIcons name="eraser" size={28}/>
                             <Text style={{ fontSize: 20, marginLeft: 5 }}>Xóa bài viết</Text>
                         </View>
                     </TouchableOpacity>

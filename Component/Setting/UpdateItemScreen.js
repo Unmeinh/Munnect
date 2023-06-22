@@ -56,6 +56,7 @@ const UpdateItemScreen = ({ route, navigation }) => {
 
                 case 'Sinh nhật':
                     setoldValue(Moment(info.sinhNhat).format('MMM DD/YYYY'));
+                    setnewValue('Chọn ngày..');
                     break;
 
                 case 'Quê quán':
