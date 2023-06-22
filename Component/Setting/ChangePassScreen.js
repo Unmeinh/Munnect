@@ -28,7 +28,7 @@ const ChangePassScreen = ({ route, navigation }) => {
                 setinfoLogin(json.data.listNguoiDung[0]);
             }
         } catch (error) {
-            console.error(error);
+            // console.error(error);
         }
     }
 
@@ -54,7 +54,7 @@ const ChangePassScreen = ({ route, navigation }) => {
     }
 
     const UpdateAccount = () => {
-        console.log(infoLogin._id);
+        // console.log(infoLogin._id);
         let url_api = 'https://backend-munnect-104-716a330c6634.herokuapp.com/NguoiDung/ThayDoiMatKhau/' + infoLogin._id + '?matKhauCu=' + oldValue;
         let formData = GetNewValue();
 
@@ -79,7 +79,7 @@ const ChangePassScreen = ({ route, navigation }) => {
             body: JSON.stringify(formData)
         })
             .then(async (res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.status == 200) {
                     const json = await res.json();
                     if (json.success == true) {
@@ -89,7 +89,7 @@ const ChangePassScreen = ({ route, navigation }) => {
                 } 
             })
             .catch((e) => {
-                console.log(e);
+                // console.log(e);
             });
     }
 
